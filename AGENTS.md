@@ -1,4 +1,51 @@
-# Project instructions
+# Repository Guidelines
+
+majusz.com is a single-author personal blog built with plain Astro 7 (npm, static
+output). Product and stack decisions live in `@context/foundation/prd.md` and
+`@context/foundation/tech-stack.md`. If a change contradicts either, stop and ask
+before changing the code or the doc.
+
+## Hard rules
+
+- Never add login, admin, editor, or comment pages, and never collect visitor data
+  (accounts, emails, analytics, tracking cookies). The site is public and read-only.
+- Publishing an article is only ever adding a `.md` file plus its images. Do not
+  introduce any other required publish step.
+- A `[[wikilink]]` to an unpublished note renders as plain text. Readers must never
+  see raw or broken Obsidian syntax.
+- React, shadcn/ui, Obsidian markdown plugins, the Cloudflare Pages adapter, and
+  GitHub Actions are planned but not installed (`@package.json`). Add each one
+  deliberately with `npm run astro -- add <integration>`; never assume it exists.
+- Never edit files under `context/archive/`.
+
+## Project Structure
+
+- `src/components/Welcome.astro` and `src/assets/*.svg` are starter placeholders.
+- `public/` is served as-is (favicons).
+- `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
+- `*.scaffold` files are unmerged starter leftovers, not sources of truth.
+
+## Commands
+
+- `npm run dev -- --background` — start the dev server in agent sessions; manage it
+  with `npx astro dev stop|status|logs`.
+- `npm run build` — static build to `dist/`. It is currently the only check; run it
+  before committing.
+
+## Coding Style
+
+TypeScript runs under `astro/tsconfigs/strict` (`@tsconfig.json`). No linter,
+formatter, test runner, or CI exists yet.
+
+## Commits
+
+- Use lowercase `type: subject` as in `git log` (`doc:`, `chore:`), one space after
+  the colon.
+- The GitHub repo is linked from the site (PRD FR-006) and read by recruiters. Squash
+  fixup commits before pushing to `master`; never push subjects like `wip`, `fix`,
+  `test`, or a bare word.
+
+## Project instructions
 
 Before starting a task, select the relevant entries below, read their linked
 rule files, and follow the applicable guidance. Read additional rule files only
@@ -8,7 +55,10 @@ When using an installed skill, read its `SKILL.md` and any references required
 by that skill. Follow the user's requested scope; a lesson workflow is not a
 requirement to perform unrelated setup steps.
 
-## Lesson rules by task
+The linked `.agents/` files are local-only (gitignored) and absent from public
+clones; if a link does not resolve, continue without it.
+
+### Lesson rules by task
 
 | Task | Rules |
 | --- | --- |
@@ -27,7 +77,7 @@ requirement to perform unrelated setup steps.
 | Quality gates, agent hooks, Git hooks, and CI checks | [m3l3](.agents/10x-lesson-rules/m3l3.md) |
 | Browser testing and E2E workflows | [m3l4](.agents/10x-lesson-rules/m3l4.md) |
 
-## Maintenance
+### Maintenance
 
 Skills are installed in `.agents/skills/`. Detailed lesson rules stay in
 `.agents/10x-lesson-rules/`; keep this file as a short index.
