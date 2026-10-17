@@ -13,9 +13,10 @@ before changing the code or the doc.
   introduce any other required publish step.
 - A `[[wikilink]]` to an unpublished note renders as plain text. Readers must never
   see raw or broken Obsidian syntax.
-- React, shadcn/ui, Obsidian markdown plugins, the Cloudflare Pages adapter, and
-  GitHub Actions are planned but not installed (`@package.json`). Add each one
-  deliberately with `npm run astro -- add <integration>`; never assume it exists.
+- React, shadcn/ui, Obsidian markdown plugins, Cloudflare Workers deploy config
+  (`wrangler`), and GitHub Actions are planned but not installed (`@package.json`).
+  Never assume one exists. Deploy target is Workers with static assets, not Pages
+  (`@context/foundation/infrastructure.md`).
 - Never edit files under `context/archive/`.
 
 ## Project Structure
