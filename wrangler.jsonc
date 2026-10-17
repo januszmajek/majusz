@@ -1,0 +1,12 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "majusz",
+	"compatibility_date": "2026-10-12",
+	"assets": {
+		"directory": "./dist",
+		"not_found_handling": "404-page"
+	},
+	"routes": [{ "pattern": "majusz.com", "custom_domain": true }],
+	// Worker Previews create public workers.dev URLs; off for the MVP (infrastructure.md).
+	"preview_urls": false
+}

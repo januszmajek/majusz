@@ -1,0 +1,46 @@
+name: deploy
+
+# Every push gets a build check; only master deploys. This is the only deploy
+# path: do not also connect Cloudflare Workers Builds (infrastructure.md).
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      # Cloudflare rejects any asset over 25 MiB and fails the whole deploy.
+      - name: Check asset sizes
+        run: |
+          big=$(find dist -type f -size +20M)
+          if [ -n "$big" ]; then
+            echo "::error::Files over 20 MB (Cloudflare limit is 25 MiB per file):"
+            echo "$big"
+            exit 1
+          fi
+
+      - name: Deploy to Cloudflare Workers
+        if: github.ref == 'refs/heads/master'
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

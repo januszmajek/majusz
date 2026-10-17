@@ -13,15 +13,19 @@ before changing the code or the doc.
   introduce any other required publish step.
 - A `[[wikilink]]` to an unpublished note renders as plain text. Readers must never
   see raw or broken Obsidian syntax.
-- React, shadcn/ui, Obsidian markdown plugins, Cloudflare Workers deploy config
-  (`wrangler`), and GitHub Actions are planned but not installed (`@package.json`).
-  Never assume one exists. Deploy target is Workers with static assets, not Pages
-  (`@context/foundation/infrastructure.md`).
+- React, shadcn/ui, and Obsidian markdown plugins are planned but not installed
+  (`@package.json`). Never assume one exists.
+- Deploy target is Cloudflare Workers with static assets, not Pages
+  (`@wrangler.jsonc`, `@context/foundation/infrastructure.md`). Pushing to `master`
+  deploys through `@.github/workflows/deploy.yml`, the only deploy path; never
+  connect Workers Builds.
+- Running `wrangler deploy` or `wrangler rollback`, editing the custom domain, or
+  touching API tokens needs explicit human approval.
 - Never edit files under `context/archive/`.
 
 ## Project Structure
 
-- `src/components/Welcome.astro` and `src/assets/*.svg` are starter placeholders.
+- `src/pages/` holds the placeholder home and `404.astro` (served for missing URLs).
 - `public/` is served as-is (favicons).
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
 - `*.scaffold` files are unmerged starter leftovers, not sources of truth.
@@ -30,8 +34,11 @@ before changing the code or the doc.
 
 - `npm run dev -- --background` — start the dev server in agent sessions; manage it
   with `npx astro dev stop|status|logs`.
-- `npm run build` — static build to `dist/`. It is currently the only check; run it
-  before committing.
+- `npm run build` — static build to `dist/`. It is currently the only check (CI runs
+  it on every push); run it before committing.
+- `npx wrangler versions list` / `npx wrangler deployments list` — deploy history.
+- `npx wrangler rollback <version-id> --message "<reason>"` — rollback (approval
+  needed); also revert the bad commit, or the next push redeploys it.
 
 ## Coding Style
 
