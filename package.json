@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "devt": "astro dev --host 100.93.203.96 --port 4321",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
