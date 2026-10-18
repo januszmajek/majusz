@@ -91,5 +91,7 @@ Push → watch with `gh run watch`.
 - **compatibility_date** is `2026-10-12`, the newest date wrangler 4.151.1 (workerd 1.20261012) supports.
 - **Secrets:** `CLOUDFLARE_ACCOUNT_ID` set from `wrangler whoami`. `CLOUDFLARE_API_TOKEN` from the "Edit Cloudflare Workers" template, scoped to the one account and the `majusz.com` zone. Pitfall: `gh secret set` run through Claude Code's `!` has no TTY and stores an empty value; run it in a real terminal or pipe the value in.
 - **2026-10-18 — first CI deploy (step 8):** run `39103965424` failed on the first attempt (empty token, see pitfall), passed on re-run after the token was set. Version `b0096144-9254-40f1-8d9b-adf8b426f3a8`. Home 200, 404 page 404. The token's template permissions were enough for the custom-domain route.
-- **Rollback drill (step 9):** not done yet; the agent's sandbox blocks `wrangler rollback` against production. Run it by hand: `npx wrangler rollback 19f66e77-602c-450f-a448-9c8a3b529869 --message "rollback drill"`, check majusz.com, then `gh workflow run deploy.yml` to return to the CI-built version.
-- **Open:** turn on GitHub Actions failure notifications; `ubuntu-latest` moves to Ubuntu 26 from 2026-10-19.
+- **2026-10-18 — doc push:** run `39104210073` green (second CI deploy).
+- **2026-10-18 — rollback drill (step 9):** done by the author (the agent's sandbox blocks `wrangler rollback` against production). 06:31 UTC `wrangler rollback 19f66e77-602c-450f-a448-9c8a3b529869 --message "rollback drill"`, then 06:32 `gh workflow run deploy.yml` (run `39104382782`, green) restored the CI build as version `c7c67121-8b92-4a08-85d8-aeaf0d35f79a`.
+- **GitHub Actions failure notifications:** turned on by the author.
+- **Open:** `ubuntu-latest` moves to Ubuntu 26 from 2026-10-19; watch the next CI run.
