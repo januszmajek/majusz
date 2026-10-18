@@ -1,6 +1,6 @@
 ---
 project: "majusz"
-version: 1
+version: 3
 status: draft
 created: 2026-10-15
 context_type: greenfield
@@ -25,7 +25,7 @@ timeline_budget:
 - **Moment:** (a) When I want to write about something beyond private journaling. (b) When I share a post on X, or attach a link to a job application form.
 - **Cost today:** For job hunting I only have a CV. For writing I only have a private Obsidian journal. I don't write articles yet, I don't publish my journal, and the Obsidian content will not be shared.
 - **Game:** A fun surprise on the site that shows skill. It's inspired by the "destroy the website" idea for mikr.us (https://destroy.spritefusion.com/?url=mikr.us).
-- **Visual reference:** Minimal personal site/blog, https://www.zthreee.com/
+- **Visual reference:** Minimal personal sites/blogs: https://www.zthreee.com/ and https://stephango.com/ (home page is the article list). Simple and clean, but with a distinctive look that stands out from most blogs rather than reading as a generic template. The author has a direction in mind; it is discussed and pinned down before the rest of the UI is built.
 - **Timing:** Target v1 by 2026-11-08 (about 3 weeks). This is a soft target, not a hard deadline. Work happens partly during work hours, not only after hours.
 - **Scale:** Dozens to a hundred visitors expected. At 100× (a post going viral on X, ~10k visitors in a day) the rule doesn't change. The risk is that the "readable in under 2 seconds" promise breaks exactly when the most people are watching.
 - **Socrates (empty blog at launch):** Counter-argument considered: "a site with an impressive game and zero posts reads as started-and-abandoned to a recruiter." Resolution: it's fine to launch with the introduction + an About page and no posts (the game follows as the first post-launch milestone). Writing and publishing posts must work from day one, and an empty blog shows a proper empty state. An empty blog at launch does not bother the author.
@@ -44,8 +44,8 @@ Readers arriving from social media (X), including hiring managers/recruiters arr
 
 Visitor's first visit:
 1. Clicks a link from X or a job application and lands on majusz.com.
-2. Sees a short introduction and a list of the newest articles (or a teaser empty state when there are none).
-3. Navigation: About · Blog · Game (post-launch) · Socials.
+2. Sees a short introduction and the list of articles, newest first (or a teaser empty state when there are none).
+3. Navigation: About · Game (post-launch) · Socials. The home page is the blog; there is no separate Blog page.
 4. Opens an article and reads it, displayed the way Obsidian would show it.
 
 Author's first publish:
@@ -53,12 +53,13 @@ Author's first publish:
 2. Adds it, and the site turns it into an article page.
 3. Shares it on X manually. The site does not notify anyone or post anywhere.
 
-Scope decision: v1 = introduction, newest articles, article pages from markdown, About, socials, empty state. **The game** is in the PRD and tasks as the first milestone right after launch. **Newsletter** and **blog search** are deferred until after launch.
+Scope decision: v1 = introduction, article list on the home page, article pages from markdown, About, socials, empty state. **The game** is in the PRD and tasks as the first milestone right after launch. **Newsletter** and **blog search** are deferred until after launch.
 
 ### Primary
 - majusz.com is live with introduction, article list, About and socials. Adding one `.md` file (plus its images) results in a correctly displayed article page with no other manual steps.
 - Publishing is fast: from a finished `.md` file to a live article takes a few minutes of author effort at most.
 - The link is used for real: majusz.com has been attached to at least one job application or shared on X.
+- The site looks simple, clean and distinctive: every page shares one consistent visual design in both themes, and it doesn't read as a generic blog template.
 
 ### Secondary
 - The first real article is published within a few weeks of launch.
@@ -79,7 +80,7 @@ Scope decision: v1 = introduction, newest articles, article pages from markdown,
 
 - **Given** a visitor who clicked a majusz.com link on X or in a job application
 - **When** they land on the home page
-- **Then** they see a short, catchy introduction, a list of the newest articles (or a teaser empty state when there are none), and navigation to About, Blog, the GitHub repo and socials
+- **Then** they see a short, catchy introduction, the list of articles newest first (or a teaser empty state when there are none), and navigation to About, the GitHub repo and socials
 
 #### Acceptance Criteria
 - Opening an article shows it displayed the way Obsidian would show it (the listed features), with its publish date and reading time
@@ -91,7 +92,7 @@ Scope decision: v1 = introduction, newest articles, article pages from markdown,
 
 - **Given** the author has a finished note written in Obsidian, with title, date and summary in its properties, plus any images it uses
 - **When** they add the `.md` file and its images (from a PC or a phone)
-- **Then** the article appears on the site as its own page and at the top of the newest-articles list, with no other manual steps
+- **Then** the article appears on the site as its own page and at the top of the home page's article list, with no other manual steps
 
 #### Acceptance Criteria
 - Takes a few minutes of author effort at most
@@ -117,7 +118,7 @@ Scope decision: v1 = introduction, newest articles, article pages from markdown,
   > Resolution: kept, but reshaped as a short introduction, not a bio. Maybe a photo and/or my
   > name, plus one or two catchy sentences about me, this site, or the writing that encourage the
   > visitor to stay.
-- FR-002: Visitor can see a list of the newest articles on the home page. Priority: must-have
+- FR-002: Visitor can see the list of all articles on the home page, newest first. The home page is the blog; there is no separate archive page. Priority: must-have
   > Socrates: Counter-argument considered: "at launch the list is empty, so the home page's main
   > block starts empty." Resolution: kept. Home must look good without articles. The short
   > introduction (FR-001) plus a "content soon" style message carries it at launch.
@@ -140,10 +141,10 @@ Scope decision: v1 = introduction, newest articles, article pages from markdown,
   > their device." Resolution: follow the device setting by default, with a toggle to override it.
 
 ### Articles
-- FR-008: Visitor can open a Blog page listing all articles, newest first, with a way to browse them (grouping, e.g. by year or tag). Priority: must-have
-  > Socrates: Counter-argument considered: "once posts pile up, a flat list is hard to browse."
-  > Resolution: the Blog page groups articles to make browsing easier. Whether grouping is by year
-  > or by tag is still open.
+- FR-008: (Removed in v3, merged into FR-002.) There is no separate Blog or archive page; the home page is where the article list lives.
+  > Socrates (v1): Counter-argument considered: "once posts pile up, a flat list is hard to browse."
+  > Resolution (v1): a Blog page with grouping. Superseded in v3: the home page holds the full
+  > list, like https://stephango.com/. Whether that list is grouped is Open Question 1.
 - FR-009: Visitor can read an article displayed as Obsidian (latest version at implementation time) displays these features: images, code blocks with syntax highlighting, tables, callouts, [[wikilinks]] between posts, diagrams, math, tags. Obsidian features released after implementation are not added. Priority: must-have
   > Socrates: Counter-arguments considered: (1) "full Obsidian parity (note embeds, block
   > references, footnotes, canvas…) is too big for 3 weeks"; (2) "the vault is private, so a
@@ -170,8 +171,8 @@ Scope decision: v1 = introduction, newest articles, article pages from markdown,
   > start. The game only starts on a deliberate visitor action. The game destroys the page the
   > visitor is currently on (home, an article…), like the reference game; reloading restores it.
 - FR-013: Visitor can search articles. Priority: nice-to-have (deferred)
-  > Socrates: Counter-argument considered: "with a few posts, the Blog page plus browser search is
-  > enough." Resolution: deferred until there are many posts (roughly 15+).
+  > Socrates: Counter-argument considered: "with a few posts, the home page list plus browser search
+  > is enough." Resolution: deferred until there are many posts (roughly 15+).
 - FR-014: Visitor can subscribe to an email newsletter and receive an email when a new article is published. Priority: nice-to-have (deferred)
   > Socrates: Counter-arguments considered: (1) "nobody subscribes to an empty blog"; (2) "an RSS
   > feed is free and collects no data"; (3) "storing emails brings back personal data and GDPR
@@ -196,7 +197,7 @@ Inputs: a finished Obsidian note (with title, date and summary in its properties
 
 Output: an article page where the supported Obsidian features (images, code blocks with syntax highlighting, tables, callouts, wikilinks, diagrams, math, tags) appear as Obsidian shows them, and no raw or broken syntax is visible. A `[[wikilink]]` to another published article becomes a link to it; a wikilink to an unpublished note shows as plain text.
 
-How readers encounter it: articles are presented newest first, on the home page (newest few) and the Blog page (all, grouped for browsing). Each article's date comes from its properties and its reading time is worked out from the note's text.
+How readers encounter it: articles are presented newest first, all of them in the list on the home page (there is no separate Blog page). Each article's date comes from its properties and its reading time is worked out from the note's text.
 
 > Note: the author's own framing. The value of the site is the writing itself; this rule is what keeps publishing safe and effortless, which serves the core purpose (start writing).
 
@@ -224,5 +225,5 @@ How readers encounter it: articles are presented newest first, on the home page 
 
 ## Open Questions
 
-1. **Blog page grouping: by year or by tag?** (FR-008) — Owner: author. Resolve before building the Blog page.
+1. **Home article list: flat (like stephango.com) or grouped by year or tag?** (FR-002) — Owner: author. Resolve when planning the home page.
 2. **Game: does it keep any score or leaderboard?** It wasn't ruled out. Storing scores or player names would conflict with "no visitor data". — Owner: author. Resolve when the game milestone is planned.
