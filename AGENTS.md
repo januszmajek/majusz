@@ -13,8 +13,8 @@ before changing the code or the doc.
   introduce any other required publish step.
 - A `[[wikilink]]` to an unpublished note renders as plain text. Readers must never
   see raw or broken Obsidian syntax.
-- React, shadcn/ui, and Obsidian markdown plugins are planned but not installed
-  (`@package.json`). Never assume one exists.
+- React, Tailwind v4, and shadcn/ui are installed; Obsidian markdown plugins are
+  planned but not installed (`@package.json`). Never assume one exists.
 - Deploy target is Cloudflare Workers with static assets, not Pages
   (`@wrangler.jsonc`, `@context/foundation/infrastructure.md`). Pushing to `master`
   deploys through `@.github/workflows/deploy.yml`, the only deploy path; never
@@ -26,6 +26,9 @@ before changing the code or the doc.
 ## Project Structure
 
 - `src/pages/` holds the placeholder home and `404.astro` (served for missing URLs).
+- `src/styles/global.css` holds Tailwind and the shadcn theme tokens (`:root` / `.dark`).
+- `src/components/ui/` holds shadcn primitives, added only when used with
+  `npx shadcn add <name>`; `src/lib/utils.ts` holds `cn()`.
 - `public/` is served as-is (favicons).
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
 - `*.scaffold` files are unmerged starter leftovers, not sources of truth.

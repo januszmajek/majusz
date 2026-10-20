@@ -41,7 +41,7 @@ The site exists to make the author start writing: a public place for articles be
 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
-| F-01 | visual-direction | (foundation) the site's visual direction, page layouts (home, article, About) and navigation are decided, and the base design (type, colors for both themes, spacing, layout) is live on the existing pages | — | §Vision (visual reference), §Success Criteria (distinctive look), NFR contrast | planning |
+| F-01 | visual-direction | (foundation) the site's visual direction, page layouts (home, article, About) and navigation are decided, and the base design (type, colors for both themes, spacing, layout) is live on the existing pages | — | §Vision (visual reference), §Success Criteria (distinctive look), NFR contrast | in-progress |
 | S-01 | publish-first-article | author can add a note + images and see it as an article page with date and reading time | — | US-02, FR-011, FR-010 | ready |
 | S-02 | wikilinks-and-tags | visitor can follow wikilinks between published articles, sees unpublished ones as plain text, and sees tags | S-01 | US-01, FR-009 | proposed |
 | S-03 | callouts-code-tables | visitor can read callouts, syntax-highlighted code and tables as Obsidian shows them | S-01, F-01 | US-01, FR-009 | proposed |
@@ -89,7 +89,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
   - The author's design direction, discussed until it's concrete enough to apply. — Owner: author. Block: no (settled while planning F-01).
   - Page layouts and navigation for home, article and About. — Owner: author. Block: no (settled while planning F-01).
 - **Risk:** sequenced early because every page inherits it and a late redesign touches every slice. Scope cap: this sets the base design and layouts only; each slice still builds its own parts (callouts, code blocks, the home list) within it, so "remarkable" doesn't turn into open-ended polish against the time risk. If these sessions surface a new page or content type, it goes into the PRD and becomes its own slice; it is not built inside F-01.
-- **Status:** planning
+- **Status:** in-progress
 
 ## Slices
 
