@@ -1,0 +1,28 @@
+---
+// One page of one variant, rendered as a whole document. The harness at /
+// frames it in an iframe.
+import type { GetStaticPaths } from 'astro';
+import { homeArticles, labPages, variantNames, type LabPage } from '../../../lib/data';
+
+export const getStaticPaths = (() =>
+	variantNames().flatMap((variant) =>
+		labPages().map((page) => ({ params: { variant, page: page.id }, props: { page } })),
+	)) satisfies GetStaticPaths;
+
+interface Props {
+	page: LabPage;
+}
+
+const components = import.meta.glob<{ default: any }>('../../../variants/*/*.astro');
+const { variant } = Astro.params;
+const { page } = Astro.props;
+
+const file = { home: 'Home', article: 'Article', about: 'About' }[page.kind];
+const load = components[`../../../variants/${variant}/${file}.astro`];
+if (!load) throw new Error(`Variant "${variant}" has no ${file}.astro`);
+const { default: Page } = await load();
+---
+
+{page.kind === 'home' && <Page articles={homeArticles(page.count)} />}
+{page.kind === 'article' && <Page article={page.article} />}
+{page.kind === 'about' && <Page />}

@@ -30,3 +30,8 @@ pnpm-debug.log*
 
 # wrangler
 .wrangler/
+
+# design lab: variants are local-only
+/lab/variants/
+/lab/dist/
+/lab/.astro/

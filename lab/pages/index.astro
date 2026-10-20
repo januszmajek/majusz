@@ -1,0 +1,330 @@
+---
+// Design lab harness: frames one variant page at a time, full size, with the
+// prototype skill's picker (.claude/skills/prototype/PICKER.md) as chrome.
+import { homeStates, labPages, variantNames } from '../lib/data';
+
+const variants = variantNames();
+const articles = labPages().flatMap((p) => (p.kind === 'article' ? [p.id] : []));
+const pages = [
+	{ id: 'home', label: 'Home' },
+	...articles.map((id, i) => ({
+		id,
+		label: articles.length > 1 ? `Article ${i + 1}` : 'Article',
+	})),
+	{ id: 'about', label: 'About' },
+];
+const label = (name: string) => name.charAt(0).toUpperCase() + name.slice(1);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Design lab · majusz.com</title>
+	</head>
+	<body>
+		{
+			variants.length === 0 ? (
+				<p class="lab-empty">No variants in lab/variants/ yet.</p>
+			) : (
+				<>
+					<iframe id="stage" title="Variant preview" />
+
+					<div class="lab-controls">
+						<nav class="proto-picker" aria-label="Page" data-group="page">
+							<span class="proto-picker-highlight" aria-hidden="true" />
+							{pages.map((p) => (
+								<button class="proto-picker-item" data-value={p.id}>
+									{p.label}
+								</button>
+							))}
+						</nav>
+						<div class="lab-row">
+							<nav class="proto-picker" aria-label="Home articles" data-group="n">
+								<span class="proto-picker-highlight" aria-hidden="true" />
+								{homeStates.map((n) => (
+									<button class="proto-picker-item" data-value={String(n)}>
+										{n}
+									</button>
+								))}
+							</nav>
+							<nav class="proto-picker" aria-label="Theme" data-group="theme">
+								<span class="proto-picker-highlight" aria-hidden="true" />
+								<button class="proto-picker-item" data-value="light">Light</button>
+								<button class="proto-picker-item" data-value="dark">Dark</button>
+							</nav>
+						</div>
+					</div>
+
+					<nav class="proto-picker" aria-label="Prototype variants" data-group="v">
+						<span class="proto-picker-highlight" aria-hidden="true" />
+						{variants.map((name) => (
+							<button class="proto-picker-item" data-value={name}>
+								{label(name)}
+							</button>
+						))}
+					</nav>
+				</>
+			)
+		}
+	</body>
+</html>
+
+<script>
+	type Group = 'v' | 'page' | 'n' | 'theme';
+
+	const stage = document.getElementById('stage') as HTMLIFrameElement | null;
+	const pickers = new Map<Group, HTMLElement>();
+	document.querySelectorAll<HTMLElement>('.proto-picker').forEach((el) => {
+		pickers.set(el.dataset.group as Group, el);
+	});
+
+	const values = (group: Group) =>
+		[...pickers.get(group)!.querySelectorAll<HTMLElement>('.proto-picker-item')].map(
+			(el) => el.dataset.value!,
+		);
+
+	// State lives in the URL query so a reload or the phone keeps its place.
+	const params = new URLSearchParams(location.search);
+	const state: Record<Group, string> = { v: '', page: '', n: '', theme: '' };
+	const defaults: Record<Group, string> = { v: '', page: 'home', n: '2', theme: 'light' };
+	if (stage) {
+		for (const group of pickers.keys()) {
+			const options = values(group);
+			const wanted = params.get(group) ?? defaults[group];
+			state[group] = options.includes(wanted) ? wanted : options[0];
+		}
+	}
+
+	function moveHighlight(group: Group) {
+		const picker = pickers.get(group)!;
+		const highlight = picker.querySelector<HTMLElement>('.proto-picker-highlight')!;
+		const el = picker.querySelector<HTMLElement>('[data-active]');
+		if (!el) return;
+		highlight.style.width = el.offsetWidth + 'px';
+		highlight.style.transform = `translateX(${el.offsetLeft}px)`;
+	}
+
+	function render(group: Group) {
+		pickers.get(group)!
+			.querySelectorAll<HTMLElement>('.proto-picker-item')
+			.forEach((el) => {
+				const on = el.dataset.value === state[group];
+				el.toggleAttribute('data-active', on);
+				if (on) el.setAttribute('aria-current', 'true');
+				else el.removeAttribute('aria-current');
+			});
+		moveHighlight(group);
+	}
+
+	function applyTheme() {
+		const doc = stage?.contentDocument;
+		doc?.documentElement.classList.toggle('dark', state.theme === 'dark');
+	}
+
+	function mount() {
+		const page = state.page === 'home' ? `home-${state.n}` : state.page;
+		// Switching swaps the iframe src, which re-mounts the variant page.
+		stage!.src = `/v/${state.v}/${page}`;
+	}
+
+	function set(group: Group, value: string) {
+		if (!values(group).includes(value)) return;
+		state[group] = value;
+		render(group);
+		pickers.get('n')!.hidden = state.page !== 'home';
+		const url = new URL(location.href);
+		url.searchParams.set(group, value);
+		history.replaceState(null, '', url);
+		if (group === 'theme') applyTheme();
+		else mount();
+	}
+
+	if (stage) {
+		stage.addEventListener('load', applyTheme);
+
+		for (const [group, picker] of pickers) {
+			picker.querySelectorAll<HTMLElement>('.proto-picker-item').forEach((el) => {
+				el.addEventListener('click', () => set(group, el.dataset.value!));
+			});
+			render(group);
+		}
+		pickers.get('n')!.hidden = state.page !== 'home';
+		mount();
+
+		window.addEventListener('resize', () => pickers.forEach((_, g) => moveHighlight(g)));
+
+		// Number keys and arrows switch variants, as in the prototype skill.
+		document.addEventListener('keydown', (e) => {
+			const target = e.target as HTMLElement;
+			if (/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable) return;
+			if (e.metaKey || e.ctrlKey || e.altKey) return;
+			const names = values('v');
+			const current = names.indexOf(state.v);
+			const num = parseInt(e.key, 10);
+			if (num >= 1 && num <= names.length) set('v', names[num - 1]);
+			else if (e.key === 'ArrowRight') set('v', names[(current + 1) % names.length]);
+			else if (e.key === 'ArrowLeft') set('v', names[(current - 1 + names.length) % names.length]);
+		});
+
+		// Enable the slide only after first paint, so load doesn't animate.
+		requestAnimationFrame(() =>
+			requestAnimationFrame(() => pickers.forEach((p) => p.setAttribute('data-ready', ''))),
+		);
+	}
+</script>
+
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		height: 100%;
+		background: #1a1a1a;
+	}
+
+	#stage {
+		position: fixed;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+		background: #fff;
+	}
+
+	.lab-empty {
+		margin: 0;
+		padding: 24px;
+		color: rgba(255, 255, 255, 0.7);
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	}
+
+	/* Page, home-state and theme pills stack above the variant picker, which keeps
+	   its spec position, so the variant's header stays visible. */
+	.lab-controls {
+		position: fixed;
+		bottom: 68px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 2147483647;
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.lab-row {
+		display: flex;
+		gap: 8px;
+	}
+
+	.lab-controls .proto-picker {
+		position: relative;
+		bottom: auto;
+		left: auto;
+		transform: none;
+	}
+
+	.proto-picker[hidden] {
+		display: none;
+	}
+
+	/* Picker spec, verbatim from .claude/skills/prototype/PICKER.md. */
+	.proto-picker {
+		position: fixed;
+		bottom: 24px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 2147483647;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		padding: 4px;
+		border-radius: 999px;
+		background: rgba(10, 10, 10, 0.82);
+		-webkit-backdrop-filter: blur(12px) saturate(1.4);
+		backdrop-filter: blur(12px) saturate(1.4);
+		box-shadow:
+			0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+			0 8px 24px rgba(0, 0, 0, 0.24),
+			0 2px 6px rgba(0, 0, 0, 0.12);
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		font-size: 13px;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.proto-picker-highlight {
+		position: absolute;
+		top: 4px;
+		left: 0;
+		height: 28px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.12);
+		will-change: transform;
+	}
+
+	/* The slide is enabled only after first paint (data-ready), so load doesn't animate. */
+	.proto-picker[data-ready] .proto-picker-highlight {
+		transition:
+			transform 250ms cubic-bezier(0.23, 1, 0.32, 1),
+			width 250ms cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.proto-picker[data-ready] .proto-picker-highlight {
+			transition: none;
+		}
+	}
+
+	.proto-picker-item {
+		position: relative; /* sits above the highlight */
+		display: flex;
+		align-items: center;
+		height: 28px;
+		padding: 0 12px;
+		border: 0;
+		border-radius: 999px;
+		background: transparent;
+		color: rgba(255, 255, 255, 0.55);
+		font: inherit;
+		cursor: pointer;
+		transition: color 150ms ease-out;
+	}
+
+	.proto-picker-item:hover {
+		color: rgba(255, 255, 255, 0.85);
+	}
+
+	.proto-picker-item:active {
+		transform: scale(0.97);
+	}
+
+	.proto-picker-item:focus-visible {
+		outline: 2px solid rgba(255, 255, 255, 0.4);
+		outline-offset: 2px;
+	}
+
+	.proto-picker-item[data-active] {
+		color: #fff;
+	}
+
+	.proto-picker-divider {
+		width: 1px;
+		height: 16px;
+		margin: 0 4px;
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	.proto-picker-replay {
+		padding: 0 10px;
+		font-size: 14px;
+	}
+
+	.proto-picker[data-position='top'] {
+		bottom: auto;
+		top: 24px;
+	}
+</style>

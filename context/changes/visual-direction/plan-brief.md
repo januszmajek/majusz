@@ -34,7 +34,7 @@ article, home-list and About layout components are ready for S-01, S-05 and S-06
 | Home states in lab | 0 / 2 / 12 articles | Proves launch-day empty state and a grown list | Plan |
 | Round cap | None | Author's call; flagged as a time risk | Plan |
 | Stack | React + Tailwind v4 + shadcn installed in Phase 1, before the lab | Winner is already in production form; each direction is judged against the shadcn look | Plan |
-| Lab surface | Storybook-style separate app: `npm run lab` (port 4322), own config in `lab/`, variants framed in an iframe; tooling committed, variants and stand-ins gitignored; kept afterwards | Never in the main build; previews production layouts unchanged; reusable for later design work | Plan review |
+| Lab surface | Storybook-style separate app: `npm run lab` (port 4322), own config in `lab/`, variants framed in an iframe; tooling and original mock articles committed, variants gitignored; kept afterwards | Never in the main build; previews production layouts unchanged; reusable for later design work | Plan review |
 | Round 1 directions | Proposed by Claude, edited by the author | Quick start while the author steers | Plan |
 | Fonts | Self-hosted via Astro 7 `fonts` config | No visitor IP sent to Google, fast with preload | Plan |
 | Starfield placement | Decided in the lab, with fixed performance rules | Placement is judged visually; the 2-second budget is not negotiable | Plan |
@@ -56,8 +56,8 @@ About route, socials, GitHub link, README (S-06), theme toggle (S-07), callouts/
 
 `lab/` is a separate Astro dev app (`lab/astro.config.mjs` reuses the main config with
 `srcDir: './lab'`), started with `npm run lab` like Storybook. Its harness frames one variant
-page at a time in an iframe and sets the theme on it; variants (`lab/variants/`, gitignored with
-the stand-ins in `lab/content/`) are whole documents with their own Tailwind/shadcn
+page at a time in an iframe and sets the theme on it; variants (`lab/variants/`, gitignored; the mock
+stand-ins live in tracked `lab/content/`) are whole documents with their own Tailwind/shadcn
 stylesheet; a "Baseline" control keeps its own copy of plain shadcn tokens. After the pick,
 `design.md` is the contract; `src/styles/global.css` carries the tokens in shadcn's variable
 names; `Layout.astro` becomes the shell; layout components live in `src/layouts/` and
@@ -69,12 +69,12 @@ stand-ins for a side-by-side check.
 | Phase | What it delivers | Key risk |
 | --- | --- | --- |
 | 1. Stack install | React, Tailwind v4, shadcn; placeholder unchanged | Installer changes to tsconfig/config conflict with strict TS |
-| 2. Design lab | `npm run lab` app with picker, page/home-state/theme switches, Baseline | Borrowed articles leaking into git or a build |
+| 2. Design lab | `npm run lab` app with picker, page/home-state/theme switches, Baseline | Lab content leaking into the site build |
 | 3. Exploration + record | Author's pick and `context/foundation/design.md` | No round cap; can eat the v1 window |
 | 4. Ship base design | Tokens, fonts, shell, motif live on home and 404 | Starfield or fonts hurt the 2-second phone budget |
 | 5. Page layouts | Article, home-list, empty state, intro, prose page components | Drifting from the picked variant |
 
-**Prerequisites:** the author supplies 2 stand-in articles after Phase 2's `.gitignore` commit.
+**Prerequisites:** none; Phase 2 ships 2 original mock articles modeled on stephango.com clippings.
 **Estimated effort:** ~4 sessions for Phases 1, 2, 4 and 5, plus as many exploration rounds as
 the author wants in Phase 3.
 
@@ -84,13 +84,13 @@ the author wants in Phase 3.
   S-03, S-05, S-06 and S-07, which all wait on F-01.
 - The chosen font must have a licence that allows self-hosting.
 - Following the device theme moves from S-07 into F-01; S-07 shrinks to the toggle and memory.
-- Lab tooling is committed, but variants and stand-ins live only on this machine; losing them
-  loses the reference variants, while `design.md` stays the record.
+- Lab tooling and mock content are committed, but variants live only on this machine; losing
+  them loses the reference variants, while `design.md` stays the record.
 - `/prototype` must be started by the author, with the overrides in Phase 3, step 2.
 
 ## Success Criteria (Summary)
 
 - The author picked a direction by seeing it, and `design.md` describes it.
 - majusz.com looks like that direction in both themes on desktop and phone, with no third-party
-  font requests and no lab or borrowed content anywhere in git or the build.
+  font requests and no lab content in the build and no third-party article text in git.
 - S-01, S-05 and S-06 can build pages by passing content into ready layouts.

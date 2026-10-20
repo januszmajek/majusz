@@ -29,6 +29,10 @@ before changing the code or the doc.
 - `src/styles/global.css` holds Tailwind and the shadcn theme tokens (`:root` / `.dark`).
 - `src/components/ui/` holds shadcn primitives, added only when used with
   `npx shadcn add <name>`; `src/lib/utils.ts` holds `cn()`.
+- `lab/` is the design lab, a separate dev app (own config, port 4322) that frames
+  whole-site variants side by side; it is never built or deployed. `lab/variants/` is
+  gitignored and local-only. `lab/content/` holds original mock articles; never put
+  other authors' text there, the repo is public. Variants link their stylesheet via `?url` and declare `@source`.
 - `public/` is served as-is (favicons).
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
 - `*.scaffold` files are unmerged starter leftovers, not sources of truth.
@@ -37,6 +41,9 @@ before changing the code or the doc.
 
 - `npm run dev -- --background` — start the dev server in agent sessions; manage it
   with `npx astro dev stop|status|logs`.
+- `npm run lab` (`npm run labt` for the phone over Tailscale) — design lab at
+  `localhost:4322`, beside the site's dev server. It is not tracked by `astro dev stop`;
+  stop it with Ctrl+C, or run it as a background task and stop that.
 - `npm run build` — static build to `dist/`. It is currently the only check (CI runs
   it on every push); run it before committing.
 - `npx wrangler versions list` / `npx wrangler deployments list` — deploy history.

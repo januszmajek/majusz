@@ -18,9 +18,10 @@ From `frame.md` (authoritative, not re-investigated):
   (type, color, motif, page structure) as one, on **home with the article list and the article
   page**, in **both themes**. Placeholder and 404 can't show whether the vibe works.
 - Author inputs: clean "space explorer" vibe with pre-Liquid-Glass Apple clarity; ASCII used
-  somewhere; a slowly moving night-sky starfield; a font the author is fairly sure about; the
-  author supplies 2 stand-in articles that are someone else's work and must never be committed
-  or deployed.
+  somewhere; a slowly moving night-sky starfield; a font the author is fairly sure about; 2
+  stand-in articles: original mock text modeled on two stephango.com clippings (same
+  structure, own words), tracked in `lab/content/` and never deployed. Third-party text never
+  enters the repo, because it is public.
 - The author's `prototype` skill (`.claude/skills/prototype/SKILL.md`) is the required
   comparison tool. It is author-invoked only (`disable-model-invocation: true`), defaults to one
   piece per run, puts its surface in `/prototypes/<slug>` (would deploy) and promotes the winner
@@ -45,7 +46,7 @@ Codebase facts:
 2. A design lab, run like Storybook with its own command (`npm run lab`, separate dev server
    on port 4322, separate config in `lab/`), shows whole-site variants (home, article, About)
    with a picker, a page switch, home states 0 / 2 / 12 articles, and a light/dark switch. Its
-   tooling is committed; variants and stand-in content are gitignored. It is never built or
+   tooling and mock content are committed; variants are gitignored. It is never built or
    deployed, and stays as a playground for later design questions.
 3. The chosen direction is written down in `context/foundation/design.md`.
 4. majusz.com shows the placeholder home and 404 inside the new shell (nav, footer, motif),
@@ -81,7 +82,8 @@ themes on desktop and phone.
 - No theme toggle and no remembered theme choice (S-07). F-01 only follows the device setting.
 - No callout, code-block, table, diagram or math styling (S-03, S-04).
 - No cap on exploration rounds (author's choice; see the risk in Phase 3).
-- Stand-in articles never enter `src/`, `public/`, `context/` or git history.
+- Stand-in articles never enter `src/`, `public/` or the build, and no third-party article
+  text enters git history.
 - No Google Fonts or any other third-party font CDN on the live site.
 
 ## Implementation Approach
@@ -90,7 +92,7 @@ Install the target stack first so every lab variant is built from real Tailwind 
 pieces, which means the winner is already in production form and each direction is judged
 against the generic shadcn look (shipped in the lab as a "Baseline" control variant). The lab
 is a separate Astro dev app with its own config and `npm run lab` script, like Storybook: the
-main config and build never include it, and its variants and stand-in content are gitignored.
+main config and build never include it, and its variants are gitignored.
 Exploration is author-driven through
 `/prototype` with the overrides above. Once the author picks, the direction is recorded first,
 then shipped in two steps: the shell and tokens go live, then the page layout components land
@@ -98,10 +100,9 @@ without routes, verified in the lab against the chosen variant.
 
 ## Critical Implementation Details
 
-**Ordering for the stand-in content.** The `.gitignore` entries for `lab/variants/` and
-`lab/content/` must be committed before any file is created there, and before the author is
-asked for the 2 stand-in articles. After every phase, `git ls-files lab/variants lab/content`
-must print nothing.
+**Stand-in content stays original.** `lab/content/` is tracked and holds only mock text the
+project owns; never paste another author's article there. `lab/variants/` is gitignored, and
+after every phase `git ls-files lab/variants` must print nothing.
 
 **Lab is separate by construction, not by convention.** The lab runs from its own config with
 `srcDir: './lab'` and a separate `outDir`/`cacheDir`; the main `astro.config.mjs` is untouched
@@ -201,15 +202,14 @@ PRD rules out.
 
 ### Changes Required:
 
-#### 1. Ignore variants and stand-in content
+#### 1. Ignore variants
 
 **File**: `.gitignore`
 
-**Intent**: Keep variants, stand-in articles and lab build/cache output out of git, while the
-lab tooling (config, harness) is committed. Committed before anything is written to the
-ignored folders.
+**Intent**: Keep variants and lab build/cache output out of git, while the lab tooling
+(config, harness) and the mock content are committed.
 
-**Contract**: entries `/lab/variants/`, `/lab/content/`, `/lab/dist/`, `/lab/.astro/`.
+**Contract**: entries `/lab/variants/`, `/lab/dist/`, `/lab/.astro/`.
 
 #### 2. Lab app and command
 
@@ -222,8 +222,9 @@ Phase 4, fonts) and points it at the lab, plus scripts to run it, like `storyboo
 - `lab/astro.config.mjs` spreads the main config and overrides `srcDir: './lab'`,
   `outDir: './lab/dist'`, `cacheDir: './lab/.astro'`, `server.port: 4322`. Root stays the repo
   root, so `tsconfig.json` (`@/*`), `public/` and `node_modules` are shared.
-- `package.json` scripts: `lab` → `astro dev --config lab/astro.config.mjs`, and `labt` → the same
-  with `--host 100.93.203.96` for the phone (mirrors `devt`).
+- `package.json` scripts: `lab` → `astro dev --config lab/astro.config.mjs --ignore-lock`, and
+  `labt` → the same with `--host 100.93.203.96` for the phone (mirrors `devt`). `--ignore-lock`
+  lets it run beside the site's dev server, which holds Astro's per-project lock.
 - The main `astro.config.mjs` is not changed by this phase.
 - `AGENTS.md` Commands gains `npm run lab` (and how to stop it); Project Structure gains `lab/`
   with the note that variants and content are local-only.
@@ -258,10 +259,12 @@ Phase 4, fonts) and points it at the lab, plus scripts to run it, like `storyboo
 
 #### 4. Stand-in data
 
-**File**: `lab/content/` (author-supplied `.md`), `lab/content/list.ts`
+**File**: `lab/content/*.md`, `lab/content/list.ts`
 
-**Intent**: The 2 stand-in articles live as markdown with title, date, summary and tags
-properties, rendered through Astro's markdown import. `list.ts` adds 10 plausible entries
+**Intent**: The 2 stand-in articles are original mock text modeled on two stephango.com
+clippings (a long one with headings, lists, a code block and links; a short one), with
+Obsidian Web Clipper properties, rendered through Astro's markdown import. `title`, `date` /
+`published` / `created`, `summary` / `description` and `tags` are read. `list.ts` adds 10 plausible entries
 (titles, dates, summaries in the author's interest areas) for the 12-entry state. Until the
 author drops the articles in, the lab shows a one-line note where they would render.
 
@@ -273,8 +276,8 @@ This is the lab's own shape, not the S-01 content schema.
 #### Automated Verification:
 
 - Build passes and contains no lab output: `npm run build && ! find dist -path '*/v/baseline*' | grep -q .`
-- Variants and content are ignored: `git check-ignore -q lab/variants/baseline/Home.astro lab/content/x.md`
-- Nothing from variants or content is tracked: `test -z "$(git ls-files lab/variants lab/content)"`
+- Variants are ignored: `git check-ignore -q lab/variants/baseline/Home.astro`
+- Nothing from variants is tracked: `test -z "$(git ls-files lab/variants)"`
 - Lab app serves the harness and Baseline: with `npm run lab` running, `curl -sf localhost:4322/` and `curl -sf localhost:4322/v/baseline/home-2` succeed
 
 #### Manual Verification:
@@ -282,8 +285,9 @@ This is the lab's own shape, not the S-01 content schema.
 - Picker, page, home-state and theme switches work on desktop and on the phone via `npm run labt`
 - The 2 stand-in articles render in the Baseline variant
 
-**Implementation Note**: The author provides the 2 stand-in articles once the `.gitignore`
-entry is committed. Pause for confirmation before Phase 3.
+**Implementation Note**: Variants link their stylesheet with a `?url` import, not a plain
+import; a plain import leaks every variant's CSS into every variant page through the shared
+glob. Pause for confirmation before Phase 3.
 
 ---
 
@@ -351,7 +355,7 @@ a pointer to `design.md` (and the roadmap S-05 unknown likewise).
 
 - `context/foundation/design.md` exists and covers typography, colors (both themes), motif and
   the three page layouts: `grep -c '^## ' context/foundation/design.md` ≥ 4
-- No stand-in content tracked: `test -z "$(git ls-files lab/variants lab/content)"`
+- No variants tracked: `test -z "$(git ls-files lab/variants)"`
 
 #### Manual Verification:
 
@@ -501,7 +505,7 @@ harness iframe); imports from `src/` only; no styles of its own.
 
 - Build passes: `npm run build`
 - No new routes and no lab output: `find dist -name '*.html' | sort` prints exactly `dist/404.html` and `dist/index.html`
-- Nothing tracked from variants or content: `test -z "$(git ls-files lab/variants lab/content)"`
+- Nothing tracked from variants: `test -z "$(git ls-files lab/variants)"`
 
 #### Manual Verification:
 
@@ -523,7 +527,7 @@ close it and flip the roadmap item.
 ### Integration Tests:
 
 - The shell commands in each phase's Automated Verification (build, only site pages in
-  `dist/`, no third-party fonts, nothing tracked under `lab/variants` or `lab/content`).
+  `dist/`, no third-party fonts, nothing tracked under `lab/variants`).
 
 ### Manual Testing Steps:
 
@@ -571,22 +575,22 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Automated
 
-- [ ] 2.1 Build passes and contains no lab output
-- [ ] 2.2 Variants and content are ignored by git
-- [ ] 2.3 Nothing from variants or content is tracked
-- [ ] 2.4 Lab app serves the harness and Baseline
+- [x] 2.1 Build passes and contains no lab output
+- [x] 2.2 Variants are ignored by git
+- [x] 2.3 Nothing from variants is tracked
+- [x] 2.4 Lab app serves the harness and Baseline
 
 #### Manual
 
-- [ ] 2.5 Picker, page, home-state and theme switches work on desktop and phone
-- [ ] 2.6 The 2 stand-in articles render in the Baseline variant
+- [x] 2.5 Picker, page, home-state and theme switches work on desktop and phone
+- [x] 2.6 The 2 stand-in articles render in the Baseline variant
 
 ### Phase 3: Exploration and direction record
 
 #### Automated
 
 - [ ] 3.1 `context/foundation/design.md` exists and covers typography, colors, motif and layouts
-- [ ] 3.2 No stand-in content tracked
+- [ ] 3.2 No variants tracked
 
 #### Manual
 
@@ -615,7 +619,7 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 - [ ] 5.1 Build passes
 - [ ] 5.2 No new routes and no lab output
-- [ ] 5.3 Nothing tracked from variants or content
+- [ ] 5.3 Nothing tracked from variants
 
 #### Manual
 
