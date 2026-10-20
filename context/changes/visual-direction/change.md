@@ -1,9 +1,9 @@
 ---
 change_id: visual-direction
 title: Visual direction
-status: preparing
+status: plan_reviewed
 created: 2026-10-18
-updated: 2026-10-19
+updated: 2026-10-20
 archived_at: null
 ---
 
