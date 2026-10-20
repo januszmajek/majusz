@@ -50,8 +50,10 @@ formatter, test runner, or CI exists yet.
 
 ## Commits
 
-- Use lowercase `type: subject` as in `git log` (`doc:`, `chore:`), one space after
-  the colon.
+- Use lowercase Conventional Commits `type(scope): subject` as in `git log`
+  (`feat`, `fix`, `chore`, `refactor`, `docs`). Phase commits use
+  `<type>(<change-id>): <phase title> (p<N>)`; other commits scope by area
+  (`foundation`, `roadmap`, `deploy`, `agents`, `site`, `dev`).
 - The GitHub repo is linked from the site (PRD FR-006) and read by recruiters. Squash
   fixup commits before pushing to `master`; never push subjects like `wip`, `fix`,
   `test`, or a bare word.

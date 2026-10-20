@@ -69,7 +69,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Data:** absent — no article content yet; markdown files in the repo will be the only data.
 - **Auth:** absent — forbidden by the PRD (no login, admin or accounts).
 - **Deploy / infra:** present — Cloudflare Workers static assets on majusz.com, deployed on push to `master` by `.github/workflows/deploy.yml`; rollback drilled.
-- **Observability:** partial — deploy-failure notifications only (commit `b5ebfe6`); visitor analytics forbidden by the PRD.
+- **Observability:** partial — deploy-failure notifications only (commit `91e39ca`); visitor analytics forbidden by the PRD.
 - **Note:** `README.md` is a bare title; FR-006 requires a presentable README before the repo is linked (covered by S-06).
 
 ## Foundations

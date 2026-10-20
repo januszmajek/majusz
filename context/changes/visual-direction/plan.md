@@ -559,13 +559,13 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Automated
 
-- [x] 1.1 Build passes: `npm run build`
-- [x] 1.2 `dist/index.html` links a generated stylesheet
-- [x] 1.3 `package.json` lists react, react-dom, @astrojs/react, tailwindcss, @tailwindcss/vite
+- [x] 1.1 Build passes: `npm run build` — 0f2930c
+- [x] 1.2 `dist/index.html` links a generated stylesheet — 0f2930c
+- [x] 1.3 `package.json` lists react, react-dom, @astrojs/react, tailwindcss, @tailwindcss/vite — 0f2930c
 
 #### Manual
 
-- [x] 1.4 Home and 404 render without errors under `npm run dev`
+- [x] 1.4 Home and 404 render without errors under `npm run dev` — 0f2930c
 
 ### Phase 2: Design lab harness
 
