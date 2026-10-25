@@ -70,6 +70,11 @@ function byNewest(a: Article, b: Article): number {
 	return b.date.getTime() - a.date.getTime();
 }
 
+/** Link target for a list entry; list-only entries have no page. */
+export function articleHref(article: Article): string {
+	return article.Content ? `article-${article.slug}` : '#';
+}
+
 /** Shown on the article page until stand-ins are dropped into lab/content/. */
 export const missingArticle: Article = {
 	slug: 'missing',

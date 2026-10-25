@@ -13,7 +13,8 @@ const pages = [
 	})),
 	{ id: 'about', label: 'About' },
 ];
-const label = (name: string) => name.charAt(0).toUpperCase() + name.slice(1);
+const label = (name: string) =>
+	name.replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase());
 ---
 
 <!doctype html>
@@ -223,6 +224,11 @@ const label = (name: string) => name.charAt(0).toUpperCase() + name.slice(1);
 		bottom: auto;
 		left: auto;
 		transform: none;
+	}
+
+	/* Keep labels on one line; long variant names wrapped inside the pill. */
+	.proto-picker .proto-picker-item {
+		white-space: nowrap;
 	}
 
 	.proto-picker[hidden] {
