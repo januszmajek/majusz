@@ -575,15 +575,15 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Automated
 
-- [x] 2.1 Build passes and contains no lab output
-- [x] 2.2 Variants are ignored by git
-- [x] 2.3 Nothing from variants is tracked
-- [x] 2.4 Lab app serves the harness and Baseline
+- [x] 2.1 Build passes and contains no lab output — e940b98
+- [x] 2.2 Variants are ignored by git — e940b98
+- [x] 2.3 Nothing from variants is tracked — e940b98
+- [x] 2.4 Lab app serves the harness and Baseline — e940b98
 
 #### Manual
 
-- [x] 2.5 Picker, page, home-state and theme switches work on desktop and phone
-- [x] 2.6 The 2 stand-in articles render in the Baseline variant
+- [x] 2.5 Picker, page, home-state and theme switches work on desktop and phone — e940b98
+- [x] 2.6 The 2 stand-in articles render in the Baseline variant — e940b98
 
 ### Phase 3: Exploration and direction record
 
