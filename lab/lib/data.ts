@@ -117,13 +117,20 @@ const variantModules = import.meta.glob('../variants/*/Home.astro', { query: '?u
 
 /** Variant folder names, Baseline first, the rest alphabetical. */
 /** A lab-only switch a variant reads from the query, shown as a harness pill. */
-export interface VariantOption {
+export type VariantOption = {
 	label: string;
-	/** The first value is the variant's default. */
-	values: string[];
 	/** Show the switch only on these pages. */
 	pages?: 'article';
-}
+} & (
+	| {
+			/** The first value is the variant's default. */
+			values: string[];
+		}
+	| {
+			/** A slider instead of pills. It updates the variant live, as `data-<key>` on its <html>. */
+			range: { min: number; max: number; step: number; value: number };
+		}
+);
 
 const optionModules = import.meta.glob<{ default: Record<string, VariantOption> }>(
 	'../variants/*/options.ts',

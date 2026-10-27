@@ -267,12 +267,27 @@ craft rules). Reuse lab/lib/Starfield.astro and the Iosevka fonts from lab/astro
 - Open: the author picks one (or asks for changes; check the 1px stepping, the globe's
   faint ring, and `30°n` lowercase labels).
 
+## Round 5 pick and round 6 polish (author)
+
+- Light motif: `graticule`. Polish asked for on label case, 1px stepping, grid density and
+  alpha, and the telemetry block. Round 6, in Motif.astro:
+  - Hemisphere letters uppercase (`30°N`); readouts unchanged.
+  - Meridians pan unrounded (glide instead of 1px jumps); parallels stay crisp.
+  - Grid 20° per 200px (`sparse`, default) or the old 15° per 160px (`fine`), lab switch
+    "Grid"; behind the column it fades to 20% (was 35%).
+  - Telemetry adds `t+`, sits 16px from the right edge, shows from a 180px margin (was 220),
+    and knocks out the grid behind it, as do the degree labels.
+- Lab slider "Opacity" (`?alpha=`) scales the motif's alphas live.
+- Picked: `sparse` at line alpha 0.15 (labels 0.25, readouts 0.32).
+
 ## Handoff (2026-10-27)
 
+Phase 3 closed 2026-10-27: design.md approved, steps 1–3 below done. Next is step 4.
+
 Phase 3 state, for a fresh session:
-1. Author picks the round 5 light motif in the lab (`npm run labt`, Flight deck).
-2. Fill the "Light motif: pending" part of `context/foundation/design.md` with the pick's
-   spec (from Motif.astro), then get the author's approval of design.md (plan step 3.3).
+1. Done: graticule, `sparse`, line alpha 0.15 (round 6).
+2. Get the author's approval of `context/foundation/design.md` (plan step 3.3); its
+   "Light: graticule" spec is filled in.
 3. On approval: link design.md from AGENTS.md; mark PRD Open Question 1 resolved (flat newest
    first, grouped by year → design.md) and the roadmap S-05 unknown likewise; tick Phase 3
    progress; commit as the Phase 3 phase commit together with `src/components/ui/button.tsx`

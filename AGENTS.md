@@ -1,8 +1,9 @@
 # Repository Guidelines
 
 majusz.com is a single-author personal blog built with plain Astro 7 (npm, static
-output). Product and stack decisions live in `@context/foundation/prd.md` and
-`@context/foundation/tech-stack.md`. If a change contradicts either, stop and ask
+output). Product, stack and design decisions live in `@context/foundation/prd.md`,
+`@context/foundation/tech-stack.md` and `@context/foundation/design.md`. If a change
+contradicts any of them, stop and ask
 before changing the code or the doc.
 
 ## Hard rules

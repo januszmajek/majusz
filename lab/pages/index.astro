@@ -43,7 +43,26 @@ const label = (name: string) =>
 					<div class="lab-controls">
 						{options.length > 0 && (
 							<div class="lab-row">
-								{options.map((o) => (
+								{options.map((o) =>
+									'range' in o ? (
+										<label
+											class="proto-picker lab-slider"
+											data-group={`${o.variant}:${o.key}`}
+											data-variant={o.variant}
+											data-param={o.key}
+											data-pages={o.pages}
+											data-default={o.range.value}>
+											<span>{o.label}</span>
+											<input
+												type="range"
+												min={o.range.min}
+												max={o.range.max}
+												step={o.range.step}
+												value={o.range.value}
+											/>
+											<output>{o.range.value}</output>
+										</label>
+									) : (
 									<nav
 										class="proto-picker"
 										aria-label={o.label}
@@ -58,7 +77,8 @@ const label = (name: string) =>
 											</button>
 										))}
 									</nav>
-								))}
+									),
+								)}
 							</div>
 						)}
 						<nav class="proto-picker" aria-label="Page" data-group="page">
@@ -122,7 +142,12 @@ const label = (name: string) =>
 	// The query key of a group: variant options use their bare param name.
 	const param = (group: Group) => pickers.get(group)!.dataset.param ?? group;
 	if (stage) {
-		for (const group of pickers.keys()) {
+		for (const [group, picker] of pickers) {
+			if (picker.dataset.default !== undefined) {
+				const wanted = Number(params.get(param(group)));
+				state[group] = String(Number.isFinite(wanted) && wanted > 0 ? wanted : picker.dataset.default);
+				continue;
+			}
 			const options = values(group);
 			const wanted = params.get(param(group)) ?? defaults[group];
 			state[group] = wanted && options.includes(wanted) ? wanted : options[0];
@@ -170,9 +195,15 @@ const label = (name: string) =>
 		moveHighlight(group);
 	}
 
+	// Sliders apply live, as data-<param> on the variant's <html>, without a re-mount.
+	const sliders = [...pickers].filter(([, picker]) => picker.dataset.default !== undefined);
+
 	function applyTheme() {
 		const doc = stage?.contentDocument;
 		doc?.documentElement.classList.toggle('dark', state.theme === 'dark');
+		for (const [group, picker] of sliders) {
+			if (picker.dataset.variant === state.v) doc?.documentElement.setAttribute(`data-${param(group)}`, state[group]);
+		}
 	}
 
 	function mount() {
@@ -202,6 +233,18 @@ const label = (name: string) =>
 				el.addEventListener('click', () => set(group, el.dataset.value!));
 			});
 			render(group);
+		}
+		for (const [group, picker] of sliders) {
+			const input = picker.querySelector('input')!;
+			const output = picker.querySelector('output')!;
+			input.value = output.value = state[group];
+			input.addEventListener('input', () => {
+				state[group] = output.value = input.value;
+				const url = new URL(location.href);
+				url.searchParams.set(param(group), input.value);
+				history.replaceState(null, '', url);
+				applyTheme();
+			});
 		}
 		const url = new URL(location.href);
 		syncOptions(url);
@@ -442,6 +485,26 @@ const label = (name: string) =>
 
 	.proto-picker-item[data-active] {
 		color: #fff;
+	}
+
+	/* A slider in a picker pill: label, track, value. */
+	.lab-slider {
+		gap: 10px;
+		height: 28px;
+		padding: 4px 14px;
+		color: rgba(255, 255, 255, 0.55);
+	}
+
+	.lab-slider input {
+		width: 160px;
+		margin: 0;
+		accent-color: #fff;
+	}
+
+	.lab-slider output {
+		min-width: 2.6em;
+		color: #fff;
+		font-variant-numeric: tabular-nums;
 	}
 
 	.proto-picker-divider {

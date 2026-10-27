@@ -144,7 +144,7 @@ Scope decision: v1 = introduction, article list on the home page, article pages 
 - FR-008: (Removed in v3, merged into FR-002.) There is no separate Blog or archive page; the home page is where the article list lives.
   > Socrates (v1): Counter-argument considered: "once posts pile up, a flat list is hard to browse."
   > Resolution (v1): a Blog page with grouping. Superseded in v3: the home page holds the full
-  > list, like https://stephango.com/. Whether that list is grouped is Open Question 1.
+  > list, like https://stephango.com/. Whether that list is grouped was Open Question 1 (resolved: grouped by year, see `design.md`).
 - FR-009: Visitor can read an article displayed as Obsidian (latest version at implementation time) displays these features: images, code blocks with syntax highlighting, tables, callouts, [[wikilinks]] between posts, diagrams, math, tags. Obsidian features released after implementation are not added. Priority: must-have
   > Socrates: Counter-arguments considered: (1) "full Obsidian parity (note embeds, block
   > references, footnotes, canvas…) is too big for 3 weeks"; (2) "the vault is private, so a
@@ -225,5 +225,5 @@ How readers encounter it: articles are presented newest first, all of them in th
 
 ## Open Questions
 
-1. **Home article list: flat (like stephango.com) or grouped by year or tag?** (FR-002) — Owner: author. Resolve when planning the home page.
+1. ~~**Home article list: flat (like stephango.com) or grouped by year or tag?** (FR-002)~~ — Resolved 2026-10-27: flat, newest first, grouped by year (`context/foundation/design.md`, Layouts).
 2. **Game: does it keep any score or leaderboard?** It wasn't ruled out. Storing scores or player names would conflict with "no visitor data". — Owner: author. Resolve when the game milestone is planned.

@@ -153,7 +153,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Blockers:** —
 - **Unknowns:**
   - Introduction copy and whether it includes a photo and/or name. — Owner: author. Block: no.
-  - Is the list flat (like stephango.com) or grouped by year or tag? (Open Roadmap Question 1; grouping by tag would add S-02 as a prerequisite.) — Owner: author. Block: no (settle while planning; with no posts at launch either works).
+  - ~~Is the list flat (like stephango.com) or grouped by year or tag?~~ Resolved 2026-10-27: flat, newest first, grouped by year (`context/foundation/design.md`); no S-02 prerequisite.
 - **Risk:** this is the page every shared link lands on and now the only way to browse articles; it must look intentional with zero articles, since the PRD accepts launching empty, and stay readable as the list grows.
 - **Status:** proposed
 
@@ -198,7 +198,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 
 ## Open Roadmap Questions
 
-1. **Home article list: flat (like stephango.com) or grouped by year or tag?** (FR-002) — Owner: author. Block: none (settled while planning S-05).
+1. ~~**Home article list: flat (like stephango.com) or grouped by year or tag?** (FR-002)~~ — Resolved 2026-10-27: flat, newest first, grouped by year (`context/foundation/design.md`).
 2. **Game: does it keep any score or leaderboard?** Storing scores or player names would conflict with "no visitor data". — Owner: author. Block: none in this milestone (game milestone).
 
 ## Parked
