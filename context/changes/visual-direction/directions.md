@@ -249,3 +249,35 @@ craft rules). Reuse lab/lib/Starfield.astro and the Iosevka fonts from lab/astro
   reads smaller beside capitalized labels. Two fixes to compare: `larger` (wordmark grows)
   and `lowercase` (nav labels drop their capitals).
 - The night sky is always full-page; `?sky=top` is dropped.
+
+## Round 3 picks (author)
+
+- Light palette `cleanroom`; dark night sky `ascii`; wordmark fix `lowercase` (nav reads
+  `articles` `about`, back link `< articles`); article meta lowercase, normal tracking.
+- Title block approved. Recorded in `context/foundation/design.md` (draft, not yet approved).
+
+## Rounds 4–5: light-mode motif (open)
+
+- Round 4 (`grid`, `track`, `readout`, `none`): rejected. The author liked the telemetry idea
+  from `readout` and asked for a very minimal map grid.
+- Round 5, built in `lab/variants/flight-deck/Motif.astro`, switch "Day motif" in the lab:
+  `graticule` (dotted lat/lon grid, edge degree labels, corner telemetry), `globe` (wireframe
+  globe off the bottom-right corner, orbit ring, telemetry), `neatline` (margin rulers with
+  degree ticks, telemetry at an index mark). All share one virtual ISS-like satellite.
+- Open: the author picks one (or asks for changes; check the 1px stepping, the globe's
+  faint ring, and `30°n` lowercase labels).
+
+## Handoff (2026-10-27)
+
+Phase 3 state, for a fresh session:
+1. Author picks the round 5 light motif in the lab (`npm run labt`, Flight deck).
+2. Fill the "Light motif: pending" part of `context/foundation/design.md` with the pick's
+   spec (from Motif.astro), then get the author's approval of design.md (plan step 3.3).
+3. On approval: link design.md from AGENTS.md; mark PRD Open Question 1 resolved (flat newest
+   first, grouped by year → design.md) and the roadmap S-05 unknown likewise; tick Phase 3
+   progress; commit as the Phase 3 phase commit together with `src/components/ui/button.tsx`
+   (shadcn Button, used by the theme toggle, still uncommitted).
+4. Then Phase 4 (ship base design) per `plan.md`. Checkpoint 2026-10-31, target 2026-11-08.
+
+The variant code is local-only (`lab/variants/` is gitignored); it is the reference for
+Phases 4–5. Do not delete it.
