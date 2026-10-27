@@ -202,3 +202,20 @@ only; ignore the skill's "differ only in color = one direction" rule. Same overr
 round 1 (lab surface, whole site in both themes, Tailwind/shadcn, no keep/promote, Apple
 craft rules). Reuse lab/lib/Starfield.astro and the Iosevka fonts from lab/astro.config.mjs.
 ```
+
+## Round 2 feedback (author)
+
+- Dark: the black `flight-deck` wins over `flight-deck-navy`; navy is dropped.
+- ✦ appears only as bullets in article lists, nowhere else: not on nav items, not on home
+  list rows. The current nav item is marked by color and weight only.
+- One content column on every page: article, home and About share the same left edge as the
+  wordmark (no extra indent for the article). Prose keeps its ~65ch measure from that edge.
+- `EOF` closes the main content of every page, as the divider above the footer,
+  left-aligned (as in Mission control), not centered.
+- Light mode: the blue sky is dropped (too busy, tiring to read). Light must be as minimal as
+  dark: a plain background with faint drifting stars, no clouds. The author has no settled
+  palette, so round 2b shows candidates side by side:
+  - `paper`: warm off-white, near-black ink, green darkened to pass AA.
+  - `mist`: cool pale grey-blue, dark slate ink, same darkened green.
+  - `cobalt`: white, near-black ink, cobalt (from the reference photo) as the accent in
+    place of green, so the sky idea lives on as ink, not background.
