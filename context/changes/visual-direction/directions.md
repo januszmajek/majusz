@@ -219,3 +219,19 @@ craft rules). Reuse lab/lib/Starfield.astro and the Iosevka fonts from lab/astro
   - `mist`: cool pale grey-blue, dark slate ink, same darkened green.
   - `cobalt`: white, near-black ink, cobalt (from the reference photo) as the accent in
     place of green, so the sky idea lives on as ink, not background.
+
+## Round 2b feedback (author)
+
+- Light mode must not reuse the night-sky starfield. Round 2c shows day motifs as
+  candidates, each as minimal as the dark sky and in the same flat, quiet register:
+  - `orbits`: faint hairline orbit ellipses in one corner, one small body moving along them
+    very slowly.
+  - `ascii`: sparse, faint ASCII glyphs (`.` `+` `*` `·`) drifting like the stars, so the
+    ASCII motif carries the day sky.
+  - `clouds`: a few outline-only clouds (hairline strokes, no fill) drifting very slowly.
+- Links behave the same in both themes: one rule for color and underline. The dark green is
+  retuned so it stands apart from body text the way it does in light.
+- Nav items are at least the wordmark's size; the wordmark differs by weight, not size.
+- Article date, reading time and tag move off the line above the title, where they read like
+  the `< Articles` link. They stay next to the title. Round 2c shows two placements.
+- A shadcn light/dark toggle sits in the top right, after the last nav item.
