@@ -36,6 +36,10 @@ const label = (name: string) =>
 				<>
 					<iframe id="stage" title="Variant preview" />
 
+					<button class="lab-panel-toggle" type="button" aria-expanded="true">
+						Hide
+					</button>
+
 					<div class="lab-controls">
 						{options.length > 0 && (
 							<div class="lab-row">
@@ -212,6 +216,7 @@ const label = (name: string) =>
 			const target = e.target as HTMLElement;
 			if (/^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) || target.isContentEditable) return;
 			if (e.metaKey || e.ctrlKey || e.altKey) return;
+			if (e.key === 'h') return toggle.click();
 			const names = values('v');
 			const current = names.indexOf(state.v);
 			const num = parseInt(e.key, 10);
@@ -219,6 +224,26 @@ const label = (name: string) =>
 			else if (e.key === 'ArrowRight') set('v', names[(current + 1) % names.length]);
 			else if (e.key === 'ArrowLeft') set('v', names[(current - 1 + names.length) % names.length]);
 		});
+
+		// The panel can be collapsed to a single pill; the choice is remembered.
+		const toggle = document.querySelector<HTMLButtonElement>('.lab-panel-toggle')!;
+		function showPanel(show: boolean) {
+			document.body.toggleAttribute('data-panel-hidden', !show);
+			toggle.setAttribute('aria-expanded', String(show));
+			toggle.textContent = show ? 'Hide' : 'Controls';
+			try {
+				localStorage.setItem('lab-panel', show ? 'shown' : 'hidden');
+			} catch {}
+			if (show) pickers.forEach((_, g) => moveHighlight(g));
+		}
+		toggle.addEventListener('click', () =>
+			showPanel(document.body.hasAttribute('data-panel-hidden')),
+		);
+		let stored: string | null = null;
+		try {
+			stored = localStorage.getItem('lab-panel');
+		} catch {}
+		if (stored === 'hidden') showPanel(false);
 
 		// Enable the slide only after first paint, so load doesn't animate.
 		requestAnimationFrame(() =>
@@ -263,6 +288,50 @@ const label = (name: string) =>
 		flex-direction: column-reverse;
 		align-items: center;
 		gap: 8px;
+	}
+
+	/* Collapsed: only the toggle stays. */
+	body[data-panel-hidden] .lab-controls,
+	body[data-panel-hidden] .proto-picker[data-group='v'] {
+		display: none;
+	}
+
+	.lab-panel-toggle {
+		position: fixed;
+		right: 16px;
+		bottom: 24px;
+		z-index: 2147483647;
+		height: 36px;
+		padding: 0 14px;
+		border: 0;
+		border-radius: 999px;
+		background: rgba(10, 10, 10, 0.82);
+		box-shadow:
+			0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+			0 8px 24px rgba(0, 0, 0, 0.24);
+		color: rgba(255, 255, 255, 0.75);
+		font: 13px/1 -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		cursor: pointer;
+	}
+
+	.lab-panel-toggle:active {
+		transform: scale(0.97);
+	}
+
+	.lab-panel-toggle:focus-visible {
+		outline: 2px solid rgba(255, 255, 255, 0.4);
+		outline-offset: 2px;
+	}
+
+	/* On narrow screens the variant row scrolls sideways and leaves room for the toggle. */
+	@media (max-width: 600px) {
+		.proto-picker[data-group='v'] {
+			left: 8px;
+			right: 96px;
+			transform: none;
+			overflow-x: auto;
+			scrollbar-width: none;
+		}
 	}
 
 	.lab-row {
