@@ -607,21 +607,21 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Manual
 
-- [x] 4.5 Home and 404 match the chosen variant in light and dark, no theme flash
-- [x] 4.6 Readable on the phone, motif doesn't stutter
-- [x] 4.7 Starfield doesn't move under reduced motion
-- [x] 4.8 Keyboard-only navigation works
-- [x] 4.9 Text contrast meets WCAG AA in both themes
+- [x] 4.5 Home and 404 match the chosen variant in light and dark, no theme flash — c86c31e
+- [x] 4.6 Readable on the phone, motif doesn't stutter — c86c31e
+- [x] 4.7 Starfield doesn't move under reduced motion — c86c31e
+- [x] 4.8 Keyboard-only navigation works — c86c31e
+- [x] 4.9 Text contrast meets WCAG AA in both themes — c86c31e
 
 ### Phase 5: Page layout components
 
 #### Automated
 
-- [ ] 5.1 Build passes
-- [ ] 5.2 No new routes and no lab output
-- [ ] 5.3 Nothing tracked from variants
+- [x] 5.1 Build passes
+- [x] 5.2 No new routes and no lab output
+- [x] 5.3 Nothing tracked from variants
 
 #### Manual
 
-- [ ] 5.4 "Shipped" matches the chosen variant on every page, home state and theme
-- [ ] 5.5 Article stand-ins read comfortably on the phone
+- [x] 5.4 "Shipped" matches the chosen variant on every page, home state and theme
+- [x] 5.5 Article stand-ins read comfortably on the phone

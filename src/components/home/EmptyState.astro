@@ -1,0 +1,11 @@
+---
+// Shown on home while there are no articles: a `LOG ────` rule and one line
+// (copy via slot, S-05's).
+---
+
+<section class="mt-10" aria-label="Articles">
+	<div class="rule" role="presentation">log</div>
+	<p class="mt-5 text-sm text-muted-foreground">
+		<span aria-hidden="true">&gt; </span><slot />
+	</p>
+</section>

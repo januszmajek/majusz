@@ -1,0 +1,21 @@
+---
+// A text page such as About: title, then the body as prose.
+import Layout from './Layout.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	/** `id` of the nav item marked as the current page. */
+	current?: string;
+}
+const { title, description, current } = Astro.props;
+---
+
+<Layout title={`${title} · majusz.com`} description={description} current={current}>
+	<div class="max-w-[38rem]">
+		<h1 class="text-page-title text-balance">{title}</h1>
+		<div class="prose mt-6">
+			<slot />
+		</div>
+	</div>
+</Layout>

@@ -27,3 +27,6 @@ archived_at: null
   `src/assets/fonts/`, loaded with Astro's local font provider instead of Fontsource
   (`design.md` updated). Also: Aile 400 preloaded, motif redraws capped at 30fps, sky sized
   to `100lvh`.
+- 2026-10-27 (Phase 5): `ArticleList` entries take an optional `readingMinutes` beyond the
+  planned `{ title, href, date, summary? }`, since `design.md` shows reading time on every
+  row. `summary` is accepted but not shown (design's row is date · title · time).

@@ -1,0 +1,33 @@
+---
+// An article: back link, title, meta line (date · reading time · tags), summary,
+// then the rendered body as prose. Reading time comes from the caller.
+import { isoDate } from '@/lib/date';
+import Layout from './Layout.astro';
+
+interface Props {
+	title: string;
+	date: Date;
+	readingMinutes: number;
+	summary?: string;
+	tags?: string[];
+}
+const { title, date, readingMinutes, summary, tags = [] } = Astro.props;
+---
+
+<Layout title={`${title} · majusz.com`} description={summary} current="articles">
+	<article>
+		<a href="/" class="press quiet text-base leading-none text-muted-foreground">
+			<span aria-hidden="true">&lt; </span>articles
+		</a>
+		<header class="measure mt-10">
+			<h1 class="text-article-title text-balance">{title}</h1>
+			<p class="mt-3 text-meta text-muted-foreground tabular-nums">
+				<time datetime={isoDate(date)}>{isoDate(date)}</time> · {readingMinutes} min{tags.map((tag) => ` · ${tag}`)}
+			</p>
+			{summary && <p class="mt-6 max-w-[38rem] font-sans text-lead text-muted-foreground text-pretty">{summary}</p>}
+		</header>
+		<div class="prose mt-10">
+			<slot />
+		</div>
+	</article>
+</Layout>
