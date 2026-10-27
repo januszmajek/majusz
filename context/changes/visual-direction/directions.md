@@ -235,3 +235,17 @@ craft rules). Reuse lab/lib/Starfield.astro and the Iosevka fonts from lab/astro
 - Article date, reading time and tag move off the line above the title, where they read like
   the `< Articles` link. They stay next to the title. Round 2c shows two placements.
 - A shadcn light/dark toggle sits in the top right, after the last nav item.
+
+## Round 2c feedback (author) → round 3
+
+- Article meta sits below the title (the right-aligned placement is dropped). The back link and
+  the meta never share a size: back link 1rem, title 1.75–2.25rem (down from 2.5rem), meta
+  0.8125rem caps bound tight under the title, summary 1.125rem.
+- No round 2b light palette fits; the ASCII day motif does (now the default). Round 3 light
+  palettes come from bright space hardware: `cleanroom` (assembly-hall white, International
+  Orange), `drafting` (whiteprint film, drafting blue), `lunar` (regolith grey, NASA red).
+- Dark gets the same ASCII sky as an alternative to the stars (`?night=stars|ascii`).
+- The wordmark matches the nav: they already share a font size, but an all-lowercase word
+  reads smaller beside capitalized labels. Two fixes to compare: `larger` (wordmark grows)
+  and `lowercase` (nav labels drop their capitals).
+- The night sky is always full-page; `?sky=top` is dropped.
