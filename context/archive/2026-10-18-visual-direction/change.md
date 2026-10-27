@@ -1,10 +1,10 @@
 ---
 change_id: visual-direction
 title: Visual direction
-status: impl_reviewed
+status: archived
 created: 2026-10-18
 updated: 2026-10-27
-archived_at: null
+archived_at: 2026-10-27T15:23:11Z
 ---
 
 ## Notes
