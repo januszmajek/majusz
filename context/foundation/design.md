@@ -18,8 +18,12 @@ nothing over ~150ms on the input path, `transform`/`opacity` animation only.
 | Chrome, headings, lists, meta, code | Iosevka (monospace) | SIL OFL 1.1 |
 | Long reading (article body, summaries, intro) | Iosevka Aile (quasi-proportional) | SIL OFL 1.1 |
 
-- Self-hosted through Astro's `fonts` config from Fontsource, `latin` subset, weights 400,
-  500, 600, 700, normal and italic. No third-party font host at runtime.
+- Self-hosted through Astro's `fonts` config (local provider) from subset copies in
+  `src/assets/fonts/`, weights 400, 500, 600, 700, normal and italic, ~25 KB per face.
+  `scripts/subset-fonts.mjs` cuts the Fontsource files to Latin, Latin Extended-A
+  (Polish), prose punctuation, a few arrows and math signs, box drawing and `✦`; rerun it
+  when a new character range is needed. Code ligatures and stylistic alternates are not
+  kept. Iosevka 400 and Aile 400 are preloaded. No third-party font host at runtime.
 - Fallbacks: `ui-monospace, monospace` for Iosevka; `ui-sans-serif, system-ui, sans-serif`
   for Aile. `font-optical-sizing: auto` on prose.
 

@@ -21,3 +21,9 @@ archived_at: null
   pass it through. After the Phase 4 review: type scale as `text-<role>` tokens in
   `global.css`, `.prose` in `src/styles/prose.css`, theme script in `ThemeScript.astro`,
   motif logic in `src/components/site/motif/`.
+- 2026-10-27 (Phase 4, second review): Fontsource ships Iosevka only as the whole font
+  (~1 MB per face, ~4 MB per page), which broke the 2-second NFR. The author chose to subset
+  it: `scripts/subset-fonts.mjs` (dev dependency `subset-font`) writes ~25 KB faces to
+  `src/assets/fonts/`, loaded with Astro's local font provider instead of Fontsource
+  (`design.md` updated). Also: Aile 400 preloaded, motif redraws capped at 30fps, sky sized
+  to `100lvh`.

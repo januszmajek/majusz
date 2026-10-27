@@ -77,7 +77,7 @@
 - **Location**: src/layouts/Layout.astro:31-32
 - **Detail**: The plan says "preload the body font", and the 2-second budget applies to readable article content. design.md sets long reading (article body, summaries, intro) in Iosevka Aile. The layout preloads only Iosevka 400 normal. On the live pages that face only renders the footer line and the canvas labels: the wordmark is 700, the current nav item is 500, the h1 is 600, and the "Coming soon" paragraph uses Aile 400. The metric-adjusted fallbacks limit the visible shift, but the one preload goes to the least visible face.
 - **Fix**: Add `preload={[{ weight: '400', style: 'normal' }]}` to the `--font-iosevka-aile` `<Font>`. Drop the Iosevka 400 preload or switch it to 600 (titles). Keep at most two preloads.
-- **Decision**: PENDING
+- **Decision**: FIXED (Aile 400 preloaded too; fonts subset to ~25 KB per face, see change.md — the 1 MB Fontsource faces were the larger issue)
 
 ### F2 — Motif redraws the full canvas every frame for sub-pixel motion
 
@@ -87,7 +87,7 @@
 - **Location**: src/components/site/motif/start.ts:51-56
 - **Detail**: `tick` clears and repaints a viewport canvas at up to 2× DPR on every rAF (60–120Hz), for motion of ~0.7px/s in light and ~2px/s in dark. It doesn't affect load because it starts after idle. On phones, though, it is continuous GPU and battery work for drift too slow to see. The same code runs in the picked variant, so this is not a regression. It is relevant to manual check 4.6.
 - **Fix**: Skip frames when less than ~1/30s has passed since the last draw (accumulate `time` as now), or leave it as is if 4.6 shows no stutter or heat.
-- **Decision**: PENDING
+- **Decision**: FIXED (redraws capped at 30fps)
 
 ### F3 — Mobile toolbar resize rebuilds the sky (plausible)
 
@@ -97,7 +97,7 @@
 - **Location**: src/components/site/motif/start.ts:39-49, 68-71
 - **Detail**: Any canvas resize reallocates the canvas and calls `buildSky(width, height)`. Glyph `y` is `random() * height`, so a height change stretches every glyph vertically, and the graticule re-centers on `height / 2`. If the fixed `inset: 0` canvas tracks the dynamic viewport when the mobile browser toolbar collapses on scroll (as it does on iOS Safari), the sky jumps a little. This is not verified on a device. Check it during 4.6.
 - **Fix**: If it shows up, size `.sky` to `100lvh` (or ignore height-only changes below ~120px in the ResizeObserver).
-- **Decision**: PENDING
+- **Decision**: FIXED (.sky height 100lvh)
 
 ### F4 — AGENTS.md doesn't point at prose.css or the `text-<role>` rule
 
@@ -107,4 +107,4 @@
 - **Location**: AGENTS.md:30
 - **Detail**: Project Structure still describes `global.css` as "Tailwind and the shadcn theme tokens". The rules S-01/S-03/S-06 need (prose styles live in `src/styles/prose.css`, and layouts use `text-<role>` tokens instead of raw sizes) are recorded only in CSS comments and change.md, so the next agent can miss them and reintroduce arbitrary sizes.
 - **Fix**: Extend the `global.css` bullet: "plus the `text-<role>` type scale (use it, not raw sizes); `.prose` lives in `src/styles/prose.css`."
-- **Decision**: PENDING
+- **Decision**: FIXED (AGENTS.md: text-<role> tokens, prose.css, src/assets/fonts)

@@ -600,18 +600,18 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Automated
 
-- [x] 4.1 Build passes
-- [x] 4.2 No third-party font hosts in output
-- [x] 4.3 Font files are self-hosted
-- [x] 4.4 Only the site's pages are built
+- [x] 4.1 Build passes — 882fe6f
+- [x] 4.2 No third-party font hosts in output — 882fe6f
+- [x] 4.3 Font files are self-hosted — 882fe6f
+- [x] 4.4 Only the site's pages are built — 882fe6f
 
 #### Manual
 
-- [ ] 4.5 Home and 404 match the chosen variant in light and dark, no theme flash
-- [ ] 4.6 Readable on the phone, motif doesn't stutter
-- [ ] 4.7 Starfield doesn't move under reduced motion
-- [ ] 4.8 Keyboard-only navigation works
-- [ ] 4.9 Text contrast meets WCAG AA in both themes
+- [x] 4.5 Home and 404 match the chosen variant in light and dark, no theme flash
+- [x] 4.6 Readable on the phone, motif doesn't stutter
+- [x] 4.7 Starfield doesn't move under reduced motion
+- [x] 4.8 Keyboard-only navigation works
+- [x] 4.9 Text contrast meets WCAG AA in both themes
 
 ### Phase 5: Page layout components
 

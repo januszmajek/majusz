@@ -27,7 +27,9 @@ before changing the code or the doc.
 ## Project Structure
 
 - `src/pages/` holds the placeholder home and `404.astro` (served for missing URLs).
-- `src/styles/global.css` holds Tailwind and the shadcn theme tokens (`:root` / `.dark`).
+- `src/styles/global.css` holds Tailwind, the shadcn theme tokens (`:root` / `.dark`) and the
+  type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
+  sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
 - `src/layouts/Layout.astro` is the site shell (fonts, theme script, header, footer, motif);
   its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`.
 - `src/components/ui/` holds shadcn primitives, added only when used with
@@ -36,6 +38,8 @@ before changing the code or the doc.
   whole-site variants side by side; it is never built or deployed. `lab/variants/` is
   gitignored and local-only. `lab/content/` holds original mock articles; never put
   other authors' text there, the repo is public. Variants link their stylesheet via `?url` and declare `@source`.
+- `src/assets/fonts/` holds subset Iosevka woff2 files (OFL, `LICENSE.md`); regenerate with
+  `node scripts/subset-fonts.mjs`, never swap in full Fontsource files (~1 MB per face).
 - `public/` is served as-is (favicons).
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
 - `*.scaffold` files are unmerged starter leftovers, not sources of truth.

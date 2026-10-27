@@ -28,8 +28,10 @@ const { title = 'majusz.com', description, current } = Astro.props;
 		{description && <meta name="description" content={description} />}
 		<meta name="color-scheme" content="light dark" />
 		<ThemeScript />
+		<!-- Preload the faces nearly every line uses: Iosevka 400 (chrome, meta)
+		     and Aile 400 (reading text). Other weights load on use, ~25 KB each. -->
 		<Font cssVariable="--font-iosevka" preload={[{ weight: '400', style: 'normal' }]} />
-		<Font cssVariable="--font-iosevka-aile" />
+		<Font cssVariable="--font-iosevka-aile" preload={[{ weight: '400', style: 'normal' }]} />
 	</head>
 	<body class="relative flex min-h-screen flex-col">
 		<Motif />

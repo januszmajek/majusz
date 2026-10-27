@@ -7,6 +7,7 @@ import { drawGraticule } from './graticule';
 import { orbit } from './orbit';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const FRAME_MS = 1000 / 30;
 
 export function startMotif(canvas: HTMLCanvasElement) {
 	const ctx = canvas.getContext('2d');
@@ -48,10 +49,16 @@ export function startMotif(canvas: HTMLCanvasElement) {
 		draw();
 	};
 
+	// Motion is 0.7–2px/s, so 30 redraws a second look the same as 120 and
+	// cost a phone far less.
+	let drawn = 0;
 	const tick = (now: number) => {
 		if (last) frame.time += (now - last) / 1000;
 		last = now;
-		draw();
+		if (now - drawn >= FRAME_MS) {
+			drawn = now;
+			draw();
+		}
 		raf = requestAnimationFrame(tick);
 	};
 
