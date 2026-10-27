@@ -45,6 +45,8 @@ before changing the code or the doc.
   `node scripts/subset-fonts.mjs`, never swap in full Fontsource files (~1 MB per face).
 - `public/` is served as-is (favicons).
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
+  `changes/bootstrap-verification/` is the bootstrapper's run log and has no `change.md`
+  by design; it is not a change, so leave it alone.
 - `*.scaffold` files are unmerged starter leftovers, not sources of truth.
 
 ## Commands
