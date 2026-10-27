@@ -1,5 +1,5 @@
 // Stand-in data for the design lab. This is the lab's own shape, not the
-// S-01 content schema. Everything under lab/content/ is local-only.
+// S-01 content schema. lab/content/ holds original mock text only (tracked).
 import type { MarkdownInstance } from 'astro';
 
 export interface Article {
@@ -115,7 +115,6 @@ export function labPages(): LabPage[] {
 // ?url keeps the harness from pulling variant code (and styles) into its page.
 const variantModules = import.meta.glob('../variants/*/Home.astro', { query: '?url' });
 
-/** Variant folder names, Baseline first, the rest alphabetical. */
 /** A lab-only switch a variant reads from the query, shown as a harness pill. */
 export type VariantOption = {
 	label: string;
@@ -142,6 +141,7 @@ export function variantOptions(name: string): Record<string, VariantOption> {
 	return optionModules[`../variants/${name}/options.ts`]?.default ?? {};
 }
 
+/** Variant folder names, Baseline first, the rest alphabetical. */
 export function variantNames(): string[] {
 	return Object.keys(variantModules)
 		.map((path) => path.split('/').at(-2)!)

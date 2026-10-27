@@ -37,13 +37,14 @@ Scale (root 16px; sizes in `rem`, tracking by size, leading shrinks as size grow
 | Home and About title | clamp(1.5rem, 4vw, 1.875rem) | 600 | 1.15 | -0.015em | Iosevka |
 | Prose h2 / h3 | 1.375rem / 1.125rem | 600 | 1.2 | -0.01em | Iosevka |
 | Back link `< articles` | 1rem, lowercase | 400 | 1 | 0 | Iosevka |
+| Home list title | 1rem | 400 | 1.4 | 0 | Iosevka |
 | Article summary | 1.125rem | 400 | 1.5 | 0 | Aile |
 | Article body | 1.0625rem | 400 | 1.6 | 0 | Aile |
-| Article meta `date · n min · tag` | 0.8125rem, lowercase, tabular | 400 | 1.4 | +0.01em | Iosevka |
+| Article meta `date · n min · tag`, empty-state line | 0.8125rem, lowercase, tabular | 400 | 1.4 | +0.01em | Iosevka |
 | List dates, reading time, rules, footer | 0.75rem | 400 | — | +0.01em | Iosevka |
 | Code (inline / block) | 0.92em / 0.875rem | 400 | — / 1.5 | 0 | Iosevka |
 
-- Prose measure: 65ch of Aile (~41.5rem); summaries and intros cap at 38rem.
+- Prose measure: 65ch of Aile (~41.5rem); summaries, intros and the About page cap at 38rem.
 - Headings differ by size and weight only: no `#`, no glyph before them.
 - Chrome is lowercase (wordmark, nav, back link, meta); article titles and prose keep normal
   case.
@@ -148,7 +149,7 @@ foreground color and medium weight only (no glyph).
 - Links: accent color at rest, underline on hover and focus. Same rule in both themes.
 
 **About.** Same title style as home, then prose (bio, an "Elsewhere" list of social and repo
-links).
+links), the whole page capped at 38rem.
 
 **Theme toggle.** shadcn `Button` (ghost, icon), lucide Sun/Moon, after the last nav item.
 Accessible name "Dark theme" with `aria-pressed`. Applies `.dark` before first paint from the

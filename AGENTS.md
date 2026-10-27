@@ -32,6 +32,9 @@ before changing the code or the doc.
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
 - `src/layouts/Layout.astro` is the site shell (fonts, theme script, header, footer, motif);
   its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`.
+- `src/layouts/ArticleLayout.astro`, `PageLayout.astro` and `src/components/home/` (Intro,
+  ArticleList, EmptyState) are the page layouts slices fill; no routes use them yet.
+  `src/lib/date.ts` formats dates (UTC).
 - `src/components/ui/` holds shadcn primitives, added only when used with
   `npx shadcn add <name>`; `src/lib/utils.ts` holds `cn()`.
 - `lab/` is the design lab, a separate dev app (own config, port 4322) that frames

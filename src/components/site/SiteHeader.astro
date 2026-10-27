@@ -17,7 +17,7 @@ const { current } = Astro.props;
 					<li>
 						<a
 							href={item.href}
-							aria-current={current === item.id ? 'page' : undefined}
+							aria-current={current === item.id ? (Astro.url.pathname === item.href ? 'page' : 'true') : undefined}
 							class:list={['press', current === item.id ? 'font-medium text-foreground' : 'quiet text-muted-foreground']}>
 							{item.label}
 						</a>

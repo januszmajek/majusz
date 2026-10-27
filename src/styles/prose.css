@@ -28,6 +28,7 @@
   .prose ul > li { @apply relative; }
   .prose ul > li::before {
     content: "✦";
+    content: "✦" / "";
     @apply absolute -left-[1.5em] top-[0.55em] font-mono text-[0.55em] leading-none text-muted-foreground;
   }
   .prose ol { @apply list-decimal pl-[1.5em] marker:font-mono marker:text-[0.9em] marker:text-muted-foreground; }
@@ -35,12 +36,12 @@
   .prose li > ul,
   .prose li > ol { @apply mt-1.5; }
   .prose blockquote { @apply border-l border-border pl-[1.25em] text-muted-foreground; }
-  .prose code { @apply font-mono text-[0.92em]; }
-  .prose :not(pre) > code { @apply bg-card px-1 py-0.5; }
+  .prose code { @apply font-mono; }
+  .prose :not(pre) > code { @apply bg-card px-1 py-0.5 text-[0.92em]; }
   .prose pre {
     @apply overflow-x-auto border border-border bg-card p-4 font-mono text-sm leading-[1.5];
   }
   .prose hr { @apply my-10 border-0 font-mono text-muted-foreground; }
-  .prose hr::after { content: "- - -"; }
+  .prose hr::after { content: "- - -"; content: "- - -" / ""; }
   .prose img { @apply h-auto max-w-full; }
 }

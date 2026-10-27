@@ -1,7 +1,7 @@
 ---
 change_id: visual-direction
 title: Visual direction
-status: implemented
+status: impl_reviewed
 created: 2026-10-18
 updated: 2026-10-27
 archived_at: null
@@ -30,3 +30,6 @@ archived_at: null
 - 2026-10-27 (Phase 5): `ArticleList` entries take an optional `readingMinutes` beyond the
   planned `{ title, href, date, summary? }`, since `design.md` shows reading time on every
   row. `summary` is accepted but not shown (design's row is date · title · time).
+- 2026-10-27 (full review): `src/components/ui/button.tsx` was added during exploration for the
+  picked variant's theme toggle (lab-only). No production page uses it yet; it is kept for the
+  S-07 toggle, which `design.md` specifies as a shadcn `Button` (ghost, icon).

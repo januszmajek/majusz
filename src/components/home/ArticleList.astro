@@ -37,7 +37,7 @@ const years = [...new Set(entries.map((e) => e.date.getUTCFullYear()))];
 										<time datetime={isoDate(e.date)} class="text-fine text-muted-foreground tabular-nums">
 											{isoDate(e.date)}
 										</time>
-										<span class="col-span-2 row-start-2 leading-[1.4] transition-colors duration-100 group-hover:text-primary sm:col-span-1 sm:row-start-auto">
+										<span class="col-span-2 row-start-2 text-list-title transition-colors duration-100 group-hover:text-primary sm:col-span-1 sm:row-start-auto">
 											{e.title}
 										</span>
 										{e.readingMinutes !== undefined && (

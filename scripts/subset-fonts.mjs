@@ -11,7 +11,7 @@ const FAMILIES = { iosevka: 'iosevka', 'iosevka-aile': 'iosevka-aile' };
 const WEIGHTS = [400, 500, 600, 700];
 const STYLES = ['normal', 'italic'];
 const SOURCE = (id, weight, style) =>
-	`https://cdn.jsdelivr.net/fontsource/fonts/${id}@latest/latin-${weight}-${style}.woff2`;
+	`https://cdn.jsdelivr.net/fontsource/fonts/${id}@5.3.0/latin-${weight}-${style}.woff2`;
 
 // Latin, Latin-1, Latin Extended-A (Polish), the punctuation prose uses, € and
 // ™, a few arrows and math signs, box drawing (section rules) and the ✦ bullet.
