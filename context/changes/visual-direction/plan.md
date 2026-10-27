@@ -589,12 +589,12 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Automated
 
-- [x] 3.1 `context/foundation/design.md` exists and covers typography, colors, motif and layouts
-- [x] 3.2 No variants tracked
+- [x] 3.1 `context/foundation/design.md` exists and covers typography, colors, motif and layouts — 3f9d8b8
+- [x] 3.2 No variants tracked — 3f9d8b8
 
 #### Manual
 
-- [x] 3.3 Author has picked a variant and approves `design.md`
+- [x] 3.3 Author has picked a variant and approves `design.md` — 3f9d8b8
 
 ### Phase 4: Ship base design
 
