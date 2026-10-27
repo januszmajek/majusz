@@ -1,7 +1,7 @@
 ---
 // Design lab harness: frames one variant page at a time, full size, with the
 // prototype skill's picker (.claude/skills/prototype/PICKER.md) as chrome.
-import { homeStates, labPages, variantNames } from '../lib/data';
+import { homeStates, labPages, variantNames, variantOptions } from '../lib/data';
 
 const variants = variantNames();
 const articles = labPages().flatMap((p) => (p.kind === 'article' ? [p.id] : []));
@@ -13,6 +13,10 @@ const pages = [
 	})),
 	{ id: 'about', label: 'About' },
 ];
+// Per-variant switches (lab/variants/<name>/options.ts), shown only for that variant.
+const options = variants.flatMap((variant) =>
+	Object.entries(variantOptions(variant)).map(([key, option]) => ({ variant, key, ...option })),
+);
 const label = (name: string) =>
 	name.replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase());
 ---
@@ -33,6 +37,26 @@ const label = (name: string) =>
 					<iframe id="stage" title="Variant preview" />
 
 					<div class="lab-controls">
+						{options.length > 0 && (
+							<div class="lab-row">
+								{options.map((o) => (
+									<nav
+										class="proto-picker"
+										aria-label={o.label}
+										data-group={`${o.variant}:${o.key}`}
+										data-variant={o.variant}
+										data-param={o.key}
+										data-pages={o.pages}>
+										<span class="proto-picker-highlight" aria-hidden="true" />
+										{o.values.map((value) => (
+											<button class="proto-picker-item" data-value={value}>
+												{label(value)}
+											</button>
+										))}
+									</nav>
+								))}
+							</div>
+						)}
 						<nav class="proto-picker" aria-label="Page" data-group="page">
 							<span class="proto-picker-highlight" aria-hidden="true" />
 							{pages.map((p) => (
@@ -73,7 +97,8 @@ const label = (name: string) =>
 </html>
 
 <script>
-	type Group = 'v' | 'page' | 'n' | 'theme';
+	// Built-in groups, plus `<variant>:<param>` groups for variant options.
+	type Group = string;
 
 	const stage = document.getElementById('stage') as HTMLIFrameElement | null;
 	const pickers = new Map<Group, HTMLElement>();
@@ -88,13 +113,35 @@ const label = (name: string) =>
 
 	// State lives in the URL query so a reload or the phone keeps its place.
 	const params = new URLSearchParams(location.search);
-	const state: Record<Group, string> = { v: '', page: '', n: '', theme: '' };
-	const defaults: Record<Group, string> = { v: '', page: 'home', n: '2', theme: 'light' };
+	const state: Record<Group, string> = {};
+	const defaults: Record<Group, string> = { page: 'home', n: '2', theme: 'light' };
+	// The query key of a group: variant options use their bare param name.
+	const param = (group: Group) => pickers.get(group)!.dataset.param ?? group;
 	if (stage) {
 		for (const group of pickers.keys()) {
 			const options = values(group);
-			const wanted = params.get(group) ?? defaults[group];
-			state[group] = options.includes(wanted) ? wanted : options[0];
+			const wanted = params.get(param(group)) ?? defaults[group];
+			state[group] = wanted && options.includes(wanted) ? wanted : options[0];
+		}
+	}
+
+	// Show the bottom row's switches for the current variant and page only.
+	function showControls() {
+		pickers.get('n')!.hidden = state.page !== 'home';
+		for (const picker of pickers.values()) {
+			const { variant, pages } = picker.dataset;
+			if (!variant) continue;
+			picker.hidden =
+				variant !== state.v || (pages === 'article' && !state.page.startsWith('article'));
+			if (!picker.hidden) moveHighlight(picker.dataset.group!);
+		}
+	}
+
+	// Write the current variant's options into the query, which the variant reads
+	// from its parent on load.
+	function syncOptions(url: URL) {
+		for (const [group, picker] of pickers) {
+			if (picker.dataset.variant === state.v) url.searchParams.set(param(group), state[group]);
 		}
 	}
 
@@ -134,9 +181,10 @@ const label = (name: string) =>
 		if (!values(group).includes(value)) return;
 		state[group] = value;
 		render(group);
-		pickers.get('n')!.hidden = state.page !== 'home';
+		showControls();
 		const url = new URL(location.href);
-		url.searchParams.set(group, value);
+		url.searchParams.set(param(group), value);
+		syncOptions(url);
 		history.replaceState(null, '', url);
 		if (group === 'theme') applyTheme();
 		else mount();
@@ -151,7 +199,10 @@ const label = (name: string) =>
 			});
 			render(group);
 		}
-		pickers.get('n')!.hidden = state.page !== 'home';
+		const url = new URL(location.href);
+		syncOptions(url);
+		history.replaceState(null, '', url);
+		showControls();
 		mount();
 
 		window.addEventListener('resize', () => pickers.forEach((_, g) => moveHighlight(g)));
@@ -216,7 +267,14 @@ const label = (name: string) =>
 
 	.lab-row {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: 8px;
+	}
+
+	/* A row whose switches all belong to other variants takes no space. */
+	.lab-row:not(:has(> .proto-picker:not([hidden]))) {
+		display: none;
 	}
 
 	.lab-controls .proto-picker {

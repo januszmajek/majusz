@@ -116,6 +116,25 @@ export function labPages(): LabPage[] {
 const variantModules = import.meta.glob('../variants/*/Home.astro', { query: '?url' });
 
 /** Variant folder names, Baseline first, the rest alphabetical. */
+/** A lab-only switch a variant reads from the query, shown as a harness pill. */
+export interface VariantOption {
+	label: string;
+	/** The first value is the variant's default. */
+	values: string[];
+	/** Show the switch only on these pages. */
+	pages?: 'article';
+}
+
+const optionModules = import.meta.glob<{ default: Record<string, VariantOption> }>(
+	'../variants/*/options.ts',
+	{ eager: true },
+);
+
+/** Optional `lab/variants/<name>/options.ts`, keyed by query param. */
+export function variantOptions(name: string): Record<string, VariantOption> {
+	return optionModules[`../variants/${name}/options.ts`]?.default ?? {};
+}
+
 export function variantNames(): string[] {
 	return Object.keys(variantModules)
 		.map((path) => path.split('/').at(-2)!)
