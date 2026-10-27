@@ -1,26 +1,18 @@
+/* Flight deck (context/foundation/design.md): Iosevka for chrome and headings,
+   Iosevka Aile for long reading, one accent per theme. Light is "cleanroom"
+   white with International Orange; dark is near-black with phosphor green. */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "./prose.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
+    /* --font-iosevka and --font-iosevka-aile come from Astro's fonts config. */
+    --font-mono: var(--font-iosevka), ui-monospace, monospace;
+    --font-sans: var(--font-iosevka-aile), ui-sans-serif, system-ui, sans-serif;
+    --font-heading: var(--font-mono);
     --color-ring: var(--ring);
     --color-input: var(--input);
     --color-border: var(--border);
@@ -48,83 +40,127 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+/* Type scale from design.md: `text-<role>` sets size, leading, tracking and,
+   where the role fixes it, weight. Layouts use these, never raw sizes. */
+@theme inline {
+    --text-wordmark: var(--size-chrome);
+    --text-wordmark--line-height: 1;
+    --text-wordmark--letter-spacing: -0.01em;
+    --text-wordmark--font-weight: 700;
+    --text-nav: var(--size-chrome);
+    --text-nav--line-height: 1;
+    --text-nav--letter-spacing: -0.01em;
+    --text-article-title: clamp(1.75rem, 4.5vw, 2.25rem);
+    --text-article-title--line-height: 1.12;
+    --text-article-title--letter-spacing: -0.02em;
+    --text-article-title--font-weight: 600;
+    --text-page-title: clamp(1.5rem, 4vw, 1.875rem);
+    --text-page-title--line-height: 1.15;
+    --text-page-title--letter-spacing: -0.015em;
+    --text-page-title--font-weight: 600;
+    --text-h2: 1.375rem;
+    --text-h2--line-height: 1.2;
+    --text-h2--letter-spacing: -0.01em;
+    --text-h2--font-weight: 600;
+    --text-h3: 1.125rem;
+    --text-h3--line-height: 1.2;
+    --text-h3--letter-spacing: -0.01em;
+    --text-h3--font-weight: 600;
+    --text-lead: 1.125rem;
+    --text-lead--line-height: 1.5;
+    --text-body: 1.0625rem;
+    --text-body--line-height: 1.6;
+    --text-meta: 0.8125rem;
+    --text-meta--line-height: 1.4;
+    --text-meta--letter-spacing: 0.01em;
+    --text-fine: 0.75rem;
+    --text-fine--line-height: 1rem;
+    --text-fine--letter-spacing: 0.01em;
 }
 
+/* Light: cleanroom. Accent ≥4.5:1 on the background, ≥3:1 against body text. */
+:root {
+    --background: oklch(0.99 0.002 250);
+    --foreground: oklch(0.16 0.008 250);
+    --card: oklch(0.955 0.004 250);
+    --card-foreground: var(--foreground);
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+    --primary: oklch(0.55 0.19 42);
+    --primary-foreground: var(--background);
+    --secondary: var(--card);
+    --secondary-foreground: var(--foreground);
+    --muted: var(--card);
+    --muted-foreground: oklch(0.48 0.01 250);
+    --accent: var(--card);
+    --accent-foreground: var(--foreground);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.16 0.008 250 / 13%);
+    --input: var(--border);
+    --ring: var(--primary);
+    --radius: 0.625rem;
+    /* Ink of the motif; Motif.astro draws it at low alpha. */
+    --motif: oklch(0.3 0.01 250);
+    /* Wordmark and nav size, a step up from 40rem. */
+    --size-chrome: 1.25rem;
+}
+
+@media (width >= 40rem) {
+    :root { --size-chrome: 1.375rem; }
+}
+
+/* Dark: Flight deck. */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
+    --background: oklch(0.155 0.008 150);
+    --foreground: oklch(0.9 0.02 145);
+    --card: oklch(0.19 0.01 150);
+    --muted-foreground: oklch(0.67 0.025 150);
+    --primary: #2a8d4a;
     --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --border: oklch(0.9 0.02 145 / 13%);
+    --motif: oklch(0.97 0.01 250);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+  }
   html {
-    @apply font-sans;
-    }
+    @apply bg-background font-mono text-foreground antialiased;
+    font-size: 100%;
+    transition: background-color 300ms ease, color 300ms ease;
+  }
+  ::selection {
+    @apply bg-primary text-background;
+  }
+  a {
+    @apply transition-[color,opacity] duration-100 ease-out;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { transition: none; }
+  }
+}
+
+@layer components {
+  /* Press feedback on press, not release. */
+  .press:active { @apply opacity-60; }
+  /* Muted chrome links brighten to the text color on hover. */
+  @media (hover: hover) {
+    .quiet:hover { @apply text-foreground; }
+  }
+
+  /* "LABEL ────" section rule, drawn with box-drawing characters. */
+  .rule {
+    @apply flex items-baseline gap-2 overflow-hidden text-fine whitespace-nowrap text-muted-foreground uppercase;
+  }
+  .rule::after {
+    content: "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────";
+    @apply min-w-0 flex-1 overflow-hidden opacity-60;
+  }
+
+  /* Article title block width: the prose measure (65ch of Aile at 1.0625rem). */
+  .measure { max-width: 41.5rem; }
 }

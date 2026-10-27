@@ -3,7 +3,7 @@ project: majusz
 version: 1
 status: draft
 created: 2026-10-18
-updated: 2026-10-20
+updated: 2026-10-27
 prd_version: 3
 main_goal: quality
 top_blocker: time
@@ -180,7 +180,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Blockers:** —
 - **Unknowns:**
   - Is the manual choice remembered across visits? Remembering it must not involve tracking cookies. — Owner: author. Block: no.
-- **Risk:** F-01 defines both color schemes; this slice adds following the device setting and the toggle. Landing it right after F-01 means S-03–S-05 are checked against both themes from the start.
+- **Risk:** F-01 defines both color schemes and already follows the device setting (inline head script, no storage); this slice adds the manual toggle and remembering the choice. Landing it right after F-01 means S-03–S-05 are checked against both themes from the start.
 - **Status:** proposed
 
 ## Backlog Handoff

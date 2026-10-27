@@ -14,14 +14,10 @@ export default defineConfig({
   server: { ...site.server, port: 4322 },
   // The toolbar would sit under the picker, in the harness and in every frame.
   devToolbar: { enabled: false },
-  // Candidate fonts for variants, self-hosted from Fontsource like the site will be.
+  // The site's fonts plus candidates only variants use, self-hosted from Fontsource.
   fonts: [
     ...(site.fonts ?? []),
-    ...[
-      ['Iosevka', '--font-iosevka'],
-      ['Iosevka Aile', '--font-iosevka-aile'],
-      ['Iosevka Etoile', '--font-iosevka-etoile'],
-    ].map(([name, cssVariable]) => ({
+    ...[['Iosevka Etoile', '--font-iosevka-etoile']].map(([name, cssVariable]) => ({
       provider: fontProviders.fontsource(),
       name,
       cssVariable,

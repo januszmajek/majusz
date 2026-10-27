@@ -28,6 +28,8 @@ before changing the code or the doc.
 
 - `src/pages/` holds the placeholder home and `404.astro` (served for missing URLs).
 - `src/styles/global.css` holds Tailwind and the shadcn theme tokens (`:root` / `.dark`).
+- `src/layouts/Layout.astro` is the site shell (fonts, theme script, header, footer, motif);
+  its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`.
 - `src/components/ui/` holds shadcn primitives, added only when used with
   `npx shadcn add <name>`; `src/lib/utils.ts` holds `cn()`.
 - `lab/` is the design lab, a separate dev app (own config, port 4322) that frames

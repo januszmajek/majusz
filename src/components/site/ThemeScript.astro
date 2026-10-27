@@ -1,0 +1,14 @@
+---
+// Sets `.dark` on <html> before first paint, so there is no theme flash.
+// Render first in <head>. F-01 follows the device setting only; S-07 adds the
+// stored manual choice here, next to its toggle.
+---
+
+<script is:inline>
+	(() => {
+		const query = matchMedia('(prefers-color-scheme: dark)');
+		const apply = () => document.documentElement.classList.toggle('dark', query.matches);
+		apply();
+		query.addEventListener('change', apply);
+	})();
+</script>

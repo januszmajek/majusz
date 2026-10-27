@@ -1,0 +1,62 @@
+---
+// The full-page sky behind the content (context/foundation/design.md, Motif).
+//   light  graticule: a flat lat/lon grid in dotted hairlines, 20° per 200px,
+//          panning with a virtual satellite's longitude; degree labels on the
+//          outer edges, its telemetry in the bottom-right margin corner
+//   dark   ASCII sky: sparse `. · + *` glyphs drifting sideways, no twinkle
+// Drawing lives in ./motif/ (orbit, painters, lifecycle). Ink from `--motif`.
+// Starts once the page has loaded and the browser is idle, pauses when the tab
+// is hidden, stays still under reduced motion.
+---
+
+<div class="sky" aria-hidden="true">
+	<canvas data-motif></canvas>
+</div>
+
+<style>
+	.sky {
+		position: fixed;
+		inset: 0;
+		z-index: -10;
+		pointer-events: none;
+	}
+	canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		/* Fades behind the text column: the grid's lines run straight through it,
+		   so it fades further than the sparse night sky. */
+		mask-image: linear-gradient(
+			to right,
+			#000 calc(50% - 30rem),
+			rgb(0 0 0 / 0.2) calc(50% - 23rem),
+			rgb(0 0 0 / 0.2) calc(50% + 23rem),
+			#000 calc(50% + 30rem)
+		);
+	}
+	:global(.dark) canvas {
+		mask-image: linear-gradient(
+			to right,
+			#000 calc(50% - 30rem),
+			rgb(0 0 0 / 0.35) calc(50% - 23rem),
+			rgb(0 0 0 / 0.35) calc(50% + 23rem),
+			#000 calc(50% + 30rem)
+		);
+	}
+	@media (prefers-contrast: more) {
+		.sky {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	import { startMotif } from './motif/start';
+
+	// Content first: start once the page has loaded and the browser is idle.
+	const boot = () => document.querySelectorAll<HTMLCanvasElement>('canvas[data-motif]').forEach(startMotif);
+	const idle = () => ('requestIdleCallback' in window ? requestIdleCallback(boot) : setTimeout(boot, 200));
+	if (document.readyState === 'complete') idle();
+	else addEventListener('load', idle, { once: true });
+</script>

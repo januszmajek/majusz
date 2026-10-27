@@ -1,0 +1,46 @@
+/* Article and page body (design.md, Layouts → Article), applied by S-01 and
+   S-06 as `class="prose"`. Later slices add images, callouts, code and tables here.
+   Imported by global.css, so its tokens and @apply resolve. */
+@layer components {
+  .prose {
+    @apply font-sans text-body text-foreground;
+    font-optical-sizing: auto;
+    max-width: 65ch;
+  }
+  .prose > * + * { @apply mt-5; }
+  /* Headings differ by size and weight only: no prefix, no symbol. */
+  .prose h2,
+  .prose h3 { @apply mt-12 font-mono; }
+  .prose h2 { @apply text-h2; }
+  .prose h3 { @apply mt-10 text-h3; }
+  .prose h2 + *,
+  .prose h3 + * { @apply mt-3; }
+  /* Links, one rule in both themes: accent at rest, underline on hover and focus. */
+  .prose a { @apply text-primary underline-offset-[0.2em]; }
+  .prose a:focus-visible { @apply underline decoration-1; }
+  @media (hover: hover) {
+    .prose a:hover { @apply underline decoration-1; }
+  }
+  .prose a:active { @apply opacity-60; }
+  .prose strong { @apply font-semibold; }
+  /* Bullets are small stars: the only place ✦ appears. */
+  .prose ul { @apply list-none pl-[1.5em]; }
+  .prose ul > li { @apply relative; }
+  .prose ul > li::before {
+    content: "✦";
+    @apply absolute -left-[1.5em] top-[0.55em] font-mono text-[0.55em] leading-none text-muted-foreground;
+  }
+  .prose ol { @apply list-decimal pl-[1.5em] marker:font-mono marker:text-[0.9em] marker:text-muted-foreground; }
+  .prose li + li { @apply mt-1.5; }
+  .prose li > ul,
+  .prose li > ol { @apply mt-1.5; }
+  .prose blockquote { @apply border-l border-border pl-[1.25em] text-muted-foreground; }
+  .prose code { @apply font-mono text-[0.92em]; }
+  .prose :not(pre) > code { @apply bg-card px-1 py-0.5; }
+  .prose pre {
+    @apply overflow-x-auto border border-border bg-card p-4 font-mono text-sm leading-[1.5];
+  }
+  .prose hr { @apply my-10 border-0 font-mono text-muted-foreground; }
+  .prose hr::after { content: "- - -"; }
+  .prose img { @apply h-auto max-w-full; }
+}

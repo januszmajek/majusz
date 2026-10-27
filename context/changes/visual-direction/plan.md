@@ -600,10 +600,10 @@ None. No content exists yet. Rollback is the usual path in `AGENTS.md` (revert p
 
 #### Automated
 
-- [ ] 4.1 Build passes
-- [ ] 4.2 No third-party font hosts in output
-- [ ] 4.3 Font files are self-hosted
-- [ ] 4.4 Only the site's pages are built
+- [x] 4.1 Build passes
+- [x] 4.2 No third-party font hosts in output
+- [x] 4.3 Font files are self-hosted
+- [x] 4.4 Only the site's pages are built
 
 #### Manual
 
