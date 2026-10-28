@@ -500,30 +500,30 @@ None. There is no existing content.
 
 #### Automated
 
-- [x] 1.1 `npm run build` passes with zero articles
-- [x] 1.2 Temporary Polish-titled note with an image builds to `dist/zazolc-gesla-jazn/index.html` with a webp srcset and width/height
-- [x] 1.3 Build exits 1 for a missing `summary` and for `date: 27.10.2026`
-- [x] 1.4 Build exits 1 for a duplicate title and for `slug: 404`
-- [x] 1.5 Build exits 1 for a missing image
-- [x] 1.6 Temporary notes and images removed; `git status` clean of them
+- [x] 1.1 `npm run build` passes with zero articles — 48cf4b2
+- [x] 1.2 Temporary Polish-titled note with an image builds to `dist/zazolc-gesla-jazn/index.html` with a webp srcset and width/height — 48cf4b2
+- [x] 1.3 Build exits 1 for a missing `summary` and for `date: 27.10.2026` — 48cf4b2
+- [x] 1.4 Build exits 1 for a duplicate title and for `slug: 404` — 48cf4b2
+- [x] 1.5 Build exits 1 for a missing image — 48cf4b2
+- [x] 1.6 Temporary notes and images removed; `git status` clean of them — 48cf4b2
 
 #### Manual
 
-- [x] 1.7 Temporary article page looks right at phone and desktop widths in both themes
+- [x] 1.7 Temporary article page looks right at phone and desktop widths in both themes — 48cf4b2
 
 ### Phase 2: Markdown pipeline (reading time and raw-syntax guard)
 
 #### Automated
 
-- [ ] 2.1 `npm run build` passes with zero articles
-- [ ] 2.2 1,000 prose words plus a 300-word code block shows `5 min`
-- [ ] 2.3 Build exits 1 for each of `[[Other]]`, `![[x.png]]`, `%%hidden%%`, `==mark==`, `> [!note]`
-- [ ] 2.4 Build passes with `[[x]]` in inline and fenced code
-- [ ] 2.5 Temporary notes removed; `git status` clean of them
+- [x] 2.1 `npm run build` passes with zero articles
+- [x] 2.2 1,000 prose words plus a 300-word code block shows `5 min`
+- [x] 2.3 Build exits 1 for each of `[[Other]]`, `![[x.png]]`, `%%hidden%%`, `==mark==`, `> [!note]`
+- [x] 2.4 Build passes with `[[x]]` in inline and fenced code
+- [x] 2.5 Temporary notes removed; `git status` clean of them
 
 #### Manual
 
-- [ ] 2.6 Wide and tall images look right at phone and desktop widths in both themes
+- [x] 2.6 Wide and tall images look right at phone and desktop widths in both themes
 
 ### Phase 3: Site vault configuration and docs
 

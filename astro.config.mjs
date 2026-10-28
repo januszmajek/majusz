@@ -2,7 +2,11 @@
 import { defineConfig, fontProviders } from 'astro/config';
 
 import react from '@astrojs/react';
+import { satteri } from '@astrojs/markdown-satteri';
 import tailwindcss from '@tailwindcss/vite';
+
+import { readingTime } from './src/lib/markdown/reading-time.ts';
+import { obsidianGuard } from './src/lib/markdown/obsidian-guard.ts';
 
 // Iosevka for chrome, headings and code; Iosevka Aile for long reading
 // (context/foundation/design.md). Subset copies in src/assets/fonts/ (made by
@@ -33,6 +37,11 @@ export default defineConfig({
 
   // Markdown images get webp, a srcset, width/height and lazy loading.
   image: { layout: 'constrained', responsiveStyles: true },
+
+  // Sätteri, Astro's default processor, with the in-repo plugins: reading time for the meta
+  // line, and a guard that fails the build on raw Obsidian syntax. `features.wikilinks` stays
+  // off, so `[[x]]` reaches the guard instead of becoming a broken link.
+  markdown: { processor: satteri({ mdastPlugins: [readingTime, obsidianGuard] }) },
 
   fonts: [
     iosevka('iosevka', 'Iosevka', '--font-iosevka', ['ui-monospace', 'monospace']),

@@ -12,7 +12,7 @@ const { entry } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(entry);
 const { title, date, summary, tags } = entry.data;
 // Set by the reading-time markdown plugin.
-const readingMinutes: number = remarkPluginFrontmatter.minutesRead ?? 1;
+const readingMinutes: number = remarkPluginFrontmatter.minutesRead;
 ---
 
 <ArticleLayout title={title} date={date} summary={summary} tags={tags} readingMinutes={readingMinutes}>

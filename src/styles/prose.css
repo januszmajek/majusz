@@ -43,5 +43,8 @@
   }
   .prose hr { @apply my-10 border-0 font-mono text-muted-foreground; }
   .prose hr::after { content: "- - -"; content: "- - -" / ""; }
-  .prose img { @apply h-auto max-w-full; }
+  /* Images are blocks up to the full measure, never upscaled, with no captions (as in
+     Obsidian). Astro's responsive styles set the same height; kept here for non-Astro images. */
+  .prose img { @apply block h-auto max-w-full; }
+  .prose img + img { @apply mt-5; }
 }
