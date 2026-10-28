@@ -1,9 +1,9 @@
 ---
 change_id: publish-first-article
 title: Publish first article
-status: plan_reviewed
+status: implementing
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-28
 archived_at: null
 ---
 

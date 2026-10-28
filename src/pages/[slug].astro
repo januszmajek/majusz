@@ -1,0 +1,20 @@
+---
+// One page per article, at the site root (`/<slug>`).
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+	const articles = await getCollection('articles');
+	return articles.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await render(entry);
+const { title, date, summary, tags } = entry.data;
+// Set by the reading-time markdown plugin.
+const readingMinutes: number = remarkPluginFrontmatter.minutesRead ?? 1;
+---
+
+<ArticleLayout title={title} date={date} summary={summary} tags={tags} readingMinutes={readingMinutes}>
+	<Content />
+</ArticleLayout>

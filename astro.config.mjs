@@ -27,6 +27,13 @@ const iosevka = (/** @type {string} */ file, /** @type {string} */ name, /** @ty
 export default defineConfig({
   integrations: [react()],
 
+  // An article slug that clashes with a static page (e.g. `slug: 404`) fails the build
+  // instead of the article being silently hidden.
+  prerenderConflictBehavior: 'error',
+
+  // Markdown images get webp, a srcset, width/height and lazy loading.
+  image: { layout: 'constrained', responsiveStyles: true },
+
   fonts: [
     iosevka('iosevka', 'Iosevka', '--font-iosevka', ['ui-monospace', 'monospace']),
     iosevka('iosevka-aile', 'Iosevka Aile', '--font-iosevka-aile', ['ui-sans-serif', 'system-ui', 'sans-serif']),

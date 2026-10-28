@@ -3,7 +3,7 @@ project: majusz
 version: 1
 status: draft
 created: 2026-10-18
-updated: 2026-10-27
+updated: 2026-10-28
 prd_version: 3
 main_goal: quality
 top_blocker: time
@@ -42,7 +42,7 @@ The site exists to make the author start writing: a public place for articles be
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
 | F-01 | visual-direction | (foundation) the site's visual direction, page layouts (home, article, About) and navigation are decided, and the base design (type, colors for both themes, spacing, layout) is live on the existing pages | — | §Vision (visual reference), §Success Criteria (distinctive look), NFR contrast | done |
-| S-01 | publish-first-article | author can add a note + images and see it as an article page with date and reading time | — | US-02, FR-011, FR-010 | planning |
+| S-01 | publish-first-article | author can add a note + images and see it as an article page with date and reading time | — | US-02, FR-011, FR-010 | in-progress |
 | S-02 | wikilinks-and-tags | visitor can follow wikilinks between published articles, sees unpublished ones as plain text, and sees tags | S-01 | US-01, FR-009 | proposed |
 | S-03 | callouts-code-tables | visitor can read callouts, syntax-highlighted code and tables as Obsidian shows them | S-01, F-01 | US-01, FR-009 | proposed |
 | S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | proposed |
@@ -105,7 +105,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
   - How does a finished note and its images get added from a phone without adding a publish step? — Owner: author. Block: no.
   - What happens when a note is missing a required property (title/date/summary)? — Owner: author. Block: no.
 - **Risk:** everything else consumes the articles this slice produces; it also sets the "never raw syntax" check that S-02–S-04 extend, and must keep publish-to-live within the 5-minute NFR. Runs alongside F-01 with plain styling; the article page picks up the base design when F-01 lands.
-- **Status:** planning
+- **Status:** in-progress
 
 ### S-02: Wikilinks and tags
 

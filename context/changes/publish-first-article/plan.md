@@ -500,16 +500,16 @@ None. There is no existing content.
 
 #### Automated
 
-- [ ] 1.1 `npm run build` passes with zero articles
-- [ ] 1.2 Temporary Polish-titled note with an image builds to `dist/zazolc-gesla-jazn/index.html` with a webp srcset and width/height
-- [ ] 1.3 Build exits 1 for a missing `summary` and for `date: 27.10.2026`
-- [ ] 1.4 Build exits 1 for a duplicate title and for `slug: 404`
-- [ ] 1.5 Build exits 1 for a missing image
-- [ ] 1.6 Temporary notes and images removed; `git status` clean of them
+- [x] 1.1 `npm run build` passes with zero articles
+- [x] 1.2 Temporary Polish-titled note with an image builds to `dist/zazolc-gesla-jazn/index.html` with a webp srcset and width/height
+- [x] 1.3 Build exits 1 for a missing `summary` and for `date: 27.10.2026`
+- [x] 1.4 Build exits 1 for a duplicate title and for `slug: 404`
+- [x] 1.5 Build exits 1 for a missing image
+- [x] 1.6 Temporary notes and images removed; `git status` clean of them
 
 #### Manual
 
-- [ ] 1.7 Temporary article page looks right at phone and desktop widths in both themes
+- [x] 1.7 Temporary article page looks right at phone and desktop widths in both themes
 
 ### Phase 2: Markdown pipeline (reading time and raw-syntax guard)
 
