@@ -1,0 +1,21 @@
+{
+  "useMarkdownLinks": true,
+  "newLinkFormat": "relative",
+  "attachmentFolderPath": "content/attachments",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "content/articles",
+  "strictLineBreaks": true,
+  "alwaysUpdateLinks": true,
+  "userIgnoreFilters": [
+    "src/",
+    "context/",
+    "lab/",
+    "public/",
+    "scripts/",
+    "node_modules/",
+    "dist/",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md"
+  ]
+}

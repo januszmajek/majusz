@@ -14,8 +14,12 @@ before changing the code or the doc.
   introduce any other required publish step.
 - A `[[wikilink]]` to an unpublished note renders as plain text. Readers must never
   see raw or broken Obsidian syntax.
-- React, Tailwind v4, and shadcn/ui are installed; Obsidian markdown plugins are
-  planned but not installed (`@package.json`). Never assume one exists.
+- React, Tailwind v4, and shadcn/ui are installed (`@package.json`). Markdown goes through
+  Sätteri (Astro's default processor) with in-repo plugins in `src/lib/markdown/`; no
+  remark/rehype or Obsidian plugin packages exist. Never assume one does.
+- `src/lib/markdown/obsidian-guard.ts` fails the build on Obsidian syntax the site can't
+  render. Remove a pattern only in the slice that adds rendering for that syntax; note
+  embeds (`![[note]]`) stay guarded in v1.
 - Deploy target is Cloudflare Workers with static assets, not Pages
   (`@wrangler.jsonc`, `@context/foundation/infrastructure.md`). Pushing to `master`
   deploys through `@.github/workflows/deploy.yml`, the only deploy path; never
@@ -26,14 +30,23 @@ before changing the code or the doc.
 
 ## Project Structure
 
-- `src/pages/` holds the placeholder home and `404.astro` (served for missing URLs).
+- `src/pages/` holds the placeholder home, `404.astro` (served for missing URLs) and
+  `[slug].astro`, one page per article from the `articles` collection (`src/content.config.ts`).
+- `content/` is the publish side of the Obsidian vault: `articles/` (flat, one `.md` per
+  article, the only folder built), `attachments/` (images), `templates/` (article template)
+  and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
+- `.obsidian/` is the committed vault config; `.gitignore` allowlists the shared files and
+  keeps per-device state and plugin code out.
+- `src/lib/markdown/` holds the Sätteri plugins (reading time, raw-syntax guard), wired in
+  `astro.config.mjs`.
 - `src/styles/global.css` holds Tailwind, the shadcn theme tokens (`:root` / `.dark`) and the
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
 - `src/layouts/Layout.astro` is the site shell (fonts, theme script, header, footer, motif);
   its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`.
 - `src/layouts/ArticleLayout.astro`, `PageLayout.astro` and `src/components/home/` (Intro,
-  ArticleList, EmptyState) are the page layouts slices fill; no routes use them yet.
+  ArticleList, EmptyState) are the page layouts slices fill; only `[slug].astro` uses one
+  (`ArticleLayout`) so far.
   `src/lib/date.ts` formats dates (UTC).
 - `src/components/ui/` holds shadcn primitives, added only when used with
   `npx shadcn add <name>`; `src/lib/utils.ts` holds `cn()`.

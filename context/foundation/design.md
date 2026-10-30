@@ -158,7 +158,7 @@ tracking). Building it on the site is S-07's job; this is its look.
 
 ## Left for slices
 
-- Images in articles (sizing, captions) — S-01.
+- ~~Images in articles (sizing, captions) — S-01.~~ Done: block, full measure, never upscaled, no captions (`src/styles/prose.css`).
 - Wikilink styling (unpublished notes render as plain body text) and tag display — S-02.
 - Callouts, code syntax-highlighting theme (both themes), tables — S-03.
 - Diagrams and math — S-04.

@@ -35,3 +35,16 @@ pnpm-debug.log*
 /lab/variants/
 /lab/dist/
 /lab/.astro/
+
+# Obsidian: the repo is the site vault. Commit shared settings only; per-device state
+# (workspace*.json, appearance.json, graph.json, hotkeys.json, …) and plugin code stay out.
+.obsidian/*
+!.obsidian/app.json
+!.obsidian/core-plugins.json
+!.obsidian/templates.json
+!.obsidian/community-plugins.json
+!.obsidian/plugins/
+.obsidian/plugins/*
+!.obsidian/plugins/obsidian-git/
+.obsidian/plugins/obsidian-git/*
+!.obsidian/plugins/obsidian-git/data.json

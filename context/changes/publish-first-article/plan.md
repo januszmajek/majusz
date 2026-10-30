@@ -515,29 +515,29 @@ None. There is no existing content.
 
 #### Automated
 
-- [x] 2.1 `npm run build` passes with zero articles
-- [x] 2.2 1,000 prose words plus a 300-word code block shows `5 min`
-- [x] 2.3 Build exits 1 for each of `[[Other]]`, `![[x.png]]`, `%%hidden%%`, `==mark==`, `> [!note]`
-- [x] 2.4 Build passes with `[[x]]` in inline and fenced code
-- [x] 2.5 Temporary notes removed; `git status` clean of them
+- [x] 2.1 `npm run build` passes with zero articles — 9d0422f
+- [x] 2.2 1,000 prose words plus a 300-word code block shows `5 min` — 9d0422f
+- [x] 2.3 Build exits 1 for each of `[[Other]]`, `![[x.png]]`, `%%hidden%%`, `==mark==`, `> [!note]` — 9d0422f
+- [x] 2.4 Build passes with `[[x]]` in inline and fenced code — 9d0422f
+- [x] 2.5 Temporary notes removed; `git status` clean of them — 9d0422f
 
 #### Manual
 
-- [x] 2.6 Wide and tall images look right at phone and desktop widths in both themes
+- [x] 2.6 Wide and tall images look right at phone and desktop widths in both themes — 9d0422f
 
 ### Phase 3: Site vault configuration and docs
 
 #### Automated
 
-- [ ] 3.1 `npm run build` passes with zero articles
-- [ ] 3.2 `git check-ignore` ignores per-device files and plugin code, keeps the allowlisted config
-- [ ] 3.3 `.obsidian/app.json` is valid JSON with `useMarkdownLinks` and `strictLineBreaks` true
+- [x] 3.1 `npm run build` passes with zero articles
+- [x] 3.2 `git check-ignore` ignores per-device files and plugin code, keeps the allowlisted config
+- [x] 3.3 `.obsidian/app.json` is valid JSON with `useMarkdownLinks` and `strictLineBreaks` true
 
 #### Manual
 
 - [ ] 3.4 Fresh clone in desktop Obsidian: code folders absent from search and quick switcher
 - [ ] 3.5 Inserting the template creates a note with the four properties
-- [ ] 3.6 Pasted image lands in `content/attachments/` with a `../attachments/…` link
+- [x] 3.6 Pasted image lands in `content/attachments/` with a `../attachments/…` link
 - [ ] 3.7 Commit from Obsidian Git uses the conventional subject
 
 ### Phase 4: Hello post, end to end (manual)
