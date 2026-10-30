@@ -1,7 +1,7 @@
 ---
 change_id: wikilinks-and-tags
 title: Wikilinks and tags
-status: implementing
+status: implemented
 created: 2026-10-30
 updated: 2026-10-31
 archived_at: null

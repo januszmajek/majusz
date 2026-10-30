@@ -429,10 +429,10 @@ fails the build today.
 
 #### Automated
 
-- [x] 3.1 Tests pass: `npm test`
-- [x] 3.2 Build passes: `npm run build`
+- [x] 3.1 Tests pass: `npm test` — 0c5a482
+- [x] 3.2 Build passes: `npm run build` — 0c5a482
 
 #### Manual
 
-- [x] 3.3 Inline tags read as tags in both themes
-- [x] 3.4 `content/README.md` reads correctly for wikilinks, embeds and the private-name warning
+- [x] 3.3 Inline tags read as tags in both themes — 0c5a482
+- [x] 3.4 `content/README.md` reads correctly for wikilinks, embeds and the private-name warning — 0c5a482
