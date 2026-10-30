@@ -3,7 +3,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { toSlug } from '@/lib/slug';
+import { articleId } from '@/lib/slug';
 
 const articles = defineCollection({
 	loader: glob({
@@ -12,12 +12,11 @@ const articles = defineCollection({
 		// Rendering at build time (not at sync) makes a throwing markdown plugin fail the build.
 		deferRender: true,
 		generateId: ({ entry, data }) => {
-			if (data.slug != null) return String(data.slug);
+			const id = articleId(data);
+			if (id) return id;
 			// No title: return anything, the schema then fails naming the file.
 			if (typeof data.title !== 'string') return entry;
-			const slug = toSlug(data.title);
-			if (!slug) throw new Error(`content/articles/${entry}: title "${data.title}" has no letters or digits for a URL; add a \`slug\` property`);
-			return slug;
+			throw new Error(`content/articles/${entry}: title "${data.title}" has no letters or digits for a URL; add a \`slug\` property`);
 		},
 	}),
 	schema: z.object({

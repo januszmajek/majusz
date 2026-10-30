@@ -9,7 +9,8 @@ type MdastPlugin = Extract<NonNullable<SatteriProcessorOptions['mdastPlugins']>[
 const inlinePatterns = [
 	// Embeds (`![[x.png]]`): S-02 renders image embeds; note embeds stay out of v1 (PRD FR-009).
 	/!\[\[/,
-	// Wikilinks (`[[Other]]`): S-02.
+	// Wikilinks obsidian-links didn't consume (`[[unclosed`, `[[a[b]]`): the safety net, as
+	// obsidian-links runs first and renders every well-formed one.
 	/\[\[/,
 	// Comments (`%%hidden%%`): S-03 hides them, as Obsidian does.
 	/%%/,

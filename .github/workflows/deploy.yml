@@ -26,6 +26,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm test
+
       - run: npm run build
 
       # Cloudflare rejects any asset over 25 MiB and fails the whole deploy.
