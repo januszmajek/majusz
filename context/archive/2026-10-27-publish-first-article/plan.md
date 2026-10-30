@@ -496,8 +496,9 @@ None. There is no existing content.
 
 - **Phase 4 (2026-10-30):** verified with a test post from the iPhone instead of the hello post.
   It was live at `/test-from-phone`: 200 with title, date and `1 min`, deploy in 34 s, photo without
-  GPS. The author then removed the test commits with a force-push, so rows 4.1–4.7 have no commit to
-  cite. The hello post is no longer part of this change. It comes later as an ordinary publish.
+  GPS. The author then removed the test commits with a force-push, so rows 4.1–4.7 cite 54ee624,
+  the commit that recorded the verification. The removed commits carry a personal email and are
+  deliberately not cited. The hello post is no longer part of this change. It comes later as an ordinary publish.
 - **Out of plan, kept:**
   - `src/lib/markdown/image-width.ts` renders Obsidian's `![alt|300](…)` as a width cap, and
     `|300x200` fails the build (0b375ca, from the phone test).
@@ -543,28 +544,28 @@ None. There is no existing content.
 
 #### Automated
 
-- [x] 3.1 `npm run build` passes with zero articles
-- [x] 3.2 `git check-ignore` ignores per-device files and plugin code, keeps the allowlisted config
-- [x] 3.3 `.obsidian/app.json` is valid JSON with `useMarkdownLinks` and `strictLineBreaks` true
+- [x] 3.1 `npm run build` passes with zero articles — 6d1cc49
+- [x] 3.2 `git check-ignore` ignores per-device files and plugin code, keeps the allowlisted config — 6d1cc49
+- [x] 3.3 `.obsidian/app.json` is valid JSON with `useMarkdownLinks` and `strictLineBreaks` true — 6d1cc49
 
 #### Manual
 
-- [x] 3.4 Fresh clone in desktop Obsidian: code folders absent from search and quick switcher
-- [x] 3.5 Inserting the template creates a note with the four properties
-- [x] 3.6 Pasted image lands in `content/attachments/` with a `../attachments/…` link
-- [x] 3.7 Commit from Obsidian Git uses the conventional subject
+- [x] 3.4 Fresh clone in desktop Obsidian: code folders absent from search and quick switcher — 6d1cc49
+- [x] 3.5 Inserting the template creates a note with the four properties — 6d1cc49
+- [x] 3.6 Pasted image lands in `content/attachments/` with a `../attachments/…` link — 6d1cc49
+- [x] 3.7 Commit from Obsidian Git uses the conventional subject — 6d1cc49
 
 ### Phase 4: Hello post, end to end (manual)
 
 #### Automated
 
-- [x] 4.1 Deploy workflow run for the phone commit succeeds
-- [x] 4.2 `curl` of the live URL returns 200 with title, date and `min`
+- [x] 4.1 Deploy workflow run for the phone commit succeeds — 54ee624
+- [x] 4.2 `curl` of the live URL returns 200 with title, date and `min` — 54ee624
 
 #### Manual
 
-- [x] 4.3 Desktop vault clone and iPhone vault (Obsidian Git, fine-grained PAT) set up and pulling cleanly
-- [x] 4.4 Photo has no GPS data before commit-and-sync
-- [x] 4.5 Live within 5 minutes of commit-and-sync from the iPhone
-- [x] 4.6 Live page on the phone shows photo, date, reading time, no raw syntax
-- [x] 4.7 Commit subject on `master` is conventional
+- [x] 4.3 Desktop vault clone and iPhone vault (Obsidian Git, fine-grained PAT) set up and pulling cleanly — 54ee624
+- [x] 4.4 Photo has no GPS data before commit-and-sync — 54ee624
+- [x] 4.5 Live within 5 minutes of commit-and-sync from the iPhone — 54ee624
+- [x] 4.6 Live page on the phone shows photo, date, reading time, no raw syntax — 54ee624
+- [x] 4.7 Commit subject on `master` is conventional — 54ee624
