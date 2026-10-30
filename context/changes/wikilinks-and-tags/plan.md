@@ -416,23 +416,23 @@ fails the build today.
 
 #### Automated
 
-- [x] 2.1 Tests pass: `npm test`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 Temporary embed article builds with optimized, width-capped images
-- [x] 2.4 Note embed `![[Some note]]` fails the build naming the file
+- [x] 2.1 Tests pass: `npm test` — 20ad099
+- [x] 2.2 Build passes: `npm run build` — 20ad099
+- [x] 2.3 Temporary embed article builds with optimized, width-capped images — 20ad099
+- [x] 2.4 Note embed `![[Some note]]` fails the build naming the file — 20ad099
 
 #### Manual
 
-- [x] 2.5 Embedded photo looks like a pasted markdown image on phone and desktop
+- [x] 2.5 Embedded photo looks like a pasted markdown image on phone and desktop — 20ad099
 
 ### Phase 3: Inline tags and docs
 
 #### Automated
 
-- [ ] 3.1 Tests pass: `npm test`
-- [ ] 3.2 Build passes: `npm run build`
+- [x] 3.1 Tests pass: `npm test`
+- [x] 3.2 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 3.3 Inline tags read as tags in both themes
-- [ ] 3.4 `content/README.md` reads correctly for wikilinks, embeds and the private-name warning
+- [x] 3.3 Inline tags read as tags in both themes
+- [x] 3.4 `content/README.md` reads correctly for wikilinks, embeds and the private-name warning

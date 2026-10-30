@@ -6,6 +6,7 @@ import { satteri } from '@astrojs/markdown-satteri';
 import tailwindcss from '@tailwindcss/vite';
 
 import { obsidianLinks } from './src/lib/markdown/obsidian-links.ts';
+import { inlineTags } from './src/lib/markdown/inline-tags.ts';
 import { readingTime } from './src/lib/markdown/reading-time.ts';
 import { obsidianGuard } from './src/lib/markdown/obsidian-guard.ts';
 import { imageWidth } from './src/lib/markdown/image-width.ts';
@@ -40,14 +41,14 @@ export default defineConfig({
   // Markdown images get webp, a srcset, width/height and lazy loading.
   image: { layout: 'constrained', responsiveStyles: true },
 
-  // Sätteri, Astro's default processor, with the in-repo plugins: wikilinks and `.md` links
-  // resolved to article pages (plain text when unpublished), reading time for the meta line,
-  // a guard that fails the build on raw Obsidian syntax left over, and Obsidian's `|300`
-  // image width. The guard runs last among the mdast plugins so it only sees what the others
+  // Sätteri, Astro's default processor, with the in-repo plugins: wikilinks, image embeds
+  // and `.md` links (plain text when the note is unpublished), inline `#tag` spans, reading
+  // time for the meta line, a guard that fails the build on raw Obsidian syntax left over,
+  // and Obsidian's `|300` image width. The guard runs last among the mdast plugins so it only sees what the others
   // didn't render. Sätteri's `features.wikilinks` stays off: its links can't be told from
   // ordinary ones, and it mangles embeds.
   markdown: {
-    processor: satteri({ mdastPlugins: [obsidianLinks, readingTime, obsidianGuard], hastPlugins: [imageWidth] }),
+    processor: satteri({ mdastPlugins: [obsidianLinks, inlineTags, readingTime, obsidianGuard], hastPlugins: [imageWidth] }),
   },
 
   fonts: [

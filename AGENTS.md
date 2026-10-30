@@ -37,8 +37,10 @@ before changing the code or the doc.
   and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
 - `.obsidian/` is the committed vault config; `.gitignore` allowlists the shared files and
   keeps per-device state and plugin code out.
-- `src/lib/markdown/` holds the Sätteri plugins (reading time, raw-syntax guard, `|300` image width), wired in
-  `astro.config.mjs`.
+- `src/lib/markdown/` holds the Sätteri plugins (wikilinks, `.md` links and image embeds
+  resolved through an index of `content/articles/`; inline `#tag` spans; reading time;
+  raw-syntax guard; `|300` image width), wired in `astro.config.mjs` and imported by relative
+  path, so they and anything they import (`src/lib/slug.ts`) use no `@/` imports.
 - `src/styles/global.css` holds Tailwind, the shadcn theme tokens (`:root` / `.dark`) and the
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
@@ -69,16 +71,18 @@ before changing the code or the doc.
 - `npm run lab` (`npm run labt` for the phone over Tailscale) — design lab at
   `localhost:4322`, beside the site's dev server. It is not tracked by `astro dev stop`;
   stop it with Ctrl+C, or run it as a background task and stop that.
-- `npm run build` — static build to `dist/`. It is currently the only check (CI runs
-  it on every push); run it before committing.
+- `npm test` — Vitest over `src/**/*.test.ts` (the markdown plugins and slug rule).
+- `npm run build` — static build to `dist/`. CI runs `npm test` then the build on every
+  push; run both before committing.
 - `npx wrangler versions list` / `npx wrangler deployments list` — deploy history.
 - `npx wrangler rollback <version-id> --message "<reason>"` — rollback (approval
   needed); also revert the bad commit, or the next push redeploys it.
 
 ## Coding Style
 
-TypeScript runs under `astro/tsconfigs/strict` (`@tsconfig.json`). No linter,
-formatter, test runner, or CI exists yet.
+TypeScript runs under `astro/tsconfigs/strict` (`@tsconfig.json`). Tests are Vitest,
+next to the code as `*.test.ts`; markdown plugin tests render through Astro's own Sätteri
+processor (`createSatteriMarkdownProcessor`). No linter or formatter exists yet.
 
 ## Commits
 

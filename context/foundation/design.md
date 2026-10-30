@@ -159,7 +159,7 @@ tracking). Building it on the site is S-07's job; this is its look.
 ## Left for slices
 
 - ~~Images in articles (sizing, captions) — S-01.~~ Done: block, full measure, never upscaled, no captions (`src/styles/prose.css`). Obsidian's `![alt|300](…)` caps an image at that width (`src/lib/markdown/image-width.ts`).
-- Wikilink styling (unpublished notes render as plain body text) and tag display — S-02.
+- ~~Wikilink styling (unpublished notes render as plain body text) and tag display — S-02.~~ Done: a link to a published article looks like any prose link; an unpublished one is plain body text with no styling difference. The `tags` property stays in the meta line unchanged (`date · n min · tag · tag`). Inline `#tag` is a muted Iosevka span, not a link (`.prose .tag` in `src/styles/prose.css`).
 - Callouts, code syntax-highlighting theme (both themes), tables — S-03.
 - Diagrams and math — S-04.
 - Theme toggle behavior and wiring — S-07.

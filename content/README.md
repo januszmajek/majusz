@@ -44,10 +44,22 @@ the source. Anything in a note is public, shown on the page or not.
    - Use JPEG, PNG or WebP. HEIC does not work.
 5. Use standard image links, `![alt](../attachments/photo.jpg)`. Pasting does this for you.
    Images fill the text width. To show one smaller, add a width: `![alt|300](…)`. Width only;
-   `|300x200` fails the build.
+   `|300x200` fails the build. Obsidian embeds work too: `![[photo.jpg]]`, `![[photo.jpg|300]]`,
+   `![[photo.jpg|alt text|300]]`.
 6. Check before you sync. Open Source Control: only your note and its images should be listed.
    Commit-and-sync commits every changed file in the vault, not just `content/`.
 7. Run **Commit-and-sync**. The page is live in a few minutes.
+
+## Links and tags
+
+- Wikilinks (`[[Other note]]`, `[[Other note|text]]`, `[[Other note#Heading]]`) and markdown
+  links (`[text](Other%20note.md)`) to a note in `articles/` go to its page.
+- **A link to a note that isn't in `articles/` shows as plain text, and the text is the note's
+  name.** If the name is private, alias it: `[[Private name|something else]]`. Folder paths are
+  never shown.
+- Inline `#tags` show as tags. They aren't links; the `tags` property is what shows under the
+  title.
+- Note embeds (`![[Other note]]`) don't work yet and fail the build.
 
 ## The URL
 
@@ -64,7 +76,9 @@ It fails on:
 
 - a missing or invalid property (no `summary`, a date like `27.10.2026`, a bad `slug`);
 - an image that isn't there (wrong path or name);
-- raw Obsidian syntax the site can't show yet: wikilinks, embeds, `%%comments%%`,
-  `==highlights==`, callouts. Use plain markdown, or put it in backticks;
+- an embedded image that isn't in `attachments/` (`![[photo.jpg]]`);
+- raw Obsidian syntax the site can't show yet: note embeds (`![[Other note]]`), a broken
+  wikilink like `[[unclosed`, `%%comments%%`, `==highlights==`, callouts. Use plain markdown,
+  or put it in backticks;
 - two articles with the same slug;
 - a slug that clashes with a page, like `404`.
