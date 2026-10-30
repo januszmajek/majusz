@@ -32,6 +32,20 @@ describe('inline tags', () => {
 		expect(await render('C# and a#b')).toBe('<p>C# and a#b</p>');
 	});
 
+	it('need whitespace or a line start before the hash, not formatting', async () => {
+		expect(await render('**bold**#tag and *em* #ok')).toBe(`<p><strong>bold</strong>#tag and <em>em</em> ${span('#ok')}</p>`);
+		expect(await render('*#inside* emphasis')).toBe(`<p><em>${span('#inside')}</em> emphasis</p>`);
+		expect(await render('line one  \n#after-break')).toBe(`<p>line one<br>\n${span('#after-break')}</p>`);
+		expect(await render('line one\n#soft-break')).toBe(`<p>line one\n${span('#soft-break')}</p>`);
+	});
+
+	it('leave an escaped or entity hash as text', async () => {
+		expect(await render('\\#literal, &#35;entity, &#x23;hex, &num;named and #real')).toBe(
+			`<p>#literal, #entity, #hex, #named and ${span('#real')}</p>`,
+		);
+		expect(await render('An &#8212; dash, "quotes" and #real')).toBe(`<p>An — dash, “quotes” and ${span('#real')}</p>`);
+	});
+
 	it('leave code alone', async () => {
 		expect(await render('`#rust` and\n\n```\n#rust\n```')).toBe(
 			'<p><code>#rust</code> and</p>\n<pre><code>#rust\n</code></pre>',

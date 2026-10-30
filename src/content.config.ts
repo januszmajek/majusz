@@ -13,7 +13,8 @@ const articles = defineCollection({
 		deferRender: true,
 		generateId: ({ entry, data }) => {
 			const id = articleId(data);
-			if (id) return id;
+			// `slug: ""` comes back as '' and reaches the schema, which reports the bad slug.
+			if (id != null) return id;
 			// No title: return anything, the schema then fails naming the file.
 			if (typeof data.title !== 'string') return entry;
 			throw new Error(`content/articles/${entry}: title "${data.title}" has no letters or digits for a URL; add a \`slug\` property`);

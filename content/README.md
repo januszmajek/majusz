@@ -58,7 +58,7 @@ the source. Anything in a note is public, shown on the page or not.
   name.** If the name is private, alias it: `[[Private name|something else]]`. Folder paths are
   never shown.
 - Inline `#tags` show as tags. They aren't links; the `tags` property is what shows under the
-  title.
+  title. For a plain `#word`, write `\#word`. To show `[[x]]` as written, put it in backticks.
 - Note embeds (`![[Other note]]`) don't work yet and fail the build.
 
 ## The URL
@@ -77,6 +77,7 @@ It fails on:
 - a missing or invalid property (no `summary`, a date like `27.10.2026`, a bad `slug`);
 - an image that isn't there (wrong path or name);
 - an embedded image that isn't in `attachments/` (`![[photo.jpg]]`);
+- a wikilink with no note name, like `[[#^block]]` (add an alias: `[[#^block|text]]`);
 - raw Obsidian syntax the site can't show yet: note embeds (`![[Other note]]`), a broken
   wikilink like `[[unclosed`, `%%comments%%`, `==highlights==`, callouts. Use plain markdown,
   or put it in backticks;

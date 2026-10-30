@@ -70,6 +70,10 @@ describe('wikilinks to published articles', () => {
 		expect(await render('[[Other note#^abc123]]')).toBe('<p><a href="/other-note">Other note</a></p>');
 	});
 
+	it('render as text inside another link, which can\'t hold a link', async () => {
+		expect(await render('[x [[Other note]] y](https://e.com)')).toBe('<p><a href="https://e.com">x Other note y</a></p>');
+	});
+
 	it('split several links out of one text node', async () => {
 		expect(await render('[[Other note]], [[Secret]] and [[Polish|po polsku]].')).toBe(
 			'<p><a href="/other-note">Other note</a>, Secret and <a href="/polski">po polsku</a>.</p>',
@@ -107,10 +111,24 @@ describe('relative `.md` links', () => {
 		expectPlain(await render('See [my **notes**](private/Secret%20plans.md "Secret") here.'), 'my <strong>notes</strong>');
 	});
 
+	it('drop a query string', async () => {
+		expect(await render('[t](Other%20note.md?x=1#Some%20heading)')).toBe('<p><a href="/other-note#some-heading">t</a></p>');
+		expectPlain(await render('See [my notes](private/Secret%20plans.md?x=1) here.'), 'my notes');
+	});
+
+	it('resolve as references, published or not', async () => {
+		expect(await render('[t][other]\n\n[Other]: Other%20note.md#Some%20heading')).toBe(
+			'<p><a href="/other-note#some-heading">t</a></p>',
+		);
+		expectPlain(await render('See [my notes] here.\n\n[My  Notes]: private/Secret%20plans.md "Secret"'), 'my notes');
+		expectPlain(await render('See [x][s] here.\n\n[s]: Secret%20plans.md'), 'x');
+	});
+
 	it('leave other links alone', async () => {
 		expect(await render('[a](https://x.y/a.md)')).toBe('<p><a href="https://x.y/a.md">a</a></p>');
 		expect(await render('[a](/docs/a.md)')).toBe('<p><a href="/docs/a.md">a</a></p>');
 		expect(await render('[a](photo.png)')).toBe('<p><a href="photo.png">a</a></p>');
+		expect(await render('[a][r]\n\n[r]: https://x.y/a.md')).toBe('<p><a href="https://x.y/a.md">a</a></p>');
 	});
 });
 
@@ -123,6 +141,19 @@ describe('syntax left for others', () => {
 		await expect(render('An [[unclosed link')).rejects.toThrow(
 			/Raw Obsidian syntax in content\/articles\/Note.md: "An \[\[unclosed link"/,
 		);
+	});
+
+	it('fails the build on a wikilink with no note name, rather than show its syntax', async () => {
+		for (const link of ['[[#^abc]]', '[[#]]', '[[ ]]', '[[private/]]']) {
+			await expect(render(`A ${link} here`)).rejects.toThrow(`Wikilink "${link}" in content/articles/Note.md has no note name`);
+		}
+		expect(await render('A [[#^abc|block]] here')).toBe('<p>A block here</p>');
+	});
+
+	it('leaves wikilinks in alt text and link titles for the guard', async () => {
+		await expect(render('![alt [[Other note]]](photo.png)')).rejects.toThrow(/Raw Obsidian syntax in content\/articles\/Note.md: "alt \[\[Other note\]\]"/);
+		await expect(render('[a](https://x.y "see [[Other note]]")')).rejects.toThrow(/Raw Obsidian syntax/);
+		await expect(render('![a](photo.png "==mark==")')).rejects.toThrow(/Raw Obsidian syntax/);
 	});
 
 	it('leaves note embeds for the guard, published or not', async () => {

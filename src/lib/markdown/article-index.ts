@@ -8,13 +8,18 @@ import GithubSlugger from 'github-slugger';
 import { parse } from 'yaml';
 import { articleId } from '../slug.ts';
 
-const frontmatter = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
+// Astro's own pattern (@astrojs/internal-helpers frontmatter.js, YAML only): a BOM or leading
+// blank lines are fine. A stricter one would miss an article Astro publishes, and every link
+// to it would render as plain text.
+const frontmatter = /(?:^\uFEFF?|^\s*\n)---([\s\S]*?\n)---/;
 
 /** Read on every call: cheap, and keeps the dev server close to the files on disk. */
 export const loadArticleIndex = (dir: URL): Map<string, string> => {
 	const index = new Map<string, string>();
-	for (const file of readdirSync(dir)) {
-		if (!file.endsWith('.md')) continue;
+	for (const entry of readdirSync(dir, { withFileTypes: true })) {
+		const file = entry.name;
+		// As Astro's `*.md` glob: files only, no hidden ones.
+		if (!entry.isFile() || file.startsWith('.') || !file.endsWith('.md')) continue;
 		const yaml = frontmatter.exec(readFileSync(new URL(encodeURIComponent(file), dir), 'utf8'))?.[1];
 		let data: unknown;
 		try {

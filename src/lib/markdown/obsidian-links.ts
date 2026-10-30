@@ -1,6 +1,6 @@
 // Links between notes, as Obsidian writes them: `[[Other note]]`, `[[Other note|text]]`,
 // `[[Other note#Heading]]`, and the relative markdown links the site vault writes by default
-// (`[text](Other%20note.md)`). A link to a published article goes to its page; a link to any
+// (`[text](Other%20note.md)`, or as a reference, `[text][ref]` + `[ref]: Other%20note.md`). A link to a published article goes to its page; a link to any
 // other note renders as plain text (PRD FR-009), so nothing looks broken. That text is the
 // alias, else the note's file name: never its folder path, which could be private.
 // Image embeds (`![[photo.png|alt|300]]`) become markdown images from content/attachments/, so
@@ -28,15 +28,16 @@ const wikilink = /(!?)\[\[([^[\]|]+?)(?:\|([^[\]]+?))?\]\]/g;
 const imageExtension = /\.(?:png|jpe?g|webp|gif|svg|avif)$/i;
 // Obsidian's `|300`, and `|300x200`, which image-width rejects with a message.
 const size = /^\d+(?:x\d+)?$/;
-// A relative link to a `.md` file: no scheme, not site-absolute, not a bare fragment.
-const noteLink = /^(?![a-z][a-z\d+.-]*:|[/#])([^#?]*\.md)(?:#(.*))?$/i;
+// A relative link to a `.md` file: no scheme, not site-absolute, not a bare fragment. A query
+// string is dropped.
+const noteLink = /^(?![a-z][a-z\d+.-]*:|[/#])([^#?]*\.md)(?:\?[^#]*)?(?:#(.*))?$/i;
 
 /** `folder/Other note.md#Heading` → `Other note > Heading`; a `#^block` suffix is dropped. */
 const displayText = (target: string) => {
 	const [path = '', ...fragments] = target.split('#');
 	const name = path.trim().slice(path.trim().lastIndexOf('/') + 1).replace(/\.md$/i, '');
 	const headings = fragments.map((f) => f.trim()).filter((f) => f && !f.startsWith('^'));
-	return [name, ...headings].filter(Boolean).join(' > ') || target.trim();
+	return [name, ...headings].filter(Boolean).join(' > ');
 };
 
 const decode = (value: string) => {
@@ -66,6 +67,14 @@ const imageEmbed = (target: string, parts: string | undefined, attachments: Map<
 	} satisfies MdastContent;
 };
 
+/** `undefined` when `url` isn't a relative `.md` link; else as resolveNoteLink. */
+const resolveNoteUrl = (url: string, index: Map<string, string>) => {
+	const match = noteLink.exec(url);
+	if (!match) return undefined;
+	const [, path = '', fragment] = match;
+	return resolveNoteLink(fragment == null ? decode(path) : `${decode(path)}#${decode(fragment)}`, index);
+};
+
 export const loadAttachments = (dir: URL) => new Map(readdirSync(dir).map((file) => [file.toLowerCase(), file]));
 
 export const createObsidianLinks = ({
@@ -84,6 +93,10 @@ export const createObsidianLinks = ({
 		text(node, ctx) {
 			const text = node.value;
 			const index = ctx.data[INDEX_KEY] as Map<string, string>;
+			const file = ctx.fileURL ? decodeURI(ctx.fileURL.href.replace(ROOT.href, '')) : 'a markdown file';
+			// A link can't hold a link: inside link text, a wikilink is just its text.
+			let inLink = false;
+			for (let p = ctx.parent(node); p && !inLink; p = ctx.parent(p)) inLink = p.type === 'link' || p.type === 'linkReference';
 			const pieces: MdastContent[] = [];
 			let plain = '';
 			let last = 0;
@@ -97,14 +110,15 @@ export const createObsidianLinks = ({
 						plain += whole;
 						continue;
 					}
-					const file = ctx.fileURL ? decodeURI(ctx.fileURL.href.replace(ROOT.href, '')) : 'a markdown file';
 					if (plain) pieces.push({ type: 'text', value: plain });
 					pieces.push(imageEmbed(target, alias, ctx.data[ATTACHMENTS_KEY] as Map<string, string>, file));
 					plain = '';
 					continue;
 				}
 				const label = alias?.trim() || displayText(target);
-				const resolved = resolveNoteLink(target, index);
+				// `[[ ]]`, `[[#]]`, `[[#^id]]`, `[[folder/]]`: nothing to show but raw syntax or a folder.
+				if (!label) throw new Error(`Wikilink "${whole}" in ${file} has no note name`);
+				const resolved = inLink ? null : resolveNoteLink(target, index);
 				if (resolved) {
 					if (plain) pieces.push({ type: 'text', value: plain });
 					pieces.push({ type: 'link', url: resolved.href, children: [{ type: 'text', value: label }] });
@@ -119,13 +133,16 @@ export const createObsidianLinks = ({
 			ctx.replaceNode(node, pieces);
 		},
 		link(node, ctx) {
-			const match = noteLink.exec(node.url);
-			if (!match) return;
-			const [, path = '', fragment] = match;
-			const target = fragment == null ? decode(path) : `${decode(path)}#${decode(fragment)}`;
-			const resolved = resolveNoteLink(target, ctx.data[INDEX_KEY] as Map<string, string>);
+			const resolved = resolveNoteUrl(node.url, ctx.data[INDEX_KEY] as Map<string, string>);
 			if (resolved) ctx.setProperty(node, 'url', resolved.href);
-			else ctx.replaceNode(node, node.children);
+			else if (resolved === null) ctx.replaceNode(node, node.children);
+		},
+		// `[text][ref]` takes its URL from `[ref]: …`. Without a definition, Sätteri renders a
+		// reference as its text, so removing an unpublished one leaves plain text.
+		definition(node, ctx) {
+			const resolved = resolveNoteUrl(node.url, ctx.data[INDEX_KEY] as Map<string, string>);
+			if (resolved) ctx.setProperty(node, 'url', resolved.href);
+			else if (resolved === null) ctx.removeNode(node);
 		},
 	}) satisfies MdastPlugin;
 
