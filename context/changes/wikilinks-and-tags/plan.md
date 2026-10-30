@@ -402,28 +402,28 @@ fails the build today.
 
 #### Automated
 
-- [x] 1.1 Tests pass: `npm test`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 Temporary linked articles build with resolved hrefs and plain-text unpublished links
-- [x] 1.4 Unclosed `[[x` still fails the build naming the file
+- [x] 1.1 Tests pass: `npm test` — d76ffce
+- [x] 1.2 Build passes: `npm run build` — d76ffce
+- [x] 1.3 Temporary linked articles build with resolved hrefs and plain-text unpublished links — d76ffce
+- [x] 1.4 Unclosed `[[x` still fails the build naming the file — d76ffce
 
 #### Manual
 
-- [x] 1.5 Resolved link looks like a prose link, unpublished like body text, both themes
-- [x] 1.6 Heading wikilink scrolls to the heading
+- [x] 1.5 Resolved link looks like a prose link, unpublished like body text, both themes — d76ffce
+- [x] 1.6 Heading wikilink scrolls to the heading — d76ffce
 
 ### Phase 2: Image embeds
 
 #### Automated
 
-- [ ] 2.1 Tests pass: `npm test`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 Temporary embed article builds with optimized, width-capped images
-- [ ] 2.4 Note embed `![[Some note]]` fails the build naming the file
+- [x] 2.1 Tests pass: `npm test`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 Temporary embed article builds with optimized, width-capped images
+- [x] 2.4 Note embed `![[Some note]]` fails the build naming the file
 
 #### Manual
 
-- [ ] 2.5 Embedded photo looks like a pasted markdown image on phone and desktop
+- [x] 2.5 Embedded photo looks like a pasted markdown image on phone and desktop
 
 ### Phase 3: Inline tags and docs
 

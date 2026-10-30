@@ -7,7 +7,8 @@ import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
 type MdastPlugin = Extract<NonNullable<SatteriProcessorOptions['mdastPlugins']>[number], { name: string }>;
 
 const inlinePatterns = [
-	// Embeds (`![[x.png]]`): S-02 renders image embeds; note embeds stay out of v1 (PRD FR-009).
+	// Note embeds (`![[Other note]]`): out of v1 (PRD FR-009). obsidian-links renders image
+	// embeds and leaves note embeds as text for this pattern.
 	/!\[\[/,
 	// Wikilinks obsidian-links didn't consume (`[[unclosed`, `[[a[b]]`): the safety net, as
 	// obsidian-links runs first and renders every well-formed one.

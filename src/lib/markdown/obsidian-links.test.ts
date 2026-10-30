@@ -1,5 +1,6 @@
 import { createSatteriMarkdownProcessor } from '@astrojs/markdown-satteri';
 import { describe, expect, it } from 'vitest';
+import { imageWidth } from './image-width.ts';
 import { obsidianGuard } from './obsidian-guard.ts';
 import { createObsidianLinks } from './obsidian-links.ts';
 
@@ -9,12 +10,22 @@ const index = new Map([
 	['polish', 'polski'],
 ]);
 
+// Files in content/attachments/, keyed by lowercase name as on a case-insensitive lookup.
+const attachments = new Map(['photo.png', 'photo with space.jpg'].map((f) => [f.toLowerCase(), f]));
+
 // Astro's own Sätteri pipeline, so heading ids are the ones Astro gives the target page.
 const processor = await createSatteriMarkdownProcessor({
-	mdastPlugins: [createObsidianLinks(() => index), obsidianGuard],
+	mdastPlugins: [createObsidianLinks({ loadIndex: () => index, loadAttachments: () => attachments }), obsidianGuard],
+	hastPlugins: [imageWidth],
 	syntaxHighlight: false,
 });
-const render = async (markdown: string) => (await processor.render(markdown)).code.trim();
+const NOTE = new URL('../../../content/articles/Note.md', import.meta.url);
+const render = async (markdown: string) => (await processor.render(markdown, { fileURL: NOTE })).code.trim();
+// Astro swaps a local image for a placeholder carrying its props as JSON.
+const image = async (markdown: string) => {
+	const json = /__ASTRO_IMAGE_="([^"]+)"/.exec(await render(markdown))?.[1];
+	return json && JSON.parse(json.replaceAll('&quot;', '"'));
+};
 const headingId = async (heading: string) => /id="([^"]+)"/.exec(await render(`## ${heading}`))?.[1];
 
 // Private note names and paths in the fixtures; none may reach the HTML except as visible text.
@@ -109,10 +120,53 @@ describe('syntax left for others', () => {
 	});
 
 	it('leaves an unclosed `[[x` for the guard', async () => {
-		await expect(render('An [[unclosed link')).rejects.toThrow(/Raw Obsidian syntax in a markdown file: "An \[\[unclosed link"/);
+		await expect(render('An [[unclosed link')).rejects.toThrow(
+			/Raw Obsidian syntax in content\/articles\/Note.md: "An \[\[unclosed link"/,
+		);
 	});
 
-	it('leaves embeds for the guard', async () => {
-		await expect(render('![[Other note]]')).rejects.toThrow(/Raw Obsidian syntax/);
+	it('leaves note embeds for the guard, published or not', async () => {
+		await expect(render('![[Other note]]')).rejects.toThrow(/Raw Obsidian syntax in content\/articles\/Note.md: "!\[\[Other note\]\]"/);
+		await expect(render('Text ![[Secret plans]] and [[Other note]]')).rejects.toThrow(/Raw Obsidian syntax/);
+	});
+});
+
+describe('image embeds', () => {
+	it('render the image from content/attachments/', async () => {
+		expect(await image('![[photo.png]]')).toMatchObject({ src: '../attachments/photo.png', alt: '' });
+	});
+
+	it('match the file name case-insensitively and use the name on disk', async () => {
+		expect(await image('![[Photo.PNG]]')).toMatchObject({ src: '../attachments/photo.png' });
+		expect(await image('![[attachments/photo.png]]')).toMatchObject({ src: '../attachments/photo.png' });
+	});
+
+	it('take a width', async () => {
+		expect(await image('![[photo.png|300]]')).toMatchObject({ src: '../attachments/photo.png', alt: '', width: 300 });
+	});
+
+	it('take alt text, with or without a width', async () => {
+		expect(await image('![[photo.png|A cat]]')).toMatchObject({ alt: 'A cat' });
+		expect(await image('![[photo.png|A cat|300]]')).toMatchObject({ alt: 'A cat', width: 300 });
+	});
+
+	it('keep spaces in the file name through encoding', async () => {
+		// The url is percent-encoded like a pasted image's; Astro decodes it to find the file.
+		expect(await image('![[photo with space.jpg]]')).toMatchObject({ src: '../attachments/photo with space.jpg' });
+	});
+
+	it('sit inline with the text around them', async () => {
+		const html = await render('Look: ![[photo.png]] and [[Other note]].');
+		expect(html).toMatch(/^<p>Look: <img [^>]+> and <a href="\/other-note">Other note<\/a>.<\/p>$/);
+	});
+
+	it('fail the build on a missing file, naming the article', async () => {
+		await expect(render('![[missing.png]]')).rejects.toThrow(
+			'Image "missing.png" in content/articles/Note.md: no such file in content/attachments/',
+		);
+	});
+
+	it('reject a width and height, as pasted images do', async () => {
+		await expect(render('![[photo.png|300x200]]')).rejects.toThrow(/use a width only, like "\|300"/);
 	});
 });
