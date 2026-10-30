@@ -535,22 +535,22 @@ None. There is no existing content.
 
 #### Manual
 
-- [ ] 3.4 Fresh clone in desktop Obsidian: code folders absent from search and quick switcher
-- [ ] 3.5 Inserting the template creates a note with the four properties
+- [x] 3.4 Fresh clone in desktop Obsidian: code folders absent from search and quick switcher
+- [x] 3.5 Inserting the template creates a note with the four properties
 - [x] 3.6 Pasted image lands in `content/attachments/` with a `../attachments/…` link
-- [ ] 3.7 Commit from Obsidian Git uses the conventional subject
+- [x] 3.7 Commit from Obsidian Git uses the conventional subject
 
 ### Phase 4: Hello post, end to end (manual)
 
 #### Automated
 
-- [ ] 4.1 Deploy workflow run for the phone commit succeeds
-- [ ] 4.2 `curl` of the live URL returns 200 with title, date and `min`
+- [x] 4.1 Deploy workflow run for the phone commit succeeds
+- [x] 4.2 `curl` of the live URL returns 200 with title, date and `min`
 
 #### Manual
 
-- [ ] 4.3 Desktop vault clone and iPhone vault (Obsidian Git, fine-grained PAT) set up and pulling cleanly
-- [ ] 4.4 Photo has no GPS data before commit-and-sync
-- [ ] 4.5 Live within 5 minutes of commit-and-sync from the iPhone
-- [ ] 4.6 Live page on the phone shows photo, date, reading time, no raw syntax
-- [ ] 4.7 Commit subject on `master` is conventional
+- [x] 4.3 Desktop vault clone and iPhone vault (Obsidian Git, fine-grained PAT) set up and pulling cleanly
+- [x] 4.4 Photo has no GPS data before commit-and-sync
+- [x] 4.5 Live within 5 minutes of commit-and-sync from the iPhone
+- [x] 4.6 Live page on the phone shows photo, date, reading time, no raw syntax
+- [x] 4.7 Commit subject on `master` is conventional
