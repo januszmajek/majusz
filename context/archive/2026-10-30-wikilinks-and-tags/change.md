@@ -1,10 +1,10 @@
 ---
 change_id: wikilinks-and-tags
 title: Wikilinks and tags
-status: impl_reviewed
+status: archived
 created: 2026-10-30
-updated: 2026-10-31
-archived_at: null
+updated: 2026-10-30
+archived_at: 2026-10-30T23:58:42Z
 ---
 
 ## Notes
