@@ -22,7 +22,9 @@ const articles = defineCollection({
 	}),
 	schema: z.object({
 		title: z.string().trim().min(1),
-		date: z.coerce.date(),
+		// A YAML date (Obsidian writes `2026-10-27` unquoted) or a quoted `"2026-10-27"`. Not a bare
+		// `z.coerce.date()`: `new Date('01.02.2026')` reads 2 January, in local time.
+		date: z.union([z.date(), z.string().regex(/^\d{4}-\d{2}-\d{2}$/)]).pipe(z.coerce.date()),
 		summary: z.string().trim().min(1),
 		tags: z.array(z.string()).default([]),
 		// Coerced, since YAML reads `slug: 2026` as a number.

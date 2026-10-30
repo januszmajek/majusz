@@ -341,8 +341,8 @@ Conventional Commits rule (AGENTS.md "Commits").
 **Contract**:
 - Auto commit-and-sync interval 0.
 - Pull on startup.
-- Commit message `docs(articles): sync from {{hostname}}` (verify the placeholder against the
-  installed plugin; never a `{{numFiles}} files` form, which reads "1 files").
+- Commit message `docs(articles): publish` (no placeholder; never a `{{numFiles}} files` form,
+  which reads "1 files").
 - Auto-commit include paths set to `content/` only (supported since 2.42.0). Vault settings change
   only through a deliberate desktop git commit.
 - Only `data.json` is committed. The plugin code (`main.js`, `manifest.json`, `styles.css`) is
@@ -491,6 +491,20 @@ None. There is no existing content.
 - Layout: `src/layouts/ArticleLayout.astro:7-31`
 - Roadmap: `context/foundation/roadmap.md` S-01
 - Pele (S-04 diagrams): https://obsidian.md/changelog/2026-10-22-desktop-v1.15.0/
+
+## Addenda
+
+- **Phase 4 (2026-10-30):** verified with a test post from the iPhone instead of the hello post.
+  It was live at `/test-from-phone`: 200 with title, date and `1 min`, deploy in 34 s, photo without
+  GPS. The author then removed the test commits with a force-push, so rows 4.1–4.7 have no commit to
+  cite. The hello post is no longer part of this change. It comes later as an ordinary publish.
+- **Out of plan, kept:**
+  - `src/lib/markdown/image-width.ts` renders Obsidian's `![alt|300](…)` as a width cap, and
+    `|300x200` fails the build (0b375ca, from the phone test).
+  - The `CLAUDE.md.scaffold` symlink is removed, because Obsidian Git on iOS cannot check out
+    symlinks (c7831c6).
+  - `.prose img + img` spaces stacked images.
+  - `AGENTS.md`, `CLAUDE.md` and `README.md` are added to `userIgnoreFilters`.
 
 ## Progress
 

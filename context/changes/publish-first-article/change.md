@@ -1,7 +1,7 @@
 ---
 change_id: publish-first-article
 title: Publish first article
-status: implementing
+status: impl_reviewed
 created: 2026-10-27
 updated: 2026-10-30
 archived_at: null
@@ -19,4 +19,5 @@ archived_at: null
   Git on iOS cannot check out symlinks. Keep symlinks out of the repo.
 - Out of plan, from the phone test: `0b375ca` renders Obsidian's `![alt|300](…)` width.
 - Phone commits used the author's personal email; the phone's commit author must use the
-  GitHub noreply address.
+  GitHub noreply address. Fixed: the iPhone's Obsidian Git now commits as the noreply address
+  (confirmed by the author at impl review, 2026-10-30).
