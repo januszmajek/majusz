@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 import { readingTime } from './src/lib/markdown/reading-time.ts';
 import { obsidianGuard } from './src/lib/markdown/obsidian-guard.ts';
+import { imageWidth } from './src/lib/markdown/image-width.ts';
 
 // Iosevka for chrome, headings and code; Iosevka Aile for long reading
 // (context/foundation/design.md). Subset copies in src/assets/fonts/ (made by
@@ -39,9 +40,10 @@ export default defineConfig({
   image: { layout: 'constrained', responsiveStyles: true },
 
   // Sätteri, Astro's default processor, with the in-repo plugins: reading time for the meta
-  // line, and a guard that fails the build on raw Obsidian syntax. `features.wikilinks` stays
-  // off, so `[[x]]` reaches the guard instead of becoming a broken link.
-  markdown: { processor: satteri({ mdastPlugins: [readingTime, obsidianGuard] }) },
+  // line, a guard that fails the build on raw Obsidian syntax, and Obsidian's `|300` image
+  // width. `features.wikilinks` stays off, so `[[x]]` reaches the guard instead of becoming
+  // a broken link.
+  markdown: { processor: satteri({ mdastPlugins: [readingTime, obsidianGuard], hastPlugins: [imageWidth] }) },
 
   fonts: [
     iosevka('iosevka', 'Iosevka', '--font-iosevka', ['ui-monospace', 'monospace']),

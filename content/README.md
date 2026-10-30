@@ -43,6 +43,8 @@ the source. Anything in a note is public, shown on the page or not.
    - Image Converter with metadata removal.
    - Use JPEG, PNG or WebP. HEIC does not work.
 5. Use standard image links, `![alt](../attachments/photo.jpg)`. Pasting does this for you.
+   Images fill the text width. To show one smaller, add a width: `![alt|300](…)`. Width only;
+   `|300x200` fails the build.
 6. Check before you sync. Open Source Control: only your note and its images should be listed.
    Commit-and-sync commits every changed file in the vault, not just `content/`.
 7. Run **Commit-and-sync**. The page is live in a few minutes.

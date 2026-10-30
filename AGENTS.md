@@ -37,7 +37,7 @@ before changing the code or the doc.
   and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
 - `.obsidian/` is the committed vault config; `.gitignore` allowlists the shared files and
   keeps per-device state and plugin code out.
-- `src/lib/markdown/` holds the Sätteri plugins (reading time, raw-syntax guard), wired in
+- `src/lib/markdown/` holds the Sätteri plugins (reading time, raw-syntax guard, `|300` image width), wired in
   `astro.config.mjs`.
 - `src/styles/global.css` holds Tailwind, the shadcn theme tokens (`:root` / `.dark`) and the
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
