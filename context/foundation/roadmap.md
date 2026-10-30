@@ -3,7 +3,7 @@ project: majusz
 version: 1
 status: draft
 created: 2026-10-18
-updated: 2026-10-30
+updated: 2026-10-31
 prd_version: 3
 main_goal: quality
 top_blocker: time
@@ -43,7 +43,7 @@ The site exists to make the author start writing: a public place for articles be
 |---|---|---|---|---|---|
 | F-01 | visual-direction | (foundation) the site's visual direction, page layouts (home, article, About) and navigation are decided, and the base design (type, colors for both themes, spacing, layout) is live on the existing pages | — | §Vision (visual reference), §Success Criteria (distinctive look), NFR contrast | done |
 | S-01 | publish-first-article | author can add a note + images and see it as an article page with date and reading time | — | US-02, FR-011, FR-010 | done |
-| S-02 | wikilinks-and-tags | visitor can follow wikilinks between published articles, sees unpublished ones as plain text, sees image embeds, and sees tags | S-01 | US-01, FR-009 | proposed |
+| S-02 | wikilinks-and-tags | visitor can follow wikilinks between published articles, sees unpublished ones as plain text, sees image embeds, and sees tags | S-01 | US-01, FR-009 | in-progress |
 | S-03 | callouts-code-tables | visitor can read callouts, highlights, syntax-highlighted code and tables as Obsidian shows them, with comments hidden | S-01, F-01 | US-01, FR-009 | proposed |
 | S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | proposed |
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | proposed |
@@ -117,7 +117,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** this is the Business Logic rule ("nothing private leaks, nothing looks broken"); sequenced right after the north star because a wrong wikilink is a privacy and credibility failure, not a cosmetic one. Note embeds (`![[Other note]]`) stay out of v1 (PRD FR-009), so S-01's raw-syntax guard (`src/lib/markdown/obsidian-guard.ts`) must keep failing the build on them; only the image-embed and wikilink patterns leave the guard here.
-- **Status:** proposed
+- **Status:** in-progress
 
 ### S-03: Callouts, code and tables
 
