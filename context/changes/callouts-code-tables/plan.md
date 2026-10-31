@@ -438,24 +438,24 @@ None: no article uses these syntaxes yet (the guard forbade them).
 
 #### Automated
 
-- [x] 2.1 Unit tests pass: `npm test`
-- [x] 2.2 Build passes: `npm run build`
+- [x] 2.1 Unit tests pass: `npm test` — 1964fb7
+- [x] 2.2 Build passes: `npm run build` — 1964fb7
 
 #### Manual
 
-- [x] 2.3 Scratch note with each callout family, a foldable `-`/`+`, a nested and an unknown type looks right in light and dark themes, desktop and phone
-- [x] 2.4 A folded callout opens and closes with mouse and keyboard, with a visible focus ring
+- [x] 2.3 Scratch note with each callout family, a foldable `-`/`+`, a nested and an unknown type looks right in light and dark themes, desktop and phone — 1964fb7
+- [x] 2.4 A folded callout opens and closes with mouse and keyboard, with a visible focus ring — 1964fb7
 
 ### Phase 3: Code, tables and docs
 
 #### Automated
 
-- [ ] 3.1 Unit tests pass, including the contrast test: `npm test`
-- [ ] 3.2 Build passes: `npm run build`
-- [ ] 3.3 Built HTML for the scratch note has no `github-dark` class or inline `background-color` on `pre`
+- [x] 3.1 Unit tests pass, including the contrast test: `npm test`
+- [x] 3.2 Build passes: `npm run build`
+- [x] 3.3 Built HTML for the scratch note has no `github-dark` class or inline `background-color` on `pre`
 
 #### Manual
 
-- [ ] 3.4 Code blocks (ts, bash, json, an unknown language) read well in both themes and match the site
-- [ ] 3.5 A wide table scrolls inside its region on a 375px phone; the page doesn't scroll sideways; the region is reachable and visibly focused with Tab
-- [ ] 3.6 `content/README.md` reads correctly as the author's how-to
+- [x] 3.4 Code blocks (ts, bash, json, an unknown language) read well in both themes and match the site
+- [x] 3.5 A wide table scrolls inside its region on a 375px phone; the page doesn't scroll sideways; the region is reachable and visibly focused with Tab
+- [x] 3.6 `content/README.md` reads correctly as the author's how-to

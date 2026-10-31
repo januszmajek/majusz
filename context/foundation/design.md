@@ -75,6 +75,8 @@ Contrast (WCAG 2.x), checked:
 | Link on background | 5.11 | 4.66 |
 | Link vs body text (links are color-only at rest) | 3.69 | 3.14 |
 | Link on code background | 4.60 | 4.36 (below 4.5; only a link wrapping inline code) |
+| Text on highlight (`==mark==`, accent at 15%) | 15.10 | 12.72 |
+| Link on highlight | 4.09 | 4.05 (below 4.5; only a link inside a highlight) |
 
 - One accent per theme: links, focus rings, `::selection` (accent background, background-color
   text).
@@ -147,6 +149,22 @@ foreground color and medium weight only (no glyph).
 - Prose at 65ch from the shared left edge. `✦` bullets for unordered lists, muted numerals
   for ordered lists, hairline left border for blockquotes, `- - -` for rules.
 - Links: accent color at rest, underline on hover and focus. Same rule in both themes.
+- Callouts: one look for every type, so the accent stays the links': `--card` panel with a
+  hairline border, title row in Iosevka semibold after a muted lucide icon (Obsidian's per
+  type family; an unknown type gets the note icon). Foldable callouts are `<details>` with a
+  chevron that turns when open and the accent focus ring. Nested callouts, and code inside a
+  callout, sit on the page background.
+- Highlights (`==mark==`): accent at 15% behind foreground text, in both themes.
+- Code blocks: Flight deck Shiki themes (`src/lib/markdown/shiki/flight-deck.ts`) on `--card`.
+  Body text for code, muted italic comments, muted punctuation, and keywords in the accent
+  (light `#c63a00`; dark a lifted phosphor `#5cc27a`, since `#2a8d4a` is 4.36 on `--card`).
+  Strings, constants and types take one quiet hue each (light `#2e6b3c`, `#2b5aa8`, `#7a4a9e`;
+  dark `#d8a657`, `#7fb3e0`, `#c49be0`). Every token is at least 4.5:1 on `--card`, checked by
+  `contrast.test.ts`. No copy button, language label or line numbers. Long lines scroll inside
+  the block.
+- Tables: hairline rows in `--border`, a header row in Iosevka at medium weight over a stronger
+  rule, cells in Aile, alignment as written. A wide table scrolls sideways inside its own
+  focusable region; the page never does.
 
 **About.** Same title style as home, then prose (bio, an "Elsewhere" list of social and repo
 links), the whole page capped at 38rem.
@@ -160,7 +178,7 @@ tracking). Building it on the site is S-07's job; this is its look.
 
 - ~~Images in articles (sizing, captions) — S-01.~~ Done: block, full measure, never upscaled, no captions (`src/styles/prose.css`). Obsidian's `![alt|300](…)` caps an image at that width (`src/lib/markdown/image-width.ts`).
 - ~~Wikilink styling (unpublished notes render as plain body text) and tag display — S-02.~~ Done: a link to a published article looks like any prose link; an unpublished one is plain body text with no styling difference. The `tags` property stays in the meta line unchanged (`date · n min · tag · tag`). Inline `#tag` is a muted Iosevka span, not a link (`.prose .tag` in `src/styles/prose.css`).
-- Callouts, code syntax-highlighting theme (both themes), tables — S-03.
+- ~~Callouts, code syntax-highlighting theme (both themes), tables — S-03.~~ Done: see Layouts → Article (callouts, highlights, code blocks, tables).
 - Diagrams and math — S-04.
 - Theme toggle behavior and wiring — S-07.
 - Home intro copy and whether it includes a photo — S-05.

@@ -61,6 +61,21 @@ the source. Anything in a note is public, shown on the page or not.
   title. For a plain `#word`, write `\#word`. To show `[[x]]` as written, put it in backticks.
 - Note embeds (`![[Other note]]`) don't work yet and fail the build.
 
+## Formatting
+
+- **Callouts** work as in Obsidian: `> [!note]`, `> [!warning] Your title`, any type. Add `-`
+  to fold one closed (`> [!tip]- Title`), `+` to fold it open. With no title, the type is the
+  title. Callouts nest. Every type looks the same apart from its icon; an unknown type gets the
+  note icon.
+- `==highlight==` works, also around formatting: ``==**bold** and `code`==``. It must open and close
+  at the same level: `**==a** b==` fails the build.
+- `%%comments%%` are hidden on the page, inline or across several paragraphs. **They are still
+  public in the repo.** A `%%` with no closing `%%` fails the build.
+- Code blocks are highlighted when you name the language: ` ```ts `, ` ```bash `, ` ```json `.
+  An unknown language shows as plain code.
+- Tables work as in Obsidian. A wide table scrolls sideways on a phone. In a table, escape the
+  pipe of a wikilink alias: `[[Other note\|text]]`.
+
 ## The URL
 
 - The URL is the title, lowercased, accents dropped: "Zażółć gęślą jaźń" → `/zazolc-gesla-jazn`.
@@ -78,8 +93,9 @@ It fails on:
 - an image that isn't there (wrong path or name);
 - an embedded image that isn't in `attachments/` (`![[photo.jpg]]`);
 - a wikilink with no note name, like `[[#^block]]` (add an alias: `[[#^block|text]]`);
-- raw Obsidian syntax the site can't show yet: note embeds (`![[Other note]]`), a broken
-  wikilink like `[[unclosed`, `%%comments%%`, `==highlights==`, callouts. Use plain markdown,
-  or put it in backticks;
+- a `%%` comment with no closing `%%`;
+- raw Obsidian syntax the site can't show: note embeds (`![[Other note]]`), a broken wikilink
+  like `[[unclosed`, a highlight split across formatting (`**==a** b==`), and `[[`, `%%` or
+  `==x==` in image alt text or a link title. Use plain markdown, or put it in backticks;
 - two articles with the same slug;
 - a slug that clashes with a page, like `404`.

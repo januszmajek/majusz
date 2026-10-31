@@ -13,6 +13,8 @@ import { inlineTags } from './src/lib/markdown/inline-tags.ts';
 import { readingTime } from './src/lib/markdown/reading-time.ts';
 import { obsidianGuard } from './src/lib/markdown/obsidian-guard.ts';
 import { imageWidth } from './src/lib/markdown/image-width.ts';
+import { tableScroll } from './src/lib/markdown/table-scroll.ts';
+import { flightDeckDark, flightDeckLight } from './src/lib/markdown/shiki/flight-deck.ts';
 
 // Iosevka for chrome, headings and code; Iosevka Aile for long reading
 // (context/foundation/design.md). Subset copies in src/assets/fonts/ (made by
@@ -48,11 +50,14 @@ export default defineConfig({
   // so nothing inside one is resolved or counted), callouts, `==highlights==`, wikilinks, image embeds
   // and `.md` links (plain text when the note is unpublished), inline `#tag` spans, reading
   // time for the meta line, a guard that fails the build on raw Obsidian syntax left over,
-  // and Obsidian's `|300` image width. The guard runs last among the mdast plugins so it only sees what the others
+  // and Obsidian's `|300` image width; tables scroll inside their own region on a phone. The guard runs last among the mdast plugins so it only sees what the others
   // didn't render. Sätteri's `features.wikilinks` stays off: its links can't be told from
   // ordinary ones, and it mangles embeds.
   markdown: {
-    processor: satteri({ mdastPlugins: [comments, callouts, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard], hastPlugins: [imageWidth] }),
+    // Code in the Flight deck themes, as CSS variables only (no inline colors or background), so
+    // prose.css switches them with the site theme.
+    shikiConfig: { themes: { light: flightDeckLight, dark: flightDeckDark }, defaultColor: false },
+    processor: satteri({ mdastPlugins: [comments, callouts, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard], hastPlugins: [imageWidth, tableScroll] }),
   },
 
   fonts: [

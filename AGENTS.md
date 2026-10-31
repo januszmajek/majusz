@@ -37,10 +37,12 @@ before changing the code or the doc.
   and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
 - `.obsidian/` is the committed vault config; `.gitignore` allowlists the shared files and
   keeps per-device state and plugin code out.
-- `src/lib/markdown/` holds the Sätteri plugins (wikilinks, `.md` links and image embeds
-  resolved through an index of `content/articles/`; inline `#tag` spans; reading time;
-  raw-syntax guard; `|300` image width), wired in `astro.config.mjs` and imported by relative
-  path, so they and anything they import (`src/lib/slug.ts`) use no `@/` imports.
+- `src/lib/markdown/` holds the Sätteri plugins (`%%comments%%` hidden, first; callouts;
+  `==highlights==`; wikilinks, `.md` links and image embeds resolved through an index of
+  `content/articles/`; inline `#tag` spans; reading time; raw-syntax guard, last; `|300` image
+  width and the table scroll wrapper as hast plugins) and `shiki/`, the Flight deck code themes
+  with a contrast test. They are wired in `astro.config.mjs` and imported by relative path, so
+  they and anything they import (`src/lib/slug.ts`) use no `@/` imports.
 - `src/styles/global.css` holds Tailwind, the shadcn theme tokens (`:root` / `.dark`) and the
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).

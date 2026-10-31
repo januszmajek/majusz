@@ -116,6 +116,34 @@
   .prose pre {
     @apply overflow-x-auto border border-border bg-card p-4 font-mono text-sm leading-[1.5];
   }
+  .prose pre:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
+  /* Highlighted code (src/lib/markdown/shiki/flight-deck.ts): Shiki emits only --shiki-light and
+     --shiki-dark, and the site theme picks one; the block keeps --card from `pre`. */
+  .prose .astro-code,
+  .prose .astro-code span {
+    color: var(--shiki-light);
+    font-style: var(--shiki-light-font-style);
+    font-weight: var(--shiki-light-font-weight);
+  }
+  .dark .prose .astro-code,
+  .dark .prose .astro-code span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+    font-weight: var(--shiki-dark-font-weight);
+  }
+  /* Tables (GFM) scroll sideways inside their own region (src/lib/markdown/table-scroll.ts), so
+     the page never does. Hairline rows, an Iosevka header, alignment as written in the markdown;
+     headers and code don't break mid-token, and a column never shrinks to one word per line. */
+  .prose .table-scroll { @apply overflow-x-auto; }
+  .prose .table-scroll:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
+  .prose table { @apply min-w-full border-collapse text-[0.95em] leading-[1.5]; }
+  .prose th {
+    @apply border-b border-foreground/30 px-3 py-2 text-left align-bottom font-mono text-sm font-medium whitespace-nowrap;
+  }
+  .prose td { @apply min-w-[8ch] border-b border-border px-3 py-2 align-top; }
+  .prose :is(th, td):first-child { @apply pl-0; }
+  .prose :is(th, td):last-child { @apply pr-0; }
+  .prose td code { @apply whitespace-nowrap; }
   .prose hr { @apply my-10 border-0 font-mono text-muted-foreground; }
   .prose hr::after { content: "- - -"; content: "- - -" / ""; }
   /* Images are blocks up to the full measure, never upscaled, with no captions (as in
