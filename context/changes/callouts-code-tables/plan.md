@@ -450,12 +450,12 @@ None: no article uses these syntaxes yet (the guard forbade them).
 
 #### Automated
 
-- [x] 3.1 Unit tests pass, including the contrast test: `npm test`
-- [x] 3.2 Build passes: `npm run build`
-- [x] 3.3 Built HTML for the scratch note has no `github-dark` class or inline `background-color` on `pre`
+- [x] 3.1 Unit tests pass, including the contrast test: `npm test` — 8edf5b9
+- [x] 3.2 Build passes: `npm run build` — 8edf5b9
+- [x] 3.3 Built HTML for the scratch note has no `github-dark` class or inline `background-color` on `pre` — 8edf5b9
 
 #### Manual
 
-- [x] 3.4 Code blocks (ts, bash, json, an unknown language) read well in both themes and match the site
-- [x] 3.5 A wide table scrolls inside its region on a 375px phone; the page doesn't scroll sideways; the region is reachable and visibly focused with Tab
-- [x] 3.6 `content/README.md` reads correctly as the author's how-to
+- [x] 3.4 Code blocks (ts, bash, json, an unknown language) read well in both themes and match the site — 8edf5b9
+- [x] 3.5 A wide table scrolls inside its region on a 375px phone; the page doesn't scroll sideways; the region is reachable and visibly focused with Tab — 8edf5b9
+- [x] 3.6 `content/README.md` reads correctly as the author's how-to — 8edf5b9
