@@ -25,6 +25,9 @@
   /* Inline `#tag` (src/lib/markdown/inline-tags.ts): Iosevka, muted, not a link. */
   .prose .tag { @apply font-mono text-muted-foreground; }
   .prose strong { @apply font-semibold; }
+  /* `==highlight==` (src/lib/markdown/highlight.ts): an accent tint behind body text, in both
+     themes; text stays foreground, so contrast holds. */
+  .prose mark { @apply bg-primary/15 px-[0.1em] text-foreground; }
   /* Bullets are small stars: the only place ✦ appears. */
   .prose ul { @apply list-none pl-[1.5em]; }
   .prose ul > li { @apply relative; }
