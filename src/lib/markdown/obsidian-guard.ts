@@ -1,8 +1,8 @@
 // Fails the build on Obsidian syntax the site can't render yet, so readers never see it raw
 // (AGENTS.md hard rule). A slice removes its pattern here when it adds rendering for it.
 // Checked: `text` nodes, image alt text and link titles (both reach the HTML as attributes), and
-// the whole text of each paragraph, heading and table cell for a highlight split across
-// formatting levels. `code` and `inlineCode` are their own node types, so an article can show the
+// the whole text of each paragraph, heading, table cell and callout title for a highlight split
+// across formatting levels. `code` and `inlineCode` are their own node types, so an article can show the
 // syntax in backticks or a code block.
 import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
 
@@ -51,8 +51,15 @@ const splitHighlight = (node: Node, fileURL: URL | undefined) => {
 	if (match) fail(text, match, fileURL);
 };
 
+// Callout titles (callouts.ts) are custom nodes, not paragraphs, so they're found by walking.
+const calloutTitles = (node: Node): Node[] =>
+	node.type === 'calloutTitleInner' ? [node] : (node.children ?? []).flatMap(calloutTitles);
+
 export const obsidianGuard = {
 	name: 'obsidian-guard',
+	before(root, ctx) {
+		for (const title of calloutTitles(root as Node)) splitHighlight(title, ctx.fileURL);
+	},
 	text(node, ctx) {
 		const text = node.value;
 		const match = inlineMatch(text);

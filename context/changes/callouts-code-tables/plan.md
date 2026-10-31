@@ -159,6 +159,11 @@ table cell; `a == b` and `x ==` stay text; `==` in inline code stays.
 unrendered) with comments updated to say S-03 renders them; add the phrasing-parent check for a
 highlight split across nesting levels; leave the callout regex until Phase 2.
 
+> **Deviation (impl review)**: the guard tests live in a `describe('guard')` block in
+> `src/lib/markdown/highlight.test.ts`, beside the highlight pipeline they need; no
+> `obsidian-guard.test.ts` was created. The split check also covers callout titles (custom
+> `calloutTitleInner` nodes), tested in `callouts.test.ts`.
+
 **Contract**: header comment updated; new check fails on `**==a** b==` and passes on
 `==**a**==` after the highlight plugin ran. Tests for both, plus `![a ==b==](x.png)` still
 failing.
@@ -209,10 +214,10 @@ Render Obsidian callouts in a monochrome Flight deck look, foldable ones as `<de
 
 **Intent**: Turn a blockquote whose first paragraph opens with `[!type]` into Obsidian-shaped
 callout markup: type lowercased into `data-callout`, optional `+`/`-` fold marker, title = rest
-of the first line (inline formatting kept), else the type capitalized as written (`[!faq]` →
-"Faq"). The rest of the first paragraph and following blocks become the content. Unknown types
-render the same way (CSS falls back to the note icon). Nested callouts work because every
-blockquote is visited.
+of the first line (inline formatting kept), else the type in title case, as Obsidian does
+(`[!faq]` → "Faq", `[!WARNING]` → "Warning"). The rest of the first paragraph and following
+blocks become the content. Unknown types render the same way (CSS falls back to the note icon).
+Nested callouts work because every blockquote is visited.
 
 **Contract**: `export const callouts` (mdast plugin, `name: 'callouts'`), run after `comments`,
 before `highlight`. Markup (custom parent nodes with `hName`/`hProperties`):
@@ -294,6 +299,10 @@ defaultColor: false }` so blocks carry only CSS variables.
 
 **Contract**: each module default-exports a Shiki `ThemeRegistration` (`name`, `type`,
 `colors`, `tokenColors`). Relative imports only (no `@/`).
+
+> **Deviation (impl review)**: one module, `src/lib/markdown/shiki/flight-deck.ts`, builds both
+> themes from a shared `theme()` factory and exports them by name (`flightDeckLight`,
+> `flightDeckDark`), typed from Astro's `ShikiConfig['themes']`; same fields as planned.
 
 #### 2. Code CSS
 

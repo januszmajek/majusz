@@ -1,5 +1,5 @@
 /* Article and page body (design.md, Layouts → Article), applied by S-01 and
-   S-06 as `class="prose"`. Later slices add images, callouts, code and tables here.
+   S-06 as `class="prose"`. Later slices add images here.
    Imported by global.css, so its tokens and @apply resolve. */
 @layer components {
   .prose {

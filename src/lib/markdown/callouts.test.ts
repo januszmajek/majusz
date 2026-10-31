@@ -25,7 +25,7 @@ describe('callouts', () => {
 		expect(await render('> [!note]\n> Body text.')).toBe(
 			`<div class="callout" data-callout="note">${title('Note')}<div class="callout-content"><p>Body text.</p></div></div>`,
 		);
-		expect(await render('> [!FAQ]\n> x')).toContain(`data-callout="faq">${title('FAQ')}`);
+		expect(await render('> [!FAQ]\n> x')).toContain(`data-callout="faq">${title('Faq')}`);
 		expect(await render('> [!faq]\n> x')).toContain(title('Faq'));
 	});
 
@@ -74,6 +74,11 @@ describe('callouts', () => {
 	it('leave a plain blockquote and a mid-line marker alone', async () => {
 		expect(await render('> Just a quote.')).toBe('<blockquote>\n<p>Just a quote.</p>\n</blockquote>');
 		expect(await render('> See [!note] here.')).toBe('<blockquote>\n<p>See [!note] here.</p>\n</blockquote>');
+	});
+
+	it('fail on a highlight split across formatting levels in the title', async () => {
+		await expect(render('> [!note] **==a** b==\n> Body.')).rejects.toThrow('Raw Obsidian syntax');
+		expect(await render('> [!note] ==**a**==\n> Body.')).toContain(title('<mark><strong>a</strong></mark>'));
 	});
 
 	it('hide a comment inside a callout', async () => {

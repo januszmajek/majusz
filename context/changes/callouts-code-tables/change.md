@@ -1,7 +1,7 @@
 ---
 change_id: callouts-code-tables
 title: Callouts code tables
-status: implemented
+status: impl_reviewed
 created: 2026-10-31
 updated: 2026-10-31
 archived_at: null

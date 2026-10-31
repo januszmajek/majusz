@@ -71,6 +71,8 @@ the source. Anything in a note is public, shown on the page or not.
   at the same level: `**==a** b==` fails the build.
 - `%%comments%%` are hidden on the page, inline or across several paragraphs. **They are still
   public in the repo.** A `%%` with no closing `%%` fails the build.
+- To show this syntax as written (`==x==`, `%%`), put it in backticks; a backslash doesn't
+  escape it.
 - Code blocks are highlighted when you name the language: ` ```ts `, ` ```bash `, ` ```json `.
   An unknown language shows as plain code.
 - Tables work as in Obsidian. A wide table scrolls sideways on a phone. In a table, escape the

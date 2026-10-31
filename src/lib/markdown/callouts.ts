@@ -6,9 +6,9 @@
 //     <div class="callout-content">…</div>
 //   </div>
 // A foldable callout is `<details>` with a `<summary>` title, open for `+`, so it folds without JS.
-// The title is the rest of the first line, formatting kept; without one, the type as written,
-// capitalized (`[!faq]` → "Faq"), as in Obsidian. Any type renders: an unknown one looks like a
-// note (src/styles/prose.css). Callouts nest. A callout with only a title has no content.
+// The title is the rest of the first line, formatting kept; without one, the type in title case
+// (`[!faq]` → "Faq", `[!WARNING]` → "Warning"), as in Obsidian. Any type renders: an unknown one
+// looks like a note (src/styles/prose.css). Callouts nest. A callout with only a title has no content.
 import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
 import type { MdastContent } from 'satteri';
 
@@ -57,7 +57,7 @@ const toCallout = (blockquote: Plain, [whole, type = '', fold]: RegExpExecArray)
 	const [text, ...inline] = first!.children!;
 	const opening = (text!.value as string).slice(whole.length).replace(/^[ \t]+/, '');
 	const { title, rest } = splitFirstLine([...(opening ? [{ type: 'text', value: opening }] : []), ...inline]);
-	const titleText = blank(title) ? [{ type: 'text', value: type[0]!.toUpperCase() + type.slice(1) }] : title;
+	const titleText = blank(title) ? [{ type: 'text', value: type[0]!.toUpperCase() + type.slice(1).toLowerCase() }] : title;
 	const body = [...(blank(rest) ? [] : [{ ...first!, children: rest }]), ...blocks].map(renderCallouts);
 	const foldable = fold === '+' || fold === '-';
 	const head = element('calloutTitle', foldable ? 'summary' : 'div', 'callout-title', [
