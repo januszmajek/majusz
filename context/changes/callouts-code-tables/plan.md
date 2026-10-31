@@ -425,26 +425,26 @@ None: no article uses these syntaxes yet (the guard forbade them).
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm test`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 A scratch article with an unclosed `%%` fails `npm run build` naming the file
+- [x] 1.1 Unit tests pass: `npm test` — def68d1
+- [x] 1.2 Build passes: `npm run build` — def68d1
+- [x] 1.3 A scratch article with an unclosed `%%` fails `npm run build` naming the file — def68d1
 
 #### Manual
 
-- [x] 1.4 Scratch note with inline, block and multi-paragraph comments shows none of the comment text on the dev server
-- [x] 1.5 Highlights, including `==**bold**==`, read clearly in light and dark themes
+- [x] 1.4 Scratch note with inline, block and multi-paragraph comments shows none of the comment text on the dev server — def68d1
+- [x] 1.5 Highlights, including `==**bold**==`, read clearly in light and dark themes — def68d1
 
 ### Phase 2: Callouts
 
 #### Automated
 
-- [ ] 2.1 Unit tests pass: `npm test`
-- [ ] 2.2 Build passes: `npm run build`
+- [x] 2.1 Unit tests pass: `npm test`
+- [x] 2.2 Build passes: `npm run build`
 
 #### Manual
 
-- [ ] 2.3 Scratch note with each callout family, a foldable `-`/`+`, a nested and an unknown type looks right in light and dark themes, desktop and phone
-- [ ] 2.4 A folded callout opens and closes with mouse and keyboard, with a visible focus ring
+- [x] 2.3 Scratch note with each callout family, a foldable `-`/`+`, a nested and an unknown type looks right in light and dark themes, desktop and phone
+- [x] 2.4 A folded callout opens and closes with mouse and keyboard, with a visible focus ring
 
 ### Phase 3: Code, tables and docs
 

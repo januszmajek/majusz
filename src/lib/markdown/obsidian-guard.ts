@@ -25,8 +25,6 @@ const inlinePatterns = [
 	/%%/,
 	highlight,
 ];
-// Callouts (`> [!note]` as a blockquote's first text): S-03.
-const callout = /^\[![^\]\s]+\]/;
 
 const SNIPPET_CONTEXT = 20;
 // Repo root, to name the file as `content/articles/<note>.md`.
@@ -57,13 +55,7 @@ export const obsidianGuard = {
 	name: 'obsidian-guard',
 	text(node, ctx) {
 		const text = node.value;
-		let match = inlineMatch(text);
-		if (!match) {
-			const paragraph = ctx.parent(node);
-			const opensBlockquote =
-				ctx.indexOf(node) === 0 && ctx.indexOf(paragraph) === 0 && ctx.parent(paragraph)?.type === 'blockquote';
-			if (opensBlockquote) match = callout.exec(text) ?? undefined;
-		}
+		const match = inlineMatch(text);
 		if (match) fail(text, match, ctx.fileURL);
 	},
 	// A rendered highlight leaves no `==` behind, so one in a block's whole text crossed levels.

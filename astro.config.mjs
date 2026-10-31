@@ -5,6 +5,7 @@ import react from '@astrojs/react';
 import { satteri } from '@astrojs/markdown-satteri';
 import tailwindcss from '@tailwindcss/vite';
 
+import { callouts } from './src/lib/markdown/callouts.ts';
 import { comments } from './src/lib/markdown/comments.ts';
 import { highlight } from './src/lib/markdown/highlight.ts';
 import { obsidianLinks } from './src/lib/markdown/obsidian-links.ts';
@@ -44,14 +45,14 @@ export default defineConfig({
   image: { layout: 'constrained', responsiveStyles: true },
 
   // Sätteri, Astro's default processor, with the in-repo plugins: `%%comments%%` hidden (first,
-  // so nothing inside one is resolved or counted), `==highlights==`, wikilinks, image embeds
+  // so nothing inside one is resolved or counted), callouts, `==highlights==`, wikilinks, image embeds
   // and `.md` links (plain text when the note is unpublished), inline `#tag` spans, reading
   // time for the meta line, a guard that fails the build on raw Obsidian syntax left over,
   // and Obsidian's `|300` image width. The guard runs last among the mdast plugins so it only sees what the others
   // didn't render. Sätteri's `features.wikilinks` stays off: its links can't be told from
   // ordinary ones, and it mangles embeds.
   markdown: {
-    processor: satteri({ mdastPlugins: [comments, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard], hastPlugins: [imageWidth] }),
+    processor: satteri({ mdastPlugins: [comments, callouts, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard], hastPlugins: [imageWidth] }),
   },
 
   fonts: [

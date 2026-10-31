@@ -41,6 +41,76 @@
   .prose li > ul,
   .prose li > ol { @apply mt-1.5; }
   .prose blockquote { @apply border-l border-border pl-[1.25em] text-muted-foreground; }
+  /* Callouts (src/lib/markdown/callouts.ts): one monochrome look for every type, so the one
+     accent stays the links'. The type shows as its icon, Obsidian's per family (lucide v1.60.0,
+     ISC, Lucide Icons and Contributors), drawn in muted ink through a CSS mask; an unknown type
+     gets the note icon. Foldable callouts are <details>, with a chevron that turns when open. */
+  .prose .callout {
+    @apply border border-border bg-card px-4 py-3;
+    --callout-icon: var(--callout-icon-note);
+    --callout-icon-note: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E"); /* pencil */
+    --callout-icon-abstract: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect width='8' height='4' x='8' y='2' rx='1' ry='1'/%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3Cpath d='M12 11h4'/%3E%3Cpath d='M12 16h4'/%3E%3Cpath d='M8 11h.01'/%3E%3Cpath d='M8 16h.01'/%3E%3C/svg%3E"); /* clipboard-list */
+    --callout-icon-info: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E"); /* info */
+    --callout-icon-todo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m16 9-5.5 5.5L8 12'/%3E%3C/svg%3E"); /* circle-check */
+    --callout-icon-tip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4'/%3E%3C/svg%3E"); /* flame */
+    --callout-icon-success: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); /* check */
+    --callout-icon-question: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E"); /* circle-question-mark */
+    --callout-icon-warning: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/%3E%3Cpath d='M12 9v4'/%3E%3Cpath d='M12 17h.01'/%3E%3C/svg%3E"); /* triangle-alert */
+    --callout-icon-failure: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 6 6 18'/%3E%3Cpath d='m6 6 12 12'/%3E%3C/svg%3E"); /* x */
+    --callout-icon-danger: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z'/%3E%3C/svg%3E"); /* zap */
+    --callout-icon-bug: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20v-9'/%3E%3Cpath d='M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z'/%3E%3Cpath d='M14.12 3.88 16 2'/%3E%3Cpath d='M21 21a4 4 0 0 0-3.81-4'/%3E%3Cpath d='M21 5a4 4 0 0 1-3.55 3.97'/%3E%3Cpath d='M22 13h-4'/%3E%3Cpath d='M3 21a4 4 0 0 1 3.81-4'/%3E%3Cpath d='M3 5a4 4 0 0 0 3.55 3.97'/%3E%3Cpath d='M6 13H2'/%3E%3Cpath d='m8 2 1.88 1.88'/%3E%3Cpath d='M9 7.13V6a3 3 0 1 1 6 0v1.13'/%3E%3C/svg%3E"); /* bug */
+    --callout-icon-example: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h.01'/%3E%3Cpath d='M3 12h.01'/%3E%3Cpath d='M3 19h.01'/%3E%3Cpath d='M8 5h13'/%3E%3Cpath d='M8 12h13'/%3E%3Cpath d='M8 19h13'/%3E%3C/svg%3E"); /* list */
+    --callout-icon-quote: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/%3E%3Cpath d='M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/%3E%3C/svg%3E"); /* quote */
+    --callout-icon-fold: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); /* chevron-right */
+  }
+  .prose .callout[data-callout="abstract"],
+  .prose .callout[data-callout="summary"],
+  .prose .callout[data-callout="tldr"] { --callout-icon: var(--callout-icon-abstract); }
+  .prose .callout[data-callout="info"] { --callout-icon: var(--callout-icon-info); }
+  .prose .callout[data-callout="todo"] { --callout-icon: var(--callout-icon-todo); }
+  .prose .callout[data-callout="tip"],
+  .prose .callout[data-callout="hint"],
+  .prose .callout[data-callout="important"] { --callout-icon: var(--callout-icon-tip); }
+  .prose .callout[data-callout="success"],
+  .prose .callout[data-callout="check"],
+  .prose .callout[data-callout="done"] { --callout-icon: var(--callout-icon-success); }
+  .prose .callout[data-callout="question"],
+  .prose .callout[data-callout="help"],
+  .prose .callout[data-callout="faq"] { --callout-icon: var(--callout-icon-question); }
+  .prose .callout[data-callout="warning"],
+  .prose .callout[data-callout="caution"],
+  .prose .callout[data-callout="attention"] { --callout-icon: var(--callout-icon-warning); }
+  .prose .callout[data-callout="failure"],
+  .prose .callout[data-callout="fail"],
+  .prose .callout[data-callout="missing"] { --callout-icon: var(--callout-icon-failure); }
+  .prose .callout[data-callout="danger"],
+  .prose .callout[data-callout="error"] { --callout-icon: var(--callout-icon-danger); }
+  .prose .callout[data-callout="bug"] { --callout-icon: var(--callout-icon-bug); }
+  .prose .callout[data-callout="example"] { --callout-icon: var(--callout-icon-example); }
+  .prose .callout[data-callout="quote"],
+  .prose .callout[data-callout="cite"] { --callout-icon: var(--callout-icon-quote); }
+  /* Inside a callout, which already sits on --card, nested callouts and code use the page
+     background so they still stand apart. */
+  .prose .callout .callout,
+  .prose .callout pre,
+  .prose .callout :not(pre) > code { @apply bg-background; }
+  .prose .callout-title { @apply flex items-start gap-2 font-mono font-semibold; }
+  .prose .callout-icon,
+  .prose summary.callout-title::after {
+    @apply mt-[0.3em] size-[1em] shrink-0 bg-muted-foreground;
+    mask: var(--callout-icon) center / contain no-repeat;
+  }
+  .prose summary.callout-title { @apply cursor-pointer list-none rounded-xs; }
+  .prose summary.callout-title::-webkit-details-marker { display: none; }
+  .prose summary.callout-title::after {
+    content: "";
+    --callout-icon: var(--callout-icon-fold);
+    @apply ml-auto transition-transform duration-150 motion-reduce:transition-none;
+  }
+  .prose details.callout[open] > summary.callout-title::after { @apply rotate-90; }
+  .prose summary.callout-title:focus-visible { @apply outline-2 outline-offset-4 outline-ring; }
+  .prose .callout-content { @apply mt-3; }
+  .prose .callout-content > * + * { @apply mt-4; }
   .prose code { @apply font-mono; }
   .prose :not(pre) > code { @apply bg-card px-1 py-0.5 text-[0.92em]; }
   .prose pre {
