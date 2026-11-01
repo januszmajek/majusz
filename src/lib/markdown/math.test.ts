@@ -51,6 +51,18 @@ describe('math', () => {
 		expect(await render('> [!note]\n> $$\n> y\n> $$')).toContain(`<div class="callout-content">${displayWrapper}`);
 	});
 
+	it('render a `$$x$$` line right under a callout title as display math', async () => {
+		for (const markdown of ['> [!note]\n> $$x$$', '> [!tip]- Euler $e$\n> $$x$$']) {
+			const html = await render(markdown);
+			expect(html).toContain(`<div class="callout-content">${displayWrapper}`);
+			expect(html).not.toContain('$$');
+		}
+		expect(await render('> [!tip] Euler $e$\n> $$x$$')).toMatch(/callout-title-inner">Euler <math/);
+		// Not a callout, or not the line right under the title: text, as in Obsidian.
+		expect(await render('> [!note]\n> text\n> $$x$$')).toContain('$$x$$');
+		expect(await render('[!note]\n$$x$$')).toBe('<p>[!note]\n$$x$$</p>');
+	});
+
 	it('fail the build on an unclosed `$$`, naming the file', async () => {
 		await expect(processor.render('$$\nunclosed\n\nmore para', { fileURL })).rejects.toThrow(
 			'Raw Obsidian syntax in content/articles/note.md: "$$ unclosed more para"',
@@ -79,6 +91,27 @@ describe('math', () => {
 		await expect(processor.render('$5 and $6 money$', { fileURL })).rejects.toThrow('write \\$ for a dollar sign');
 	});
 
+	it("don't pair a `$` in a link destination or inline HTML", async () => {
+		expect(await render('See [ℝ link](https://e.com/?a=$1) and $ 5 then x$')).toBe(
+			'<p>See <a href="https://e.com/?a=$1">ℝ link</a> and $ 5 then x$</p>',
+		);
+		expect(await render('![a](https://e.com/$1.png) and $ 5 then x$')).toContain('and $ 5 then x$');
+		expect(await render('<abbr title="$">USD</abbr> cost $ 5 and x$')).toBe('<p><abbr title="$">USD</abbr> cost $ 5 and x$</p>');
+	});
+
+	it('fail the build on markdown between two rejected `$`', async () => {
+		for (const markdown of [
+			'Pay $ 5 for **pro** and $ 6',
+			'Pay $ 5 for [basic](https://a.com) and $ 6',
+			'Pay $ 5 with `code` and $ 6',
+			'Pay $ 5 &amp; tax $',
+			'Pay $ 5 for a \\* and $ 6',
+		]) {
+			await expect(processor.render(markdown, { fileURL })).rejects.toThrow("can't render markdown between two $");
+		}
+		expect(await render('Pay \\$ 5 for **pro** and \\$ 6')).toBe('<p>Pay $ 5 for <strong>pro</strong> and $ 6</p>');
+	});
+
 	it('show `\\$` as a dollar sign', async () => {
 		expect(await render('\\$5 and \\$6 money\\$')).toBe('<p>$5 and $6 money$</p>');
 	});
@@ -100,6 +133,15 @@ describe('math among the other plugins', () => {
 		const html = await renderFull('> [!tip] Euler $e^{i\\pi}$\n> Body $x$ and #tag');
 		expect(html).toMatch(/<span class="callout-title-inner">Euler <math.*<\/math><\/span>/s);
 		expect(html).toMatch(/<p>Body <math.*<\/math> and <span class="tag">#tag<\/span><\/p>/s);
+	});
+
+	it('fail the build, naming the cause, on a `%%` inside a `$…$` span', async () => {
+		for (const markdown of ['Price %%old: $5%% now $x$ ok', 'I paid $5 %% was $6? %% today']) {
+			await expect(full.render(markdown, { fileURL })).rejects.toThrow(
+				/^%% comment inside \$…\$ in content\/articles\/note\.md: .*write \\\$ for a dollar sign/,
+			);
+		}
+		expect(await renderFull('I paid \\$5 %% was \\$6? %% today')).toBe('<p>I paid $5  today</p>');
 	});
 
 	it("don't render or fail on math inside a comment", async () => {

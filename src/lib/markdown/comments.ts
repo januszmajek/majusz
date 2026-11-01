@@ -5,6 +5,9 @@
 // time or guarded. A `%%` with no closer fails the build: in Obsidian it hides the rest of the
 // note, and a typo shouldn't silently cut an article short.
 // Only `text` nodes hold delimiters, so `%%` in backticks or a code block stays as written.
+// A `%%` inside a `$…$` span fails the build too: Obsidian strips the comment before it pairs `$`,
+// but here the math parser has already paired them (`$5 %% was $6 %%`), and the rest can't be
+// parsed again (math.ts).
 // Comments stay in the public repo's markdown (content/README.md).
 import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
 
@@ -59,13 +62,16 @@ const delimiters = (node: Node, source: string) => {
 const textNodes = (node: Node): Node[] =>
 	node.type === 'text' ? [node] : (node.children ?? []).flatMap(textNodes);
 
-const fail = (source: string, offset: number, fileURL: URL | undefined): never => {
+const inlineMathNodes = (node: Node): Node[] =>
+	node.type === 'inlineMath' ? [node] : (node.children ?? []).flatMap(inlineMathNodes);
+
+const fail = (source: string, offset: number, fileURL: URL | undefined, problem: string, hint: string): never => {
 	const file = fileURL ? decodeURI(fileURL.href.replace(ROOT, '')) : 'a markdown file';
 	const snippet = source
 		.slice(Math.max(0, offset - SNIPPET_CONTEXT), offset + DELIMITER.length + SNIPPET_CONTEXT)
 		.replace(/\s+/g, ' ')
 		.trim();
-	throw new Error(`Unclosed %% comment in ${file}: "${snippet}" (close it with another %%)`);
+	throw new Error(`${problem} in ${file}: "${snippet}" (${hint})`);
 };
 
 /** The parts of a text node's value outside every comment, joined. */
@@ -117,8 +123,15 @@ export const comments = {
 	options: { position: true },
 	before(root, ctx) {
 		const source = ctx.source;
+		for (const node of inlineMathNodes(root as Node)) {
+			const at = offsets(node);
+			const inside = at ? source.slice(at.start, at.end).indexOf(DELIMITER) : -1;
+			if (inside !== -1) {
+				fail(source, at!.start + inside, ctx.fileURL, '%% comment inside $…$', 'write \\$ for a dollar sign, or move the comment out of the formula');
+			}
+		}
 		const marks = textNodes(root as Node).flatMap((node) => delimiters(node, source));
-		if (marks.length % 2) fail(source, marks.at(-1)!.offset, ctx.fileURL);
+		if (marks.length % 2) fail(source, marks.at(-1)!.offset, ctx.fileURL, 'Unclosed %% comment', 'close it with another %%');
 		const ranges: Range[] = [];
 		for (let i = 0; i < marks.length; i += 2) {
 			ranges.push({ start: marks[i]!.offset, end: marks[i + 1]!.offset + DELIMITER.length });

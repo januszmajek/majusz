@@ -104,11 +104,15 @@ It fails on:
 - an embedded image that isn't in `attachments/` (`![[photo.jpg]]`);
 - a wikilink with no note name, like `[[#^block]]` (add an alias: `[[#^block|text]]`);
 - a `%%` comment with no closing `%%`;
+- a `%%` inside a `$…$` span, like `$5 %% was $6 %%`: write each dollar sign as `\$`, or move
+  the comment out of the formula;
 - a `$$` with no closing `$$` on its own line, or text after the opening `$$`;
 - invalid TeX (the log shows the formula and Temml's message);
 - an invalid mermaid diagram (the log shows the line and Pele's message);
 - a `$` Obsidian would read as math after one it didn't, like `$5 and $6 money$`: write each
   dollar sign as `\$`;
+- markdown between two dollar signs the site leaves as text, like `$ 5 for **pro** and $ 6`:
+  write each dollar sign as `\$`;
 - raw Obsidian syntax the site can't show: note embeds (`![[Other note]]`), a broken wikilink
   like `[[unclosed`, a highlight split across formatting (`**==a** b==`), and `[[`, `%%` or
   `==x==` in image alt text or a link title. Use plain markdown, or put it in backticks;

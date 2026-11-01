@@ -2,14 +2,17 @@
 // Sätteri's math parser (`features.math`):
 // - `$x$` is inline math only with no whitespace right inside either `$`, so `$5 and $6` is text.
 // - `$$x$$` is display math only as a paragraph's whole content; mid-paragraph it's text.
-// - A `$$` block (its own lines, also in a list, blockquote or callout) is display math.
+// - A `$$` block (its own lines, also in a list, blockquote or callout) is display math, and so is
+//   a `$$x$$` line right under a callout's `[!type]` title line.
 // A rejected `$…$` becomes the text it was written as. Display math scrolls sideways in its own
 // region, like tables (table-scroll.ts). `\$` is a dollar sign, and `$` in code stays as written.
 // Fails the build, naming the file, on what it can't show as Obsidian does:
 // - a `$$` block with no closing `$$` line (Sätteri would swallow the rest of the note), or text
 //   after the opening `$$` (Sätteri would drop it);
 // - invalid TeX (Obsidian shows it red in place);
-// - a `$` Obsidian would pair after a rejected one (`$5 and $6 money$`): the author writes `\$`.
+// - a `$` Obsidian would pair after a rejected one (`$5 and $6 money$`): the author writes `\$`;
+// - markdown between two rejected `$` (`$ 5 for **pro** and $ 6`): Sätteri already read it as
+//   math, so it would show raw. The author writes `\$`.
 // Runs right after comments, before callouts: the rules read the source, and nodes callouts
 // rebuilds lose their source positions.
 import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
@@ -33,6 +36,11 @@ const ROOT = new URL('../../../', import.meta.url).href;
 const inlineBlocks = new Set(['paragraph', 'heading', 'tableCell']);
 // Blockquote and list prefixes on a line of a `$$` block.
 const linePrefix = /^[ \t>]*/;
+// Characters that start inline markdown, which a rejected `$…$` would show raw. `==` and `#tag`
+// aren't here: highlight and inlineTags run later, on text nodes.
+const inlineSyntax = /[*_`[<&~\\]/;
+// A callout's `[!type]` marker, as callouts.ts reads it.
+const calloutMarker = /^\[![^\]\s]+\]/;
 
 const offsets = (node: Node): Range | undefined => {
 	const start = node.position?.start.offset;
@@ -87,12 +95,40 @@ const wholeDisplay = (node: Node, source: string) => {
 };
 
 /**
- * Obsidian's single-`$` pairs in a block's source: an opener has a non-space after it, its closer
- * the next `$` with a non-space before it. `\$`, `$$` and code spans hold no delimiter.
+ * The `$$…$$` that is a callout's whole first line after its `[!type]` title line. Math runs
+ * before callouts, so here the two lines are still one paragraph.
  */
-const obsidianPairs = (source: string, at: Range): Range[] => {
-	const text = source
-		.slice(at.start, at.end)
+const calloutDisplay = (head: Node, source: string) => {
+	const first = head.children?.[0];
+	if (head.type !== 'paragraph' || first?.type !== 'text' || !calloutMarker.test(first.value as string)) return undefined;
+	const content = (head.children ?? []).filter((c) => !(c.type === 'text' && !(c.value as string).trim()));
+	const last = content.at(-1);
+	const at = last?.type === 'inlineMath' ? offsets(last) : undefined;
+	const p = offsets(head);
+	if (!at || !p || !source.startsWith('$$', at.start)) return undefined;
+	return /^[^\n]*\n[ \t>]*$/.test(source.slice(p.start, at.start)) ? last : undefined;
+};
+
+/** The source of a link or image after its text: `](url "title")`, which holds no `$` delimiter. */
+const destination = (node: Node, source: string): Range | undefined => {
+	const at = offsets(node);
+	if (!at) return undefined;
+	const lastChild = node.children?.at(-1);
+	const textEnd = lastChild ? offsets(lastChild)?.end : undefined;
+	const start = textEnd ?? source.indexOf('](', at.start);
+	return start === -1 || start >= at.end ? undefined : { start, end: at.end };
+};
+
+/**
+ * Obsidian's single-`$` pairs in a block's source: an opener has a non-space after it, its closer
+ * the next `$` with a non-space before it. `\$`, `$$`, code spans, inline HTML and link
+ * destinations (`opaque`) hold no delimiter.
+ */
+const obsidianPairs = (source: string, at: Range, opaque: Range[]): Range[] => {
+	const chars = source.slice(at.start, at.end).split('');
+	for (const r of opaque) chars.fill(' ', r.start - at.start, r.end - at.start);
+	const text = chars
+		.join('')
 		.replace(/(`+)[\s\S]*?\1/g, (code) => ' '.repeat(code.length))
 		.replace(/\\[\s\S]/g, '  ')
 		.replace(/\${2,}/g, (run) => ' '.repeat(run.length));
@@ -108,14 +144,27 @@ const obsidianPairs = (source: string, at: Range): Range[] => {
 	return pairs;
 };
 
-/** Renders or rejects the inline math directly in an inline block, and checks its `$` pairing. */
-const inlineBlock = (block: Node, source: string, ctx: Ctx) => {
+/**
+ * Renders or rejects the inline math directly in an inline block, and checks its `$` pairing. A
+ * callout's `$$x$$` line moves out of the title paragraph as a display block, for callouts to keep.
+ */
+const inlineBlock = (block: Node, source: string, ctx: Ctx, calloutHead: boolean) => {
 	const rendered: Range[] = [];
+	const opaque: Range[] = [];
+	const own = calloutHead ? calloutDisplay(block, source) : undefined;
 	let rejected = false;
 	const visit = (node: Node) => {
 		for (const child of node.children ?? []) {
 			const at = child.type === 'inlineMath' ? offsets(child) : undefined;
+			if (at && child === own) {
+				rendered.push(at);
+				ctx.removeNode(child as never);
+				ctx.insertAfter(block as never, display(child.value as string, ctx));
+				continue;
+			}
 			if (!at) {
+				const skip = child.type === 'html' ? offsets(child) : /^(link|image)$/.test(child.type) ? destination(child, source) : undefined;
+				if (skip) opaque.push(skip);
 				visit(child);
 				continue;
 			}
@@ -125,6 +174,9 @@ const inlineBlock = (block: Node, source: string, ctx: Ctx) => {
 				ctx.replaceNode(child as never, { type: 'html', value: render(child.value as string, false, ctx) });
 			} else {
 				rejected = true;
+				if (inlineSyntax.test(slice)) {
+					failRaw(source, at, ctx, "the site can't render markdown between two $; write \\$ for a dollar sign");
+				}
 				ctx.replaceNode(child as never, { type: 'text', value: written(source, at) });
 			}
 		}
@@ -132,7 +184,7 @@ const inlineBlock = (block: Node, source: string, ctx: Ctx) => {
 	visit(block);
 	const at = offsets(block);
 	if (!rejected || !at) return;
-	for (const pair of obsidianPairs(source, at)) {
+	for (const pair of obsidianPairs(source, at, opaque)) {
 		if (!rendered.some((r) => r.start === pair.start && r.end === pair.end)) {
 			failRaw(source, pair, ctx, 'Obsidian reads this as math; write \\$ for a dollar sign');
 		}
@@ -151,12 +203,14 @@ const block = (node: Node, source: string, ctx: Ctx) => {
 	ctx.replaceNode(node as never, display(node.value as string, ctx));
 };
 
-const visit = (node: Node, source: string, ctx: Ctx) => {
+const visit = (node: Node, source: string, ctx: Ctx, calloutHead = false) => {
 	if (node.type === 'math') return block(node, source, ctx);
 	const whole = wholeDisplay(node, source);
 	if (whole) return ctx.replaceNode(node as never, display(whole.value as string, ctx));
-	if (inlineBlocks.has(node.type)) return inlineBlock(node, source, ctx);
-	for (const child of node.children ?? []) visit(child, source, ctx);
+	if (inlineBlocks.has(node.type)) return inlineBlock(node, source, ctx, calloutHead);
+	for (const [i, child] of (node.children ?? []).entries()) {
+		visit(child, source, ctx, node.type === 'blockquote' && i === 0);
+	}
 };
 
 export const math = {

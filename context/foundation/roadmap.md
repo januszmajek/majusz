@@ -45,7 +45,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-01 | publish-first-article | author can add a note + images and see it as an article page with date and reading time | — | US-02, FR-011, FR-010 | done |
 | S-02 | wikilinks-and-tags | visitor can follow wikilinks between published articles, sees unpublished ones as plain text, sees image embeds, and sees tags | S-01 | US-01, FR-009 | done |
 | S-03 | callouts-code-tables | visitor can read callouts, highlights, syntax-highlighted code and tables as Obsidian shows them, with comments hidden | S-01, F-01 | US-01, FR-009 | done |
-| S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | in-progress |
+| S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | done |
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | proposed |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | proposed |
 | S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | proposed |
@@ -141,7 +141,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** the heaviest rendering features and the main threat to the 2-second phone NFR; last in Stream A so a page-weight problem can't hold up the rest. First candidate to trim if time runs short.
-- **Status:** planning
+- **Status:** done
 
 ### S-05: Home page with the article list
 

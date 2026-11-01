@@ -18,7 +18,9 @@ const block = (css: string, selector: string) => {
 
 const light = block(globalCss, ':root');
 const themes = { light, dark: { ...light, ...block(globalCss, '\\.dark') } };
-const pele = block(proseCss, '\\.prose \\.diagram');
+const diagram = block(proseCss, '\\.prose \\.diagram');
+// A diagram on its own (card) and inside a callout (page background).
+const surfaces = { card: diagram, callout: { ...diagram, ...block(proseCss, '\\.prose \\.callout \\.diagram') } };
 
 /** oklch → sRGB channels in 0–1 (Björn Ottosson's matrices), clamped to the gamut. */
 function oklchToSrgb(L: number, C: number, h: number) {
@@ -36,11 +38,11 @@ function oklchToSrgb(L: number, C: number, h: number) {
 }
 
 /** A `--pele-*` variable's colour in a theme: opaque oklch or hex, through any `var()` chain. */
-const color = (tokens: Record<string, string>, name: string): number[] => {
+const color = (tokens: Record<string, string>, pele: Record<string, string>, name: string): number[] => {
 	const value = tokens[name] ?? pele[name];
 	if (value == null) throw new Error(`No ${name}`);
 	const ref = /^var\((--[\w-]+)\)$/.exec(value);
-	if (ref) return color(tokens, ref[1]!);
+	if (ref) return color(tokens, pele, ref[1]!);
 	const oklch = /^oklch\(([\d.]+) ([\d.]+) ([\d.]+)\)$/.exec(value);
 	if (oklch) return oklchToSrgb(Number(oklch[1]), Number(oklch[2]), Number(oklch[3]));
 	if (/^#[\da-f]{6}$/i.test(value)) return [1, 3, 5].map((i) => parseInt(value.slice(i, i + 2), 16) / 255);
@@ -73,10 +75,13 @@ const pairs: [fg: string, bg: string, min: number][] = [
 
 describe('diagram colours', () => {
 	for (const [theme, tokens] of Object.entries(themes)) {
-		it(`${theme}: text, strokes and fills are readable`, () => {
-			for (const [fg, bg, min] of pairs) {
-				expect(contrast(color(tokens, fg), color(tokens, bg)), `${fg} on ${bg}`).toBeGreaterThanOrEqual(min);
-			}
-		});
+		for (const [surface, pele] of Object.entries(surfaces)) {
+			it(`${theme}, ${surface}: text, strokes and fills are readable`, () => {
+				for (const [fg, bg, min] of pairs) {
+					const ratio = contrast(color(tokens, pele, fg), color(tokens, pele, bg));
+					expect(ratio, `${fg} on ${bg}`).toBeGreaterThanOrEqual(min);
+				}
+			});
+		}
 	}
 });

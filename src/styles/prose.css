@@ -170,7 +170,9 @@
     font-feature-settings: "dtls" off;
   }
   .prose math * { border-color: currentColor; }
-  .prose math.tml-display { display: block; width: 100%; }
+  /* At least the region's width, so a formula centres; wider, it grows from the left edge, so the
+     region scrolls to all of it rather than clipping a centred overflow. */
+  .prose math.tml-display { display: block; width: max-content; min-width: 100%; }
   .prose mtable.tml-jot > mtr > mtd { padding-top: 0.7ex; padding-bottom: 0.7ex; }
   .prose .math-display { @apply overflow-x-auto py-1 text-center; }
   .prose .math-display:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
@@ -198,6 +200,11 @@
     --pele-series-6: var(--diagram-series-6);
     --pele-series-7: var(--diagram-series-7);
     --pele-series-8: var(--diagram-series-8);
+  }
+  /* In a callout, on the page background, as code is there. */
+  .prose .callout .diagram {
+    @apply bg-background;
+    --pele-bg: var(--background);
   }
   .prose .diagram:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
   .prose .diagram svg { @apply mx-auto; }

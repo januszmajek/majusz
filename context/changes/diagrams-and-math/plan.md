@@ -615,6 +615,26 @@ None: `content/articles/` is empty, so no published article changes.
   discipline, review findings F1/F4/F5)
 - Pele choice: `context/archive/2026-10-27-publish-first-article/plan.md:76-77,493`
 
+## Addendum (implementation review, 2026-11-01)
+
+Deviations made during implementation, recorded here so later reviews read them as planned:
+
+- **Plugin order.** `math` runs right after `comments`, before `callouts`:
+  `[comments, math, callouts, highlight, obsidianLinks, inlineTags, diagrams, readingTime,
+  obsidianGuard]`. Its rules read source offsets, and the nodes `callouts` rebuilds lose them.
+  As a result, a `$$x$$` line right under a callout's `[!type]` title shares a paragraph with the
+  title when `math` sees it, so `math` moves it out as a display block itself (review F2).
+- **Text after an opening `$$` fails the build** (`$$a⏎b$$`, "put $$ on its own line"). This is
+  a fail-safe rule beyond the unclosed-`$$` check: Sätteri would drop that text, while Obsidian
+  shows it.
+- **Diagram accent.** `--pele-accent` is `--diagram-accent`: `--primary` in light and `#5cc27a`
+  in dark, because `--card` text on the dark `--primary` measures 4.39:1. The contrast test
+  holds accent to 4.5:1.
+- **Review fixes** (`reviews/impl-review.md`):
+  - markdown between two rejected `$` fails the build (F1);
+  - a `%%` inside a `$…$` span fails with its own message (F3);
+  - link destinations and inline HTML hold no `$` delimiter (F4).
+
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
