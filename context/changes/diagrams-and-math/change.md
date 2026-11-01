@@ -1,0 +1,12 @@
+---
+change_id: diagrams-and-math
+title: Diagrams and math
+status: implementing
+created: 2026-10-31
+updated: 2026-11-01
+archived_at: null
+---
+
+## Notes
+
+<!-- Free-form notes for this change: links, ad-hoc context, decisions that don't belong in research/frame/plan. -->

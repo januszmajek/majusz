@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { callouts } from './src/lib/markdown/callouts.ts';
 import { comments } from './src/lib/markdown/comments.ts';
 import { highlight } from './src/lib/markdown/highlight.ts';
+import { math } from './src/lib/markdown/math.ts';
 import { obsidianLinks } from './src/lib/markdown/obsidian-links.ts';
 import { inlineTags } from './src/lib/markdown/inline-tags.ts';
 import { readingTime } from './src/lib/markdown/reading-time.ts';
@@ -47,7 +48,8 @@ export default defineConfig({
   image: { layout: 'constrained', responsiveStyles: true },
 
   // Sätteri, Astro's default processor, with the in-repo plugins: `%%comments%%` hidden (first,
-  // so nothing inside one is resolved or counted), callouts, `==highlights==`, wikilinks, image embeds
+  // so nothing inside one is resolved or counted), math as MathML under Obsidian's `$` rules
+  // (before callouts, which drop the source positions it reads), callouts, `==highlights==`, wikilinks, image embeds
   // and `.md` links (plain text when the note is unpublished), inline `#tag` spans, reading
   // time for the meta line, a guard that fails the build on raw Obsidian syntax left over,
   // and Obsidian's `|300` image width; tables scroll inside their own region on a phone. The guard runs last among the mdast plugins so it only sees what the others
@@ -57,7 +59,11 @@ export default defineConfig({
     // Code in the Flight deck themes, as CSS variables only (no inline colors or background), so
     // prose.css switches them with the site theme.
     shikiConfig: { themes: { light: flightDeckLight, dark: flightDeckDark }, defaultColor: false },
-    processor: satteri({ mdastPlugins: [comments, callouts, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard], hastPlugins: [imageWidth, tableScroll] }),
+    processor: satteri({
+      features: { math: true },
+      mdastPlugins: [comments, math, callouts, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard],
+      hastPlugins: [imageWidth, tableScroll],
+    }),
   },
 
   fonts: [

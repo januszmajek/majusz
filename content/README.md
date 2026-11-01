@@ -75,6 +75,11 @@ the source. Anything in a note is public, shown on the page or not.
   escape it.
 - Code blocks are highlighted when you name the language: ` ```ts `, ` ```bash `, ` ```json `.
   An unknown language shows as plain code.
+- **Math** works as in Obsidian: `$x$` inline, with no space right inside the `$`
+  (`$ x $` and `$5 and $6` stay text). For a display formula, put `$$` on its own lines above
+  and below it, or write a paragraph that is only `$$x$$`. `$$x$$` inside a sentence stays text.
+  For a dollar sign, write `\$`. `\ce{H2O}`, `\dv{f}{x}` and `\abs{x}` work. A wide formula
+  scrolls sideways on a phone.
 - Tables work as in Obsidian. A wide table scrolls sideways on a phone. In a table, escape the
   pipe of a wikilink alias: `[[Other note\|text]]`.
 
@@ -96,6 +101,10 @@ It fails on:
 - an embedded image that isn't in `attachments/` (`![[photo.jpg]]`);
 - a wikilink with no note name, like `[[#^block]]` (add an alias: `[[#^block|text]]`);
 - a `%%` comment with no closing `%%`;
+- a `$$` with no closing `$$` on its own line, or text after the opening `$$`;
+- invalid TeX (the log shows the formula and Temml's message);
+- a `$` Obsidian would read as math after one it didn't, like `$5 and $6 money$`: write each
+  dollar sign as `\$`;
 - raw Obsidian syntax the site can't show: note embeds (`![[Other note]]`), a broken wikilink
   like `[[unclosed`, a highlight split across formatting (`**==a** b==`), and `[[`, `%%` or
   `==x==` in image alt text or a link title. Use plain markdown, or put it in backticks;

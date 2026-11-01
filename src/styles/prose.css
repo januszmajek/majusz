@@ -144,6 +144,28 @@
   .prose :is(th, td):first-child { @apply pl-0; }
   .prose :is(th, td):last-child { @apply pr-0; }
   .prose td code { @apply whitespace-nowrap; }
+  /* Math (src/lib/markdown/math.ts): Temml's MathML, with the base rules from its
+     Temml-Latin-Modern.css (no equation numbers, as in Obsidian). Display math is centred and
+     scrolls sideways inside its own region, like tables, so the page never does. */
+  .prose math {
+    font-family: "Latin Modern Math", math;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size-adjust: none;
+    text-indent: 0;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    direction: ltr;
+    /* Keeps Firefox from dropping the dot on i or j. */
+    font-feature-settings: "dtls" off;
+  }
+  .prose math * { border-color: currentColor; }
+  .prose math.tml-display { display: block; width: 100%; }
+  .prose mtable.tml-jot > mtr > mtd { padding-top: 0.7ex; padding-bottom: 0.7ex; }
+  .prose .math-display { @apply overflow-x-auto py-1 text-center; }
+  .prose .math-display:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
   .prose hr { @apply my-10 border-0 font-mono text-muted-foreground; }
   .prose hr::after { content: "- - -"; content: "- - -" / ""; }
   /* Images are blocks up to the full measure, never upscaled, with no captions (as in
