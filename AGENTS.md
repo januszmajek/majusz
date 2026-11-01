@@ -37,9 +37,10 @@ before changing the code or the doc.
   and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
 - `.obsidian/` is the committed vault config; `.gitignore` allowlists the shared files and
   keeps per-device state and plugin code out.
-- `src/lib/markdown/` holds the Sätteri plugins (`%%comments%%` hidden, first; callouts;
-  `==highlights==`; wikilinks, `.md` links and image embeds resolved through an index of
-  `content/articles/`; inline `#tag` spans; reading time; raw-syntax guard, last; `|300` image
+- `src/lib/markdown/` holds the Sätteri plugins (`%%comments%%` hidden, first; `$` math as
+  MathML via Temml, `math.ts`; callouts; `==highlights==`; wikilinks, `.md` links and image
+  embeds resolved through an index of `content/articles/`; inline `#tag` spans; mermaid fences
+  as inline SVG via Pele, `diagrams.ts`; reading time; raw-syntax guard, last; `|300` image
   width and the table scroll wrapper as hast plugins) and `shiki/`, the Flight deck code themes
   with a contrast test. They are wired in `astro.config.mjs` and imported by relative path, so
   they and anything they import (`src/lib/slug.ts`) use no `@/` imports.
@@ -60,6 +61,10 @@ before changing the code or the doc.
   other authors' text there, the repo is public. Variants link their stylesheet via `?url` and declare `@source`.
 - `src/assets/fonts/` holds subset Iosevka woff2 files (OFL, `LICENSE.md`); regenerate with
   `node scripts/subset-fonts.mjs`, never swap in full Fontsource files (~1 MB per face).
+  `src/assets/fonts/math/` is the vendored full Latin Modern Math (GUST license): never import it
+  or put it in `public/`, so it never ships whole. `src/integrations/math-font.ts` serves it in
+  dev and, after each build, writes `dist/fonts/` with a subset of the glyphs the pages' formulas
+  use.
 - `public/` is served as-is (favicons).
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
   `changes/bootstrap-verification/` is the bootstrapper's run log and has no `change.md`

@@ -174,6 +174,39 @@
   .prose mtable.tml-jot > mtr > mtd { padding-top: 0.7ex; padding-bottom: 0.7ex; }
   .prose .math-display { @apply overflow-x-auto py-1 text-center; }
   .prose .math-display:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
+  /* Diagrams (src/lib/markdown/diagrams.ts): Pele's SVG on the code-block surface, at its natural
+     width, scrolling sideways inside its own region. Pele reads its colours and font from these
+     variables, so the SVG follows the site theme; diagram-contrast.test.ts checks the pairs. */
+  .prose .diagram {
+    @apply overflow-x-auto border border-border bg-card p-4;
+    --pele-bg: var(--card);
+    --pele-fg: var(--foreground);
+    --pele-muted: var(--muted-foreground);
+    --pele-line: var(--muted-foreground);
+    --pele-surface: var(--diagram-surface);
+    --pele-surface-alt: var(--diagram-surface-alt);
+    --pele-border: var(--diagram-border);
+    --pele-accent: var(--diagram-accent);
+    --pele-font: var(--font-mono);
+    --pele-font-mono: var(--font-mono);
+    --pele-radius: 0;
+    --pele-series-1: var(--diagram-series-1);
+    --pele-series-2: var(--diagram-series-2);
+    --pele-series-3: var(--diagram-series-3);
+    --pele-series-4: var(--diagram-series-4);
+    --pele-series-5: var(--diagram-series-5);
+    --pele-series-6: var(--diagram-series-6);
+    --pele-series-7: var(--diagram-series-7);
+    --pele-series-8: var(--diagram-series-8);
+  }
+  .prose .diagram:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
+  .prose .diagram svg { @apply mx-auto; }
+  /* Links to articles, in the accent like prose links. */
+  .prose .diagram a text { fill: var(--pele-accent); }
+  .prose .diagram a:focus-visible text { @apply underline; }
+  @media (hover: hover) {
+    .prose .diagram a:hover text { @apply underline; }
+  }
   .prose hr { @apply my-10 border-0 font-mono text-muted-foreground; }
   .prose hr::after { content: "- - -"; content: "- - -" / ""; }
   /* Images are blocks up to the full measure, never upscaled, with no captions (as in

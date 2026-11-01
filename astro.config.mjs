@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 import { callouts } from './src/lib/markdown/callouts.ts';
 import { comments } from './src/lib/markdown/comments.ts';
+import { diagrams } from './src/lib/markdown/diagrams.ts';
 import { highlight } from './src/lib/markdown/highlight.ts';
 import { math } from './src/lib/markdown/math.ts';
 import { obsidianLinks } from './src/lib/markdown/obsidian-links.ts';
@@ -39,7 +40,8 @@ const iosevka = (/** @type {string} */ file, /** @type {string} */ name, /** @ty
 
 // https://astro.build/config
 export default defineConfig({
-  // mathFont: Latin Modern Math, cut at build time to the glyphs the built pages' formulas use.
+  // mathFont (src/integrations/math-font.ts): Latin Modern Math, cut at build time to the glyphs
+  // the built pages' formulas use; the dev server serves it whole.
   integrations: [react(), mathFont()],
 
   // An article slug that clashes with a static page (e.g. `slug: 404`) fails the build
@@ -50,20 +52,22 @@ export default defineConfig({
   image: { layout: 'constrained', responsiveStyles: true },
 
   // Sätteri, Astro's default processor, with the in-repo plugins: `%%comments%%` hidden (first,
-  // so nothing inside one is resolved or counted), math as MathML under Obsidian's `$` rules
-  // (before callouts, which drop the source positions it reads), callouts, `==highlights==`, wikilinks, image embeds
-  // and `.md` links (plain text when the note is unpublished), inline `#tag` spans, reading
-  // time for the meta line, a guard that fails the build on raw Obsidian syntax left over,
-  // and Obsidian's `|300` image width; tables scroll inside their own region on a phone. The guard runs last among the mdast plugins so it only sees what the others
-  // didn't render. Sätteri's `features.wikilinks` stays off: its links can't be told from
-  // ordinary ones, and it mangles embeds.
+  // so nothing inside one is resolved, rendered or counted), math as MathML under Obsidian's `$`
+  // rules (before callouts, which drop the source positions it reads), callouts,
+  // `==highlights==`, wikilinks, image embeds and `.md` links (plain text when the note is
+  // unpublished), inline `#tag` spans, mermaid fences as inline SVG (Pele, as in Obsidian; in
+  // mdast, before Shiki sees the fence), reading time for the meta line, a guard that fails the
+  // build on raw Obsidian syntax left over, and Obsidian's `|300` image width; tables scroll
+  // inside their own region on a phone. The guard runs last among the mdast plugins so it only
+  // sees what the others didn't render. Sätteri's `features.wikilinks` stays off: its links
+  // can't be told from ordinary ones, and it mangles embeds.
   markdown: {
     // Code in the Flight deck themes, as CSS variables only (no inline colors or background), so
     // prose.css switches them with the site theme.
     shikiConfig: { themes: { light: flightDeckLight, dark: flightDeckDark }, defaultColor: false },
     processor: satteri({
       features: { math: true },
-      mdastPlugins: [comments, math, callouts, highlight, obsidianLinks, inlineTags, readingTime, obsidianGuard],
+      mdastPlugins: [comments, math, callouts, highlight, obsidianLinks, inlineTags, diagrams, readingTime, obsidianGuard],
       hastPlugins: [imageWidth, tableScroll],
     }),
   },

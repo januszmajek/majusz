@@ -638,30 +638,30 @@ None: `content/articles/` is empty, so no published article changes.
 
 #### Automated
 
-- [x] 2.1 Unit tests pass: `npm test`
-- [x] 2.2 Build passes: `npm run build`
-- [x] 2.3 With a scratch math article, the font subset exists under 30 KB and the CSS URL is versioned
-- [x] 2.4 With no math in any article, the build writes no math font
+- [x] 2.1 Unit tests pass: `npm test` — 284eb42
+- [x] 2.2 Build passes: `npm run build` — 284eb42
+- [x] 2.3 With a scratch math article, the font subset exists under 30 KB and the CSS URL is versioned — 284eb42
+- [x] 2.4 With no math in any article, the build writes no math font — 284eb42
 
 #### Manual
 
-- [x] 2.5 Production build: formulas in Latin Modern Math, only the small versioned font fetched
-- [x] 2.6 Real Android phone and iPhone: integrals, sums, stretchy brackets and Greek render with no missing glyphs
-- [x] 2.7 In dev, the same formulas render in the full font
+- [x] 2.5 Production build: formulas in Latin Modern Math, only the small versioned font fetched — 284eb42
+- [x] 2.6 Real Android phone and iPhone: integrals, sums, stretchy brackets and Greek render with no missing glyphs — 284eb42
+- [x] 2.7 In dev, the same formulas render in the full font — 284eb42
 
 ### Phase 3: Diagrams and docs
 
 #### Automated
 
-- [ ] 3.1 Unit tests pass: `npm test`
-- [ ] 3.2 Build passes: `npm run build`
-- [ ] 3.3 A scratch article with an invalid mermaid fence fails `npm run build` with `Invalid diagram`
-- [ ] 3.4 The built scratch page has no `data-href` and no unpublished note name
+- [x] 3.1 Unit tests pass: `npm test`
+- [x] 3.2 Build passes: `npm run build`
+- [x] 3.3 A scratch article with an invalid mermaid fence fails `npm run build` with `Invalid diagram`
+- [x] 3.4 The built scratch page has no `data-href` and no unpublished note name
 
 #### Manual
 
-- [ ] 3.5 Six diagram types read clearly in both themes and match Obsidian 1.15's layout
-- [ ] 3.6 A wide flowchart scrolls sideways on a phone; the page doesn't
-- [ ] 3.7 Internal-link nodes: published navigates, unpublished is plain text
-- [ ] 3.8 A screen reader announces diagrams by `accTitle` or "Flowchart diagram"
-- [ ] 3.9 README, design.md and AGENTS.md read correctly
+- [x] 3.5 Six diagram types read clearly in both themes and match Obsidian 1.15's layout
+- [x] 3.6 A wide flowchart scrolls sideways on a phone; the page doesn't
+- [x] 3.7 Internal-link nodes: published navigates, unpublished is plain text
+- [x] 3.8 A screen reader announces diagrams by `accTitle` or "Flowchart diagram"
+- [x] 3.9 README, design.md and AGENTS.md read correctly

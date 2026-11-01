@@ -105,6 +105,20 @@
     --radius: 0.625rem;
     /* Ink of the motif; Motif.astro draws it at low alpha. */
     --motif: oklch(0.3 0.01 250);
+    /* Diagram fills and strokes (prose.css .diagram), checked by diagram-contrast.test.ts. */
+    --diagram-surface: oklch(0.99 0.002 250);
+    --diagram-surface-alt: oklch(0.915 0.005 250);
+    --diagram-border: oklch(0.62 0.01 250);
+    --diagram-accent: var(--primary);
+    /* Chart series (pie, xychart, …): the code theme's hues, then four more; slices carry --card labels. */
+    --diagram-series-1: #c63a00;
+    --diagram-series-2: #2e6b3c;
+    --diagram-series-3: #2b5aa8;
+    --diagram-series-4: #7a4a9e;
+    --diagram-series-5: #1f6f78;
+    --diagram-series-6: #a3336e;
+    --diagram-series-7: #8a5a00;
+    --diagram-series-8: #6b5444;
     /* Wordmark and nav size, a step up from 40rem. */
     --size-chrome: 1.25rem;
 }
@@ -123,6 +137,19 @@
     --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(0.9 0.02 145 / 13%);
     --motif: oklch(0.97 0.01 250);
+    --diagram-surface: oklch(0.235 0.012 150);
+    --diagram-surface-alt: oklch(0.27 0.012 150);
+    --diagram-border: oklch(0.53 0.02 150);
+    /* The code keywords' lifted phosphor: gantt bars carry --card text, 4.39:1 on --primary. */
+    --diagram-accent: #5cc27a;
+    --diagram-series-1: #5cc27a;
+    --diagram-series-2: #d8a657;
+    --diagram-series-3: #7fb3e0;
+    --diagram-series-4: #c49be0;
+    --diagram-series-5: #5ec4bd;
+    --diagram-series-6: #ef8a80;
+    --diagram-series-7: #e3cd5a;
+    --diagram-series-8: #ee95bf;
 }
 
 @layer base {

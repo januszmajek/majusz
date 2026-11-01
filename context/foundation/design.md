@@ -165,6 +165,18 @@ foreground color and medium weight only (no glyph).
 - Tables: hairline rows in `--border`, a header row in Iosevka at medium weight over a stronger
   rule, cells in Aile, alignment as written. A wide table scrolls sideways inside its own
   focusable region; the page never does.
+- Math: MathML in Latin Modern Math, inline in the text flow. Display math is centred and
+  scrolls sideways inside its own focusable region, like tables.
+- Diagrams (mermaid): on the code-block surface, `--card` with a hairline border. Colours from
+  the site tokens (text, muted, links in the accent) plus `--diagram-*` fills and strokes, at
+  least 4.5:1 for text and 3:1 for strokes, checked by `diagram-contrast.test.ts`; in dark the
+  accent is the lifted phosphor `#5cc27a`, since gantt bars carry `--card` text. Chart series
+  (pie, xychart) take eight hues, the code theme's four then teal, magenta, ochre and brown or
+  pink, each carrying `--card` slice labels at 4.5:1 or more (light `#c63a00`, `#2e6b3c`,
+  `#2b5aa8`, `#7a4a9e`, `#1f6f78`, `#a3336e`, `#8a5a00`, `#6b5444`; dark `#5cc27a`, `#d8a657`,
+  `#7fb3e0`, `#c49be0`, `#5ec4bd`, `#ef8a80`, `#e3cd5a`, `#ee95bf`). Pele repeats them from the
+  ninth series. Set in Iosevka,
+  square corners, at natural width, centred, scrolling sideways inside a focusable region.
 
 **About.** Same title style as home, then prose (bio, an "Elsewhere" list of social and repo
 links), the whole page capped at 38rem.
@@ -179,7 +191,7 @@ tracking). Building it on the site is S-07's job; this is its look.
 - ~~Images in articles (sizing, captions) — S-01.~~ Done: block, full measure, never upscaled, no captions (`src/styles/prose.css`). Obsidian's `![alt|300](…)` caps an image at that width (`src/lib/markdown/image-width.ts`).
 - ~~Wikilink styling (unpublished notes render as plain body text) and tag display — S-02.~~ Done: a link to a published article looks like any prose link; an unpublished one is plain body text with no styling difference. The `tags` property stays in the meta line unchanged (`date · n min · tag · tag`). Inline `#tag` is a muted Iosevka span, not a link (`.prose .tag` in `src/styles/prose.css`).
 - ~~Callouts, code syntax-highlighting theme (both themes), tables — S-03.~~ Done: see Layouts → Article (callouts, highlights, code blocks, tables).
-- Diagrams and math — S-04.
+- ~~Diagrams and math — S-04.~~ Done: see Layouts → Article (math, diagrams).
 - Theme toggle behavior and wiring — S-07.
 - Home intro copy and whether it includes a photo — S-05.
 - The game's look — its own milestone.

@@ -80,6 +80,9 @@ the source. Anything in a note is public, shown on the page or not.
   and below it, or write a paragraph that is only `$$x$$`. `$$x$$` inside a sentence stays text.
   For a dollar sign, write `\$`. `\ce{H2O}`, `\dv{f}{x}` and `\abs{x}` work. A wide formula
   scrolls sideways on a phone.
+- **Diagrams**: a ` ```mermaid ` code block draws as in Obsidian. A wide diagram scrolls sideways
+  on a phone. `class X internal-link` (or `click X "Other note"`) links node `X` to the note its
+  label names: a note in `articles/` goes to its page, any other note shows as plain text.
 - Tables work as in Obsidian. A wide table scrolls sideways on a phone. In a table, escape the
   pipe of a wikilink alias: `[[Other note\|text]]`.
 
@@ -103,6 +106,7 @@ It fails on:
 - a `%%` comment with no closing `%%`;
 - a `$$` with no closing `$$` on its own line, or text after the opening `$$`;
 - invalid TeX (the log shows the formula and Temml's message);
+- an invalid mermaid diagram (the log shows the line and Pele's message);
 - a `$` Obsidian would read as math after one it didn't, like `$5 and $6 money$`: write each
   dollar sign as `\$`;
 - raw Obsidian syntax the site can't show: note embeds (`![[Other note]]`), a broken wikilink
