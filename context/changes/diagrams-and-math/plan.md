@@ -623,31 +623,31 @@ None: `content/articles/` is empty, so no published article changes.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm test`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 A scratch article with an unclosed `$$` fails `npm run build`, naming the file
-- [x] 1.4 A scratch article with `$\frac{1}$` fails `npm run build` with `Invalid math`
+- [x] 1.1 Unit tests pass: `npm test` — 4b41b7d
+- [x] 1.2 Build passes: `npm run build` — 4b41b7d
+- [x] 1.3 A scratch article with an unclosed `$$` fails `npm run build`, naming the file — 4b41b7d
+- [x] 1.4 A scratch article with `$\frac{1}$` fails `npm run build` with `Invalid math` — 4b41b7d
 
 #### Manual
 
-- [x] 1.5 Scratch article: inline and display math render as formulas in light and dark, nothing raw
-- [x] 1.6 `$5 and $6` and mid-paragraph `$$x$$` show as text, matching Obsidian 1.15
-- [x] 1.7 A long `align` block scrolls sideways on a phone; the region takes keyboard focus
+- [x] 1.5 Scratch article: inline and display math render as formulas in light and dark, nothing raw — 4b41b7d
+- [x] 1.6 `$5 and $6` and mid-paragraph `$$x$$` show as text, matching Obsidian 1.15 — 4b41b7d
+- [x] 1.7 A long `align` block scrolls sideways on a phone; the region takes keyboard focus — 4b41b7d
 
 ### Phase 2: Math font
 
 #### Automated
 
-- [ ] 2.1 Unit tests pass: `npm test`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 With a scratch math article, the font subset exists under 30 KB and the CSS URL is versioned
-- [ ] 2.4 With no math in any article, the build writes no math font
+- [x] 2.1 Unit tests pass: `npm test`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 With a scratch math article, the font subset exists under 30 KB and the CSS URL is versioned
+- [x] 2.4 With no math in any article, the build writes no math font
 
 #### Manual
 
-- [ ] 2.5 Production build: formulas in Latin Modern Math, only the small versioned font fetched
-- [ ] 2.6 Real Android phone and iPhone: integrals, sums, stretchy brackets and Greek render with no missing glyphs
-- [ ] 2.7 In dev, the same formulas render in the full font
+- [x] 2.5 Production build: formulas in Latin Modern Math, only the small versioned font fetched
+- [x] 2.6 Real Android phone and iPhone: integrals, sums, stretchy brackets and Greek render with no missing glyphs
+- [x] 2.7 In dev, the same formulas render in the full font
 
 ### Phase 3: Diagrams and docs
 

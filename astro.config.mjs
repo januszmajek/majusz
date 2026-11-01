@@ -16,6 +16,7 @@ import { obsidianGuard } from './src/lib/markdown/obsidian-guard.ts';
 import { imageWidth } from './src/lib/markdown/image-width.ts';
 import { tableScroll } from './src/lib/markdown/table-scroll.ts';
 import { flightDeckDark, flightDeckLight } from './src/lib/markdown/shiki/flight-deck.ts';
+import { mathFont } from './src/integrations/math-font.ts';
 
 // Iosevka for chrome, headings and code; Iosevka Aile for long reading
 // (context/foundation/design.md). Subset copies in src/assets/fonts/ (made by
@@ -38,7 +39,8 @@ const iosevka = (/** @type {string} */ file, /** @type {string} */ name, /** @ty
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+  // mathFont: Latin Modern Math, cut at build time to the glyphs the built pages' formulas use.
+  integrations: [react(), mathFont()],
 
   // An article slug that clashes with a static page (e.g. `slug: 404`) fails the build
   // instead of the article being silently hidden.
