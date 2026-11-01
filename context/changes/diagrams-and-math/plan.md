@@ -653,15 +653,15 @@ None: `content/articles/` is empty, so no published article changes.
 
 #### Automated
 
-- [x] 3.1 Unit tests pass: `npm test`
-- [x] 3.2 Build passes: `npm run build`
-- [x] 3.3 A scratch article with an invalid mermaid fence fails `npm run build` with `Invalid diagram`
-- [x] 3.4 The built scratch page has no `data-href` and no unpublished note name
+- [x] 3.1 Unit tests pass: `npm test` — 5f0f056
+- [x] 3.2 Build passes: `npm run build` — 5f0f056
+- [x] 3.3 A scratch article with an invalid mermaid fence fails `npm run build` with `Invalid diagram` — 5f0f056
+- [x] 3.4 The built scratch page has no `data-href` and no unpublished note name — 5f0f056
 
 #### Manual
 
-- [x] 3.5 Six diagram types read clearly in both themes and match Obsidian 1.15's layout
-- [x] 3.6 A wide flowchart scrolls sideways on a phone; the page doesn't
-- [x] 3.7 Internal-link nodes: published navigates, unpublished is plain text
-- [x] 3.8 A screen reader announces diagrams by `accTitle` or "Flowchart diagram"
-- [x] 3.9 README, design.md and AGENTS.md read correctly
+- [x] 3.5 Six diagram types read clearly in both themes and match Obsidian 1.15's layout — 5f0f056
+- [x] 3.6 A wide flowchart scrolls sideways on a phone; the page doesn't — 5f0f056
+- [x] 3.7 Internal-link nodes: published navigates, unpublished is plain text — 5f0f056
+- [x] 3.8 A screen reader announces diagrams by `accTitle` or "Flowchart diagram" — 5f0f056
+- [x] 3.9 README, design.md and AGENTS.md read correctly — 5f0f056
