@@ -46,7 +46,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-02 | wikilinks-and-tags | visitor can follow wikilinks between published articles, sees unpublished ones as plain text, sees image embeds, and sees tags | S-01 | US-01, FR-009 | done |
 | S-03 | callouts-code-tables | visitor can read callouts, highlights, syntax-highlighted code and tables as Obsidian shows them, with comments hidden | S-01, F-01 | US-01, FR-009 | done |
 | S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | done |
-| S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | proposed |
+| S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | in-progress |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | proposed |
 | S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | proposed |
 
@@ -152,10 +152,11 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Parallel with:** S-02, S-03, S-04, S-06, S-07
 - **Blockers:** —
 - **Unknowns:**
-  - Introduction copy and whether it includes a photo and/or name. — Owner: author. Block: no.
+  - ~~Introduction copy and whether it includes a photo and/or name.~~ Resolved 2026-11-23: one sentence, no photo, the name only in the wordmark (a screen-reader-only title on home); copy is placeholder until the features are built.
+  - ~~How a reader gets back to the list.~~ Resolved 2026-11-23: no `articles` nav item and no `< articles` back link; the wordmark, now `Janusz Majek`, links home (`context/foundation/design.md` → Header).
   - ~~Is the list flat (like stephango.com) or grouped by year or tag?~~ Resolved 2026-10-27: flat, newest first, grouped by year (`context/foundation/design.md`); no S-02 prerequisite.
 - **Risk:** this is the page every shared link lands on and now the only way to browse articles; it must look intentional with zero articles, since the PRD accepts launching empty, and stay readable as the list grows.
-- **Status:** proposed
+- **Status:** in-progress
 
 ### S-06: About, socials and repo links
 

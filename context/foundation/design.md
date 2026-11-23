@@ -31,12 +31,11 @@ Scale (root 16px; sizes in `rem`, tracking by size, leading shrinks as size grow
 
 | Element | Size | Weight | Leading | Tracking | Family |
 | --- | --- | --- | --- | --- | --- |
-| Wordmark `majusz` | 1.25rem → 1.375rem from 40rem | 700 | 1 | -0.01em | Iosevka |
-| Nav items `articles` `about` | same as wordmark, lowercase | 500 current / 400 others | 1 | -0.01em | Iosevka |
+| Wordmark `Janusz Majek` | 1.25rem → 1.375rem from 40rem | 700 | 1 | -0.01em | Iosevka |
+| Nav items (`about`) | same as wordmark, lowercase | 500 current / 400 others | 1 | -0.01em | Iosevka |
 | Article title | clamp(1.75rem, 4.5vw, 2.25rem) | 600 | 1.12 | -0.02em | Iosevka |
 | Home and About title | clamp(1.5rem, 4vw, 1.875rem) | 600 | 1.15 | -0.015em | Iosevka |
 | Prose h2 / h3 | 1.375rem / 1.125rem | 600 | 1.2 | -0.01em | Iosevka |
-| Back link `< articles` | 1rem, lowercase | 400 | 1 | 0 | Iosevka |
 | Home list title | 1rem | 400 | 1.4 | 0 | Iosevka |
 | Article summary | 1.125rem | 400 | 1.5 | 0 | Aile |
 | Article body | 1.0625rem | 400 | 1.6 | 0 | Aile |
@@ -46,8 +45,8 @@ Scale (root 16px; sizes in `rem`, tracking by size, leading shrinks as size grow
 
 - Prose measure: 65ch of Aile (~41.5rem); summaries, intros and the About page cap at 38rem.
 - Headings differ by size and weight only: no `#`, no glyph before them.
-- Chrome is lowercase (wordmark, nav, back link, meta); article titles and prose keep normal
-  case.
+- Chrome is lowercase (nav, meta); the wordmark is the author's name as written, and article
+  titles and prose keep normal case.
 
 ## Colors
 
@@ -128,15 +127,18 @@ rule.
 One column, max 48rem (`max-w-3xl`) with 1.25rem side padding. The wordmark, page content,
 article title and prose, and the `EOF` rule all share one left edge on every page and width.
 
-**Header (every page).** Wordmark `majusz` on the left; `articles`, `about` and the theme
-toggle on the right, space between. No border under it. The current page is marked by
-foreground color and medium weight only (no glyph).
+**Header (every page).** Wordmark `Janusz Majek` on the left, linking to `/`; `about` and the
+theme toggle on the right, space between. Hovering the wordmark turns it the accent, like a
+home list title. No border under it. The current page is marked by
+foreground color and medium weight only (no glyph). There is no `articles` item: home is the
+article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05).
 
 **Footer (every page).** A left-aligned `EOF ────` rule closes the main content, then
 `© 2026 majusz · source ↗` in 0.75rem muted.
 
 **Home.**
-- Intro: title (1.5–1.875rem) and one Aile paragraph, capped at 38rem, tight above the list.
+- Intro: one Aile paragraph, capped at 38rem, tight above the list. Its title ("Janusz Majek")
+  is for screen readers only, since the wordmark already shows the name.
 - List: flat newest first, grouped under year rules (`2026 ────`). One row per article: date
   (0.75rem muted) · title · reading time right-aligned (`6 min`). On narrow screens the date
   and time share a line above the title.
@@ -144,8 +146,8 @@ foreground color and medium weight only (no glyph).
 - Empty state: `LOG` rule plus the teaser line above.
 
 **Article.**
-- `< articles` back link (1rem muted), then the title, the meta line directly under it, then
-  the summary in muted Aile.
+- The title first (no back link; the wordmark leads home), the meta line directly under it,
+  then the summary in muted Aile.
 - Prose at 65ch from the shared left edge. `✦` bullets for unordered lists, muted numerals
   for ordered lists, hairline left border for blockquotes, `- - -` for rules.
 - Links: accent color at rest, underline on hover and focus. Same rule in both themes.
@@ -193,5 +195,5 @@ tracking). Building it on the site is S-07's job; this is its look.
 - ~~Callouts, code syntax-highlighting theme (both themes), tables — S-03.~~ Done: see Layouts → Article (callouts, highlights, code blocks, tables).
 - ~~Diagrams and math — S-04.~~ Done: see Layouts → Article (math, diagrams).
 - Theme toggle behavior and wiring — S-07.
-- Home intro copy and whether it includes a photo — S-05.
+- ~~Home intro copy and whether it includes a photo — S-05.~~ Done: one plain sentence under a screen-reader-only "Janusz Majek" title, no photo; same-day articles are listed by title A→Z. Final copy is rewritten once the features are built.
 - The game's look — its own milestone.

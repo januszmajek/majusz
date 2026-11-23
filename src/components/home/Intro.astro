@@ -1,8 +1,14 @@
 ---
 // Home intro: the title and one paragraph, both via slots (copy is S-05's).
+// `hideTitle` keeps the title for screen readers only, when the header's
+// wordmark already shows it.
+interface Props {
+	hideTitle?: boolean;
+}
+const { hideTitle = false } = Astro.props;
 ---
 
 <section aria-labelledby="intro" class="max-w-[38rem]">
-	<h1 id="intro" class="text-page-title text-balance"><slot name="title" /></h1>
-	<p class="mt-3 font-sans text-body text-muted-foreground text-pretty"><slot /></p>
+	<h1 id="intro" class:list={['text-page-title text-balance', { 'sr-only': hideTitle }]}><slot name="title" /></h1>
+	<p class:list={['font-sans text-body text-muted-foreground text-pretty', { 'mt-3': !hideTitle }]}><slot /></p>
 </section>

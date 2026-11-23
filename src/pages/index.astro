@@ -1,10 +1,38 @@
 ---
-import Layout from '../layouts/Layout.astro';
+// Home: the intro, then every article newest first (src/lib/articles.ts), or the
+// empty state while there are none.
+import { getCollection, render } from 'astro:content';
+import ArticleList, { type Entry } from '@/components/home/ArticleList.astro';
+import EmptyState from '@/components/home/EmptyState.astro';
+import Intro from '@/components/home/Intro.astro';
+import Layout from '@/layouts/Layout.astro';
+import { newestFirst } from '@/lib/articles';
+
+// The intro line, also the page's meta description.
+const intro = 'I build software and write down what I learn doing it: notes on tools, code and the odd side project.';
+
+const articles = await getCollection('articles');
+const entries: Entry[] = newestFirst(
+	await Promise.all(
+		articles.map(async (entry): Promise<Entry> => {
+			const { remarkPluginFrontmatter } = await render(entry);
+			return {
+				title: entry.data.title,
+				href: `/${entry.id}`,
+				date: entry.data.date,
+				// Set by the reading-time markdown plugin.
+				readingMinutes: remarkPluginFrontmatter.minutesRead,
+			};
+		}),
+	),
+);
 ---
 
-<Layout current="articles">
-	<section class="max-w-[38rem]">
-		<h1 class="text-page-title text-balance">majusz.com</h1>
-		<p class="mt-3 font-sans text-body text-muted-foreground text-pretty">Coming soon.</p>
-	</section>
+<Layout description={intro}>
+	<!-- The wordmark shows the name, so the title is for screen readers only. -->
+	<Intro hideTitle>
+		<Fragment slot="title">Janusz Majek</Fragment>
+		{intro}
+	</Intro>
+	{entries.length > 0 ? <ArticleList entries={entries} /> : <EmptyState>0 entries. First transmission pending.</EmptyState>}
 </Layout>
