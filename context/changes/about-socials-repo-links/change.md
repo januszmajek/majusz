@@ -1,7 +1,7 @@
 ---
 change_id: about-socials-repo-links
 title: About, socials and repo links
-status: implementing
+status: implemented
 created: 2026-11-23
 updated: 2026-11-23
 archived_at: null

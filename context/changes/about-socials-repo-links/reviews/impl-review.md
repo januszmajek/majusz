@@ -16,7 +16,7 @@
 | Safety & Quality | PASS |
 | Architecture | PASS |
 | Pattern Consistency | PASS |
-| Success Criteria | PASS (automated); manual 1.5–1.8, 2.2–2.3 and Phase 3 pending with the author |
+| Success Criteria | PASS (automated + author's manual checks; Phase 3 applied at push) |
 
 Evidence (Playwright + system Chromium against `astro preview` of `dist/`, 360px and 1024px,
 light and dark, on `/`, `/about/` and a missing URL):
@@ -54,3 +54,11 @@ light and dark, on `/`, `/about/` and a missing URL):
 - **Detail**: The plan asked to strike the S-06 entry "if one exists"; none does, so nothing was
   struck. The About and Footer paragraphs describe the built behavior.
 - **Decision**: ACCEPTED
+
+## Author's review (2026-11-23)
+
+The author asked for three fixes, landed in `5ad3c01`: the `↗` after external links is now
+0.7em (`.ext-arrow`); list stars are sized in their own font, so they centre on the first line
+(measured: star centre equals first-line centre on every item, including a wrapping one) and sit
+on the shared left edge; every profile shows its muted `@handle` instead of X alone in brackets.
+Phase 3 ran with the push: `gh repo view` shows the description and `https://majusz.com`.

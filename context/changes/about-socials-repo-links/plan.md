@@ -261,10 +261,10 @@ One more static page and a few links; no JS.
 
 #### Manual
 
-- [ ] 1.5 `about` in the header on every page; current on `/about` only
-- [ ] 1.6 About reads well in both themes and on a phone; links open the right profiles
-- [ ] 1.7 Footer `source ↗` opens the repo; hover and focus match the chrome
-- [ ] 1.8 Phone header still fits one line
+- [x] 1.5 `about` in the header on every page; current on `/about` only — 6e715b7
+- [x] 1.6 About reads well in both themes and on a phone; links open the right profiles — 6e715b7
+- [x] 1.7 Footer `source ↗` opens the repo; hover and focus match the chrome — 6e715b7
+- [x] 1.8 Phone header still fits one line — 6e715b7
 
 ### Phase 2: Repo presentation and docs
 
@@ -274,14 +274,14 @@ One more static page and a few links; no JS.
 
 #### Manual
 
-- [ ] 2.2 README reads well on GitHub and its commands work
-- [ ] 2.3 design.md, AGENTS.md and the roadmap match what was built
+- [x] 2.2 README reads well on GitHub and its commands work — 9fc8e63
+- [x] 2.3 design.md, AGENTS.md and the roadmap match what was built — 9fc8e63
 
 ### Phase 3: GitHub metadata
 
 #### Automated
 
-- [ ] 3.1 `gh repo view` shows the description and homepage
+- [x] 3.1 `gh repo view` shows the description and homepage
 
 #### Manual
 
