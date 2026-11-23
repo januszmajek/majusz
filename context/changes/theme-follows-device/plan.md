@@ -259,7 +259,7 @@ The icon swap is CSS, so there is no layout shift or icon flash.
 
 #### Automated
 
-- [x] 2.1 Tests and build still pass: `npm test && npm run build`
+- [x] 2.1 Tests and build still pass: `npm test && npm run build` — 59cf76f
 
 #### Manual
 
