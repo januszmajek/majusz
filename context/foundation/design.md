@@ -141,7 +141,7 @@ article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05
   is for screen readers only, since the wordmark already shows the name.
 - List: flat newest first, grouped under year rules (`2026 ────`). One row per article: date
   (0.75rem muted) · title · reading time right-aligned (`6 min`). On narrow screens the date
-  and time share a line above the title.
+  and time share a line above the title. Articles with the same date go by title A→Z.
 - Hover changes the title to the accent; no row background, no cards.
 - Empty state: `LOG` rule plus the teaser line above.
 

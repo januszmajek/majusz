@@ -223,24 +223,24 @@ cost, negligible at the PRD's expected volume.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass, including the new `src/lib/articles.test.ts`: `npm test`
-- [x] 1.2 Build passes with no articles: `npm run build`
-- [x] 1.3 Built home shows the empty state: `grep -q "First transmission pending" dist/index.html`
+- [x] 1.1 Unit tests pass, including the new `src/lib/articles.test.ts`: `npm test` — a1fae1a
+- [x] 1.2 Build passes with no articles: `npm run build` — a1fae1a
+- [x] 1.3 Built home shows the empty state: `grep -q "First transmission pending" dist/index.html` — a1fae1a
 
 #### Manual
 
-- [x] 1.4 Empty `/` shows intro and `LOG` teaser in light and dark
-- [x] 1.5 Temporary articles: years and rows newest first, same-day A→Z, reading times, working links
-- [x] 1.6 Narrow width layout and accent hover
-- [x] 1.7 Nav current on `/`; article back link returns to the list — superseded: author dropped both (Changes Required → 4)
-- [x] 1.8 Header shows `Janusz Majek` and no nav, turns the accent on hover and leads home from an article; home shows no visible name title; articles start at the title
+- [x] 1.4 Empty `/` shows intro and `LOG` teaser in light and dark — a1fae1a
+- [x] 1.5 Temporary articles: years and rows newest first, same-day A→Z, reading times, working links — a1fae1a
+- [x] 1.6 Narrow width layout and accent hover — a1fae1a
+- [x] 1.7 Nav current on `/`; article back link returns to the list — superseded: author dropped both (Changes Required → 4) — a1fae1a
+- [x] 1.8 Header shows `Janusz Majek` and no nav, turns the accent on hover and leads home from an article; home shows no visible name title; articles start at the title — a1fae1a
 
 ### Phase 2: Docs
 
 #### Automated
 
-- [ ] 2.1 Tests and build still pass: `npm test && npm run build`
+- [x] 2.1 Tests and build still pass: `npm test && npm run build`
 
 #### Manual
 
-- [ ] 2.2 README, design.md and AGENTS.md read clearly and match what was built
+- [x] 2.2 README, design.md and AGENTS.md read clearly and match what was built

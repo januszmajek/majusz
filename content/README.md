@@ -38,6 +38,8 @@ the source. Anything in a note is public, shown on the page or not.
    On iPhone: Files app → On My iPhone → Obsidian.
 3. Check the properties: `title`, `date` (`YYYY-MM-DD`), `summary`. `tags` is optional.
    New notes: insert the template "article".
+   The home page lists every article by `date`, newest first; articles with the same date go by
+   title A→Z. A future date is shown as written.
 4. Add images with location stripped:
    - iOS share sheet → Options → Location off, or
    - Image Converter with metadata removal.
