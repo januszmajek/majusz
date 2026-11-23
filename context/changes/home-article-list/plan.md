@@ -239,8 +239,8 @@ cost, negligible at the PRD's expected volume.
 
 #### Automated
 
-- [x] 2.1 Tests and build still pass: `npm test && npm run build`
+- [x] 2.1 Tests and build still pass: `npm test && npm run build` — c95f4c8
 
 #### Manual
 
-- [x] 2.2 README, design.md and AGENTS.md read clearly and match what was built
+- [x] 2.2 README, design.md and AGENTS.md read clearly and match what was built — c95f4c8
