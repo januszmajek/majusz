@@ -8,12 +8,14 @@ export interface ExternalLink {
 
 export interface Social extends ExternalLink {
 	readonly id: 'github' | 'linkedin' | 'x';
+	/** The username on that platform, shown after the label. */
+	readonly handle: string;
 }
 
 export const socials: readonly Social[] = [
-	{ id: 'github', label: 'GitHub', href: 'https://github.com/januszmajek' },
-	{ id: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/janusz-majek/' },
-	{ id: 'x', label: 'X (@janusz_majek)', href: 'https://x.com/janusz_majek' },
+	{ id: 'github', label: 'GitHub', handle: 'januszmajek', href: 'https://github.com/januszmajek' },
+	{ id: 'linkedin', label: 'LinkedIn', handle: 'janusz-majek', href: 'https://www.linkedin.com/in/janusz-majek/' },
+	{ id: 'x', label: 'X', handle: 'janusz_majek', href: 'https://x.com/janusz_majek' },
 ];
 
 export const repo: ExternalLink = {

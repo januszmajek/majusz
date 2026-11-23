@@ -42,7 +42,11 @@
   .prose ul > li::before {
     content: "✦";
     content: "✦" / "";
-    @apply absolute -left-[1.5em] top-[0.55em] font-mono text-[0.55em] leading-none text-muted-foreground;
+    @apply absolute top-0 font-mono text-[0.55em] text-muted-foreground;
+    /* Sizes in the star's own (0.55em) font: one body line tall, so the star centres on the
+       first line, and the same 1.5em indent as the text. */
+    left: calc(-1.5em / 0.55);
+    line-height: calc(var(--text-body--line-height) / 0.55);
   }
   .prose ol { @apply list-decimal pl-[1.5em] marker:font-mono marker:text-[0.9em] marker:text-muted-foreground; }
   .prose li + li { @apply mt-1.5; }

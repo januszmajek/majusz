@@ -21,13 +21,14 @@ import PageLayout from '@/layouts/PageLayout.astro';
 			socials.map((social) => (
 				<li>
 					<a href={social.href} rel="me">
-						{social.label} <span aria-hidden="true">↗</span>
+						{social.label} <span class="text-muted-foreground">@{social.handle}</span>{' '}
+						<span class="ext-arrow" aria-hidden="true">↗</span>
 					</a>
 				</li>
 			))
 		}
 		<li>
-			<a href={repo.href}>{repo.label} <span aria-hidden="true">↗</span></a>
+			<a href={repo.href}>{repo.label} <span class="ext-arrow" aria-hidden="true">↗</span></a>
 		</li>
 	</ul>
 </PageLayout>

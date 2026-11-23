@@ -150,7 +150,8 @@ hidden from screen readers.
 **Article.**
 - The title first (no back link; the wordmark leads home), the meta line directly under it,
   then the summary in muted Aile.
-- Prose at 65ch from the shared left edge. `✦` bullets for unordered lists, muted numerals
+- Prose at 65ch from the shared left edge. `✦` bullets for unordered lists (on the shared left
+  edge, centred on the first line), muted numerals
   for ordered lists, hairline left border for blockquotes, `- - -` for rules.
 - Links: accent color at rest, underline on hover and focus. Same rule in both themes.
 - Callouts: one look for every type, so the accent stays the links': `--card` panel with a
@@ -184,9 +185,10 @@ hidden from screen readers.
 
 **About.** Same title style as home, then prose, the whole page capped at 38rem
 (`src/pages/about.astro` on `PageLayout`): a short draft bio the author replaces, then an
-"Elsewhere" list of GitHub, LinkedIn and X, then the source of this site. Every URL comes from
-`src/config/links.ts`. Links open in the same tab with a trailing `↗` hidden from screen
-readers; the profiles carry `rel="me"`, the repo does not.
+"Elsewhere" list of GitHub, LinkedIn and X, each as the platform then the muted `@handle`,
+then the source of this site. Every URL comes from `src/config/links.ts`. Links open in the
+same tab with a trailing `↗` at 0.7em (`.ext-arrow`), hidden from screen readers; the profiles
+carry `rel="me"`, the repo does not.
 
 **Theme toggle.** shadcn `Button` (ghost, `icon-lg`), rendered as static HTML (no React ships),
 at the right of the header, after the last nav item. The icon is the current theme (shadcn's

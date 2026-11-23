@@ -176,6 +176,8 @@
 @layer components {
   /* Press feedback on press, not release. */
   .press:active { @apply opacity-60; }
+  /* The ↗ after an external link: smaller than the text, so it marks without shouting. */
+  .ext-arrow { font-size: 0.7em; }
   /* Muted chrome links brighten to the text color on hover. */
   @media (hover: hover) {
     .quiet:hover { @apply text-foreground; }
