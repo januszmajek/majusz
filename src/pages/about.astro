@@ -1,0 +1,33 @@
+---
+// About: draft bio (the author replaces it), then the Elsewhere list, every URL
+// from src/config/links.ts. External links open in the same tab, marked with ↗.
+import { repo, socials } from '@/config/links';
+import PageLayout from '@/layouts/PageLayout.astro';
+---
+
+<PageLayout title="About" current="about" description="Janusz Majek builds software and writes down what he learns doing it.">
+	<p>
+		I'm Janusz. I build software, and I write to think: a problem only feels solved once I can explain it in plain
+		words.
+	</p>
+	<p>
+		This site is where that writing lands. Expect notes on tools, code and the odd side project, written for whoever
+		hits the same problem next, often me.
+	</p>
+	<p>Posts come when there is something worth writing down, not on a schedule.</p>
+	<h2>Elsewhere</h2>
+	<ul>
+		{
+			socials.map((social) => (
+				<li>
+					<a href={social.href} rel="me">
+						{social.label} <span aria-hidden="true">↗</span>
+					</a>
+				</li>
+			))
+		}
+		<li>
+			<a href={repo.href}>{repo.label} <span aria-hidden="true">↗</span></a>
+		</li>
+	</ul>
+</PageLayout>
