@@ -285,4 +285,4 @@ One more static page and a few links; no JS.
 
 #### Manual
 
-- [ ] 3.2 The repo page on GitHub looks presentable
+- [x] 3.2 The repo page on GitHub looks presentable

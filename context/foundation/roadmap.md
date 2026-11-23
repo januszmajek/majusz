@@ -47,7 +47,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-03 | callouts-code-tables | visitor can read callouts, highlights, syntax-highlighted code and tables as Obsidian shows them, with comments hidden | S-01, F-01 | US-01, FR-009 | done |
 | S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | done |
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | done |
-| S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | in-progress |
+| S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | done |
 | S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | done |
 
 ## Streams
@@ -169,7 +169,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Unknowns:**
   - ~~Which social profiles count as actively used, and About page copy.~~ Resolved 2026-11-23: GitHub, LinkedIn and X (`src/config/links.ts`); the About copy is a draft the author replaces.
 - **Risk:** linking the repo exposes code and history to recruiters, so the README and clean history are part of this slice, not an afterthought. The navigation and About page are built in F-01's design, so they aren't restyled later.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-07: Theme follows the device
 
@@ -228,3 +228,4 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **S-04: visitor can read diagrams and math displayed as Obsidian shows them, and the article is still readable on a phone in under 2 seconds.** — Archived 2026-11-01 → `context/archive/2026-10-31-diagrams-and-math/`. Lesson: —.
 - **S-05: visitor lands on a home page with a short, catchy introduction and all articles listed newest first, or a teaser empty state when none exist. There is no separate Blog page.** — Archived 2026-11-23 → `context/archive/2026-11-01-home-article-list/`. Lesson: —.
 - **S-07: visitor sees the site in their device's dark or light theme by default and can switch it manually, with readable contrast and keyboard access in both.** — Archived 2026-11-23 → `context/archive/2026-11-23-theme-follows-device/`. Lesson: —.
+- **S-06: visitor can open the About page, the author's actively used social profiles and the site's public GitHub repo from the navigation; the repo has a presentable README.** — Archived 2026-11-23 → `context/archive/2026-11-23-about-socials-repo-links/`. Lesson: —.
