@@ -1,14 +1,31 @@
 ---
 // Sets `.dark` on <html> before first paint, so there is no theme flash.
-// Render first in <head>. F-01 follows the device setting only; S-07 adds the
-// stored manual choice here, next to its toggle.
+// Render first in <head>. A stored choice (localStorage `theme`, set by
+// ThemeToggle) always wins; without one the site follows the device, live.
+// Other tabs follow through the `storage` event.
 ---
 
 <script is:inline>
 	(() => {
 		const query = matchMedia('(prefers-color-scheme: dark)');
-		const apply = () => document.documentElement.classList.toggle('dark', query.matches);
+		// Storage can throw (blocked, private mode): treat that as no choice.
+		const stored = () => {
+			try {
+				const value = localStorage.getItem('theme');
+				return value === 'light' || value === 'dark' ? value : null;
+			} catch {
+				return null;
+			}
+		};
+		const apply = () => {
+			const theme = stored();
+			document.documentElement.classList.toggle('dark', theme ? theme === 'dark' : query.matches);
+		};
 		apply();
+		// Read storage at change time, so a click after load still wins.
 		query.addEventListener('change', apply);
+		addEventListener('storage', (event) => {
+			if (event.key === 'theme' || event.key === null) apply();
+		});
 	})();
 </script>

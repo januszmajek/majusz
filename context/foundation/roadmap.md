@@ -48,7 +48,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | done |
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | done |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | proposed |
-| S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | proposed |
+| S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | in-progress |
 
 ## Streams
 
@@ -182,7 +182,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Unknowns:**
   - Is the manual choice remembered across visits? Remembering it must not involve tracking cookies. — Owner: author. Block: no.
 - **Risk:** F-01 defines both color schemes and already follows the device setting (inline head script, no storage); this slice adds the manual toggle and remembering the choice. Landing it right after F-01 means S-03–S-05 are checked against both themes from the start.
-- **Status:** proposed
+- **Status:** in-progress
 
 ## Backlog Handoff
 
