@@ -180,7 +180,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Parallel with:** S-01, S-02, S-03, S-04, S-05, S-06
 - **Blockers:** —
 - **Unknowns:**
-  - Is the manual choice remembered across visits? Remembering it must not involve tracking cookies. — Owner: author. Block: no.
+  - ~~Is the manual choice remembered across visits? Remembering it must not involve tracking cookies.~~ Resolved 2026-11-23: yes, in `localStorage` (`theme`), no cookie; once set it always wins over the device (`context/foundation/design.md` → Theme toggle).
 - **Risk:** F-01 defines both color schemes and already follows the device setting (inline head script, no storage); this slice adds the manual toggle and remembering the choice. Landing it right after F-01 means S-03–S-05 are checked against both themes from the start.
 - **Status:** in-progress
 
@@ -215,6 +215,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **RSS feed** — Why parked: PRD §Non-Goals; skipped entirely.
 - **Multiple languages, other authors** — Why parked: PRD §Non-Goals.
 - **Visitor statistics / analytics, cookie banner** — Why parked: PRD §Non-Goals (non-functional).
+- **Instant navigation (prefetch every linked page, maybe ClientRouter)** — Why parked: decided 2026-11-23 during S-07 planning, to plan as its own slice after S-06; a ClientRouter must re-apply the theme after each page swap.
 
 ## Milestone History
 

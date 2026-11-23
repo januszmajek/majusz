@@ -49,7 +49,10 @@ before changing the code or the doc.
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
 - `src/layouts/Layout.astro` is the site shell (fonts, theme script, header, footer, motif);
-  its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`.
+  its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`. `ThemeScript`
+  sets `.dark` before first paint (stored `localStorage` `theme`, else the device);
+  `ThemeToggle` is a shadcn button rendered statically. shadcn components rendered from
+  `.astro` without `client:*` become plain HTML and ship no JS; no page hydrates React.
 - `src/layouts/ArticleLayout.astro` (used by `[slug].astro`), `PageLayout.astro` (for About,
   unused so far) and `src/components/home/` (Intro, ArticleList, EmptyState, used by
   `index.astro`) are the page layouts. `src/lib/articles.ts` holds the home list order (date

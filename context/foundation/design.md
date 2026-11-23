@@ -183,10 +183,15 @@ article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05
 **About.** Same title style as home, then prose (bio, an "Elsewhere" list of social and repo
 links), the whole page capped at 38rem.
 
-**Theme toggle.** shadcn `Button` (ghost, icon), lucide Sun/Moon, after the last nav item.
-Accessible name "Dark theme" with `aria-pressed`. Applies `.dark` before first paint from the
-stored choice, else the system preference; stores the choice locally (no cookie, no
-tracking). Building it on the site is S-07's job; this is its look.
+**Theme toggle.** shadcn `Button` (ghost, `icon-lg`), rendered as static HTML (no React ships),
+at the right of the header, after the last nav item. The icon is the current theme (shadcn's
+mode-toggle convention): sun in light, moon in dark, swapped with a rotate/scale transition,
+none under reduced motion. Accessible name "Dark theme" with `aria-pressed` mirroring `.dark`;
+focus is the accent outline. A click stores the choice in `localStorage` (`theme`: `light` |
+`dark`; no cookie, no tracking). The head script applies it before first paint, and once set
+it always wins over the device; there is no way back to following the device from the page.
+With no stored choice the site follows the device, live. Other open tabs switch at once. If
+storage is blocked the button still switches the current page.
 
 ## Left for slices
 
@@ -194,6 +199,6 @@ tracking). Building it on the site is S-07's job; this is its look.
 - ~~Wikilink styling (unpublished notes render as plain body text) and tag display — S-02.~~ Done: a link to a published article looks like any prose link; an unpublished one is plain body text with no styling difference. The `tags` property stays in the meta line unchanged (`date · n min · tag · tag`). Inline `#tag` is a muted Iosevka span, not a link (`.prose .tag` in `src/styles/prose.css`).
 - ~~Callouts, code syntax-highlighting theme (both themes), tables — S-03.~~ Done: see Layouts → Article (callouts, highlights, code blocks, tables).
 - ~~Diagrams and math — S-04.~~ Done: see Layouts → Article (math, diagrams).
-- Theme toggle behavior and wiring — S-07.
+- ~~Theme toggle behavior and wiring — S-07.~~ Done: see Layouts → Theme toggle (`src/components/site/ThemeScript.astro`, `ThemeToggle.astro`).
 - ~~Home intro copy and whether it includes a photo — S-05.~~ Done: one plain sentence under a screen-reader-only "Janusz Majek" title, no photo; same-day articles are listed by title A→Z. Final copy is rewritten once the features are built.
 - The game's look — its own milestone.

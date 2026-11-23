@@ -241,9 +241,9 @@ The icon swap is CSS, so there is no layout shift or icon flash.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm test`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 Every built page has the toggle and no React runtime
+- [x] 1.1 Unit tests pass: `npm test` — 09c505f
+- [x] 1.2 Build passes: `npm run build` — 09c505f
+- [x] 1.3 Every built page has the toggle and no React runtime — 09c505f
 
 #### Manual
 
@@ -259,7 +259,7 @@ The icon swap is CSS, so there is no layout shift or icon flash.
 
 #### Automated
 
-- [ ] 2.1 Tests and build still pass: `npm test && npm run build`
+- [x] 2.1 Tests and build still pass: `npm test && npm run build`
 
 #### Manual
 
