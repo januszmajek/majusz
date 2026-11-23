@@ -247,13 +247,13 @@ The icon swap is CSS, so there is no layout shift or icon flash.
 
 #### Manual
 
-- [ ] 1.4 Click switches theme both ways; sun in light, moon in dark
-- [ ] 1.5 Choice survives reload and navigation with no flash
-- [ ] 1.6 Stored choice beats device changes; without one the site follows the device live
-- [ ] 1.7 Two tabs stay in step
-- [ ] 1.8 Keyboard and screen reader: focus ring, Enter/Space, "Dark theme" pressed state
-- [ ] 1.9 Private window: works, nothing breaks
-- [ ] 1.10 Phone width header: one line, easy to tap
+- [x] 1.4 Click switches theme both ways; sun in light, moon in dark — 09c505f
+- [x] 1.5 Choice survives reload and navigation with no flash — 09c505f
+- [x] 1.6 Stored choice beats device changes; without one the site follows the device live — 09c505f
+- [x] 1.7 Two tabs stay in step — 09c505f
+- [x] 1.8 Keyboard and screen reader: focus ring, Enter/Space, "Dark theme" pressed state — 09c505f
+- [x] 1.9 Private window: works, nothing breaks — 09c505f
+- [x] 1.10 Phone width header: one line, easy to tap — 09c505f
 
 ### Phase 2: Docs
 
@@ -263,4 +263,4 @@ The icon swap is CSS, so there is no layout shift or icon flash.
 
 #### Manual
 
-- [ ] 2.2 design.md, AGENTS.md and the roadmap entry match what was built
+- [x] 2.2 design.md, AGENTS.md and the roadmap entry match what was built — 59cf76f

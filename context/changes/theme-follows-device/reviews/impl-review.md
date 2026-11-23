@@ -16,7 +16,7 @@
 | Safety & Quality | PASS |
 | Architecture | PASS |
 | Pattern Consistency | PASS |
-| Success Criteria | PASS (automated); manual 1.4–1.10 and 2.2 pending with the author |
+| Success Criteria | PASS (automated + author's manual 1.4–1.10 and 2.2) |
 
 Evidence (Playwright + system Chromium against `astro preview` of `dist/`, 18/18 checks, no
 console or page errors):
@@ -43,7 +43,7 @@ console or page errors):
 - **Detail**: 36×36px meets WCAG 2.5.8 (24px minimum) but is under the 44px touch guideline.
   It sits alone at the right of the header, so mis-taps are unlikely.
 - **Fix**: If it feels small on the phone (manual 1.10), switch to a 44px box (`size-11`).
-- **Decision**: DEFERRED to the author's phone check
+- **Decision**: ACCEPTED (author confirmed on the phone, 2026-11-23: easy to tap)
 
 ### F2 — Unused React client chunk in `dist/_astro/`
 
