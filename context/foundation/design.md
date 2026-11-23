@@ -34,7 +34,7 @@ Scale (root 16px; sizes in `rem`, tracking by size, leading shrinks as size grow
 | Wordmark `Janusz Majek` | 1.25rem → 1.375rem from 40rem | 700 | 1 | -0.01em | Iosevka |
 | Nav items (`about`) | same as wordmark, lowercase | 500 current / 400 others | 1 | -0.01em | Iosevka |
 | Article title | clamp(1.75rem, 4.5vw, 2.25rem) | 600 | 1.12 | -0.02em | Iosevka |
-| Home and About title | clamp(1.5rem, 4vw, 1.875rem) | 600 | 1.15 | -0.015em | Iosevka |
+| About title (home's is screen-reader only) | clamp(1.5rem, 4vw, 1.875rem) | 600 | 1.15 | -0.015em | Iosevka |
 | Prose h2 / h3 | 1.375rem / 1.125rem | 600 | 1.2 | -0.01em | Iosevka |
 | Home list title | 1rem | 400 | 1.4 | 0 | Iosevka |
 | Article summary | 1.125rem | 400 | 1.5 | 0 | Aile |
@@ -134,7 +134,7 @@ foreground color and medium weight only (no glyph). There is no `articles` item:
 article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05).
 
 **Footer (every page).** A left-aligned `EOF ────` rule closes the main content, then
-`© 2026 majusz · source ↗` in 0.75rem muted.
+`© 2026 Janusz Majek · source ↗` in 0.75rem muted.
 
 **Home.**
 - Intro: one Aile paragraph, capped at 38rem, tight above the list. Its title ("Janusz Majek")

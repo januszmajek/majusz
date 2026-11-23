@@ -1,7 +1,7 @@
 ---
 change_id: home-article-list
 title: Home article list
-status: implemented
+status: impl_reviewed
 created: 2026-11-01
 updated: 2026-11-23
 archived_at: null
