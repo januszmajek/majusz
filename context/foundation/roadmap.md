@@ -48,7 +48,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-04 | diagrams-and-math | visitor can read diagrams and math as Obsidian shows them, fast on a phone | S-01, F-01 | US-01, FR-009 | done |
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | done |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | proposed |
-| S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | in-progress |
+| S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | done |
 
 ## Streams
 
@@ -182,7 +182,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Unknowns:**
   - ~~Is the manual choice remembered across visits? Remembering it must not involve tracking cookies.~~ Resolved 2026-11-23: yes, in `localStorage` (`theme`), no cookie; once set it always wins over the device (`context/foundation/design.md` → Theme toggle).
 - **Risk:** F-01 defines both color schemes and already follows the device setting (inline head script, no storage); this slice adds the manual toggle and remembering the choice. Landing it right after F-01 means S-03–S-05 are checked against both themes from the start.
-- **Status:** in-progress
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -227,3 +227,4 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **S-03: visitor can read callouts, highlights (`==mark==`), code blocks with syntax highlighting, and tables, displayed as Obsidian shows them, in both themes and on a phone; `%%comments%%` are hidden, as in Obsidian.** — Archived 2026-10-31 → `context/archive/2026-10-31-callouts-code-tables/`. Lesson: —.
 - **S-04: visitor can read diagrams and math displayed as Obsidian shows them, and the article is still readable on a phone in under 2 seconds.** — Archived 2026-11-01 → `context/archive/2026-10-31-diagrams-and-math/`. Lesson: —.
 - **S-05: visitor lands on a home page with a short, catchy introduction and all articles listed newest first, or a teaser empty state when none exist. There is no separate Blog page.** — Archived 2026-11-23 → `context/archive/2026-11-01-home-article-list/`. Lesson: —.
+- **S-07: visitor sees the site in their device's dark or light theme by default and can switch it manually, with readable contrast and keyboard access in both.** — Archived 2026-11-23 → `context/archive/2026-11-23-theme-follows-device/`. Lesson: —.
