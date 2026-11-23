@@ -31,8 +31,9 @@ before changing the code or the doc.
 ## Project Structure
 
 - `src/pages/` holds the home (`index.astro`: intro, then every article newest first, or the
-  empty state), `404.astro` (served for missing URLs) and `[slug].astro`, one page per article
-  from the `articles` collection (`src/content.config.ts`).
+  empty state), `about.astro` (About, on `PageLayout`), `404.astro` (served for missing URLs)
+  and `[slug].astro`, one page per article from the `articles` collection
+  (`src/content.config.ts`).
 - `content/` is the publish side of the Obsidian vault: `articles/` (flat, one `.md` per
   article, the only folder built), `attachments/` (images), `templates/` (article template)
   and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
@@ -49,14 +50,15 @@ before changing the code or the doc.
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
 - `src/layouts/Layout.astro` is the site shell (fonts, theme script, header, footer, motif);
-  its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`. `ThemeScript`
-  sets `.dark` before first paint (stored `localStorage` `theme`, else the device);
-  `ThemeToggle` is a shadcn button rendered statically. shadcn components rendered from
-  `.astro` without `client:*` become plain HTML and ship no JS; no page hydrates React.
-- `src/layouts/ArticleLayout.astro` (used by `[slug].astro`), `PageLayout.astro` (for About,
-  unused so far) and `src/components/home/` (Intro, ArticleList, EmptyState, used by
-  `index.astro`) are the page layouts. `src/lib/articles.ts` holds the home list order (date
-  newest first, same day by title A→Z); `src/lib/date.ts` formats dates (UTC).
+  its pieces live in `src/components/site/`, nav entries in `src/config/nav.ts`, external URLs
+  (socials and repo) in `src/config/links.ts`. `ThemeScript` sets `.dark` before first paint
+  (stored `localStorage` `theme`, else the device); `ThemeToggle` is a shadcn button rendered
+  statically. shadcn components rendered from `.astro` without `client:*` become plain HTML
+  and ship no JS; no page hydrates React.
+- `src/layouts/ArticleLayout.astro` (used by `[slug].astro`), `PageLayout.astro` (About) and
+  `src/components/home/` (Intro, ArticleList, EmptyState, used by `index.astro`) are the page
+  layouts. `src/lib/articles.ts` holds the home list order (date newest first, same day by
+  title A→Z); `src/lib/date.ts` formats dates (UTC).
 - `src/components/ui/` holds shadcn primitives, added only when used with
   `npx shadcn add <name>`; `src/lib/utils.ts` holds `cn()`.
 - `lab/` is the design lab, a separate dev app (own config, port 4322) that frames

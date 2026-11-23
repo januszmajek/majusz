@@ -167,7 +167,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Parallel with:** S-01, S-02, S-03, S-04, S-05, S-07
 - **Blockers:** —
 - **Unknowns:**
-  - Which social profiles count as actively used, and About page copy. — Owner: author. Block: no.
+  - ~~Which social profiles count as actively used, and About page copy.~~ Resolved 2026-11-23: GitHub, LinkedIn and X (`src/config/links.ts`); the About copy is a draft the author replaces.
 - **Risk:** linking the repo exposes code and history to recruiters, so the README and clean history are part of this slice, not an afterthought. The navigation and About page are built in F-01's design, so they aren't restyled later.
 - **Status:** in-progress
 

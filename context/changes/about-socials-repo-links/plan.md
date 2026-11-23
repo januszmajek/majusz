@@ -254,10 +254,10 @@ One more static page and a few links; no JS.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm test`
-- [x] 1.2 Build passes: `npm run build`
-- [x] 1.3 About is built with every link
-- [x] 1.4 Every page has the nav entry and the footer source link
+- [x] 1.1 Unit tests pass: `npm test` — 6e715b7
+- [x] 1.2 Build passes: `npm run build` — 6e715b7
+- [x] 1.3 About is built with every link — 6e715b7
+- [x] 1.4 Every page has the nav entry and the footer source link — 6e715b7
 
 #### Manual
 
@@ -270,7 +270,7 @@ One more static page and a few links; no JS.
 
 #### Automated
 
-- [ ] 2.1 Tests and build still pass: `npm test && npm run build`
+- [x] 2.1 Tests and build still pass: `npm test && npm run build`
 
 #### Manual
 

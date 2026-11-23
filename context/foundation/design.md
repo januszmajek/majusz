@@ -134,7 +134,9 @@ foreground color and medium weight only (no glyph). There is no `articles` item:
 article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05).
 
 **Footer (every page).** A left-aligned `EOF ────` rule closes the main content, then
-`© 2026 Janusz Majek · source ↗` in 0.75rem muted.
+`© 2026 Janusz Majek · source ↗` in 0.75rem muted. `source` links to the repo
+(`src/config/links.ts`) in the same tab and turns the accent on hover and focus; the `↗` is
+hidden from screen readers.
 
 **Home.**
 - Intro: one Aile paragraph, capped at 38rem, tight above the list. Its title ("Janusz Majek")
@@ -180,8 +182,11 @@ article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05
   ninth series. Set in Iosevka,
   square corners, at natural width, centred, scrolling sideways inside a focusable region.
 
-**About.** Same title style as home, then prose (bio, an "Elsewhere" list of social and repo
-links), the whole page capped at 38rem.
+**About.** Same title style as home, then prose, the whole page capped at 38rem
+(`src/pages/about.astro` on `PageLayout`): a short draft bio the author replaces, then an
+"Elsewhere" list of GitHub, LinkedIn and X, then the source of this site. Every URL comes from
+`src/config/links.ts`. Links open in the same tab with a trailing `↗` hidden from screen
+readers; the profiles carry `rel="me"`, the repo does not.
 
 **Theme toggle.** shadcn `Button` (ghost, `icon-lg`), rendered as static HTML (no React ships),
 at the right of the header, after the last nav item. The icon is the current theme (shadcn's
