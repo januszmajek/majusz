@@ -270,7 +270,7 @@ One more static page and a few links; no JS.
 
 #### Automated
 
-- [x] 2.1 Tests and build still pass: `npm test && npm run build`
+- [x] 2.1 Tests and build still pass: `npm test && npm run build` — 9fc8e63
 
 #### Manual
 
