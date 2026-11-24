@@ -73,7 +73,8 @@ From `context/changes/site-performance/research.md` (measured 2026-11-24):
   in the plan.
 - No above-the-fold detection for images: priority goes to the first image only when it is among
   the first three top-level blocks of the article body; later images stay lazy.
-- No change to the motif's 30 fps loop, no CSS inlining (`build.inlineStylesheets` stays default),
+- No change to the motif's 30 fps loop, no CSS inlining (`build.inlineStylesheets` stays default;
+  measured in phase 6: heavy-article LCP 2.10 → 2.18 s, worse),
   no Early Hints, no removal of the `react()` integration or the unused `client.*.js`.
 - No dropping Iosevka Aile; no two-language routing (separate future change).
 - No `wrangler deploy`; deploy stays push-to-master.
@@ -501,6 +502,58 @@ proceeding to the next phase.
 
 ---
 
+## Phase 6: Lighter fonts
+
+### Overview
+
+Added after the author pushed phases 1-5: the heavy mock article's LCP was 2.1 s against the
+≤ 2.0 s target. The Lighthouse breakdown showed the leading image (24 KB, 750w) fully downloaded
+at ~1.0 s; LCP waited on the ~130 KB of high-priority font faces downloading beside it. Two
+candidates were measured on the scratch copy (median of 3, Lighthouse 12 mobile):
+
+| Variant | home LCP | About LCP | heavy article FCP / LCP |
+|---|---|---|---|
+| baseline (phases 1-5) | 1.50 s | 1.50 s | 1.35 / 2.10 s |
+| CSS inlined (`inlineStylesheets: 'always'`) | 1.50 s | 1.50 s | 1.50 / 2.18 s (rejected) |
+| narrow glyph set, Polish letters kept | 1.35 s | 1.35 s | 1.35 / 1.95 s |
+
+### Changes Required:
+
+#### 1. Glyph set
+
+**File**: `scripts/subset-fonts.mjs`, `src/assets/fonts/*.woff2` (regenerated)
+
+**Contract**: ranges are Basic Latin, Latin-1, the 18 Polish letters (not all of Latin
+Extended-A), the existing punctuation, € ™, arrows and math signs, `─` only from box drawing, `✦`.
+Faces go from ~25.6-28.2 KB to ~20.5-22.7 KB. Every character on the built pages (site and mock
+articles) is inside the set.
+
+#### 2. Budget
+
+**File**: `tests/dist/budgets.test.ts`
+
+**Contract**: each `dist/_astro/fonts/*.woff2` ≤ 24,000 B (largest measured 22,740).
+
+#### 3. Docs
+
+**Files**: `AGENTS.md`, `context/foundation/design.md`: the narrow set, why, and the budget.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- Unit tests pass: `npm test`
+- Build passes: `npm run build`
+- `dist/` check passes, font budget included: `npm run check:dist`
+- The font budget fails on a deliberate break (the previous font files), then passes again
+
+#### Manual Verification:
+
+- Polish letters, `─` rules and `✦` render in Iosevka/Aile on the production site
+- Lighthouse mobile on the first real article with a photo: LCP ≤ 2.0 s
+
+---
+
 ## Testing Strategy
 
 ### Unit Tests:
@@ -632,3 +685,19 @@ Measurement (2026-11-24, Lighthouse 12 mobile, simulated throttling, median of 3
 "LCP image was lazily loaded", "prioritize LCP image" and "avoid redirects" pass on every run. Heavy-article LCP misses the 2.0 s target by ~0.1 s with noise photos (much larger than real photos); readable text (FCP) is 1.35 s, inside the 2 s NFR. 5.5 stays for the author to judge with real photos.
 
 Budgets set in `tests/dist/budgets.test.ts` (largest page measured → budget): `<head>` 5,958 → 7,000 B raw; CSS 9,285 → 11,000 B brotli; external JS 951 → 1,100 B brotli; preloads 3 → ≤ 3.
+
+### Phase 6: Lighter fonts
+
+#### Automated
+
+- [x] 6.1 Unit tests pass: `npm test` — 10178ac
+- [x] 6.2 Build passes: `npm run build` — 10178ac
+- [x] 6.3 `dist/` check passes, font budget included: `npm run check:dist` — 10178ac
+- [x] 6.4 The font budget fails on a deliberate break (the previous font files), then passes again — 10178ac
+
+#### Manual
+
+- [ ] 6.5 Polish letters, `─` rules and `✦` render in Iosevka/Aile on the production site
+- [ ] 6.6 Lighthouse mobile on the first real article with a photo: LCP ≤ 2.0 s
+
+Measurement (2026-11-24, same method as phase 5, median of 3): home 0.9 / 1.35 s, About 0.9 / 1.35 s, heavy article 1.35 / 1.95 s (FCP / LCP); weight 113 / 86 / 179 KiB.
