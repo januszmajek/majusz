@@ -54,6 +54,10 @@ export default defineConfig({
   build: { format: 'file' },
   trailingSlash: 'never',
 
+  // Every link in the viewport has its HTML fetched at idle time, so Safari and Firefox (no
+  // speculation rules) serve the click from the 60 s HTTP cache set in public/_headers.
+  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
+
   // Markdown images get webp, a srcset, width/height and lazy loading.
   image: { layout: 'constrained', responsiveStyles: true },
 

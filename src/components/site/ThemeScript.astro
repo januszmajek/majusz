@@ -2,7 +2,8 @@
 // Sets `.dark` on <html> before first paint, so there is no theme flash.
 // Render first in <head>. A stored choice (localStorage `theme`, set by
 // ThemeToggle) always wins; without one the site follows the device, live.
-// Other tabs follow through the `storage` event.
+// Other tabs follow through the `storage` event; a prerendered page re-applies on
+// activation and a bfcache-restored one on `pageshow`, as the choice may have changed since.
 ---
 
 <script is:inline>
@@ -22,6 +23,10 @@
 			document.documentElement.classList.toggle('dark', theme ? theme === 'dark' : query.matches);
 		};
 		apply();
+		if (document.prerendering) document.addEventListener('prerenderingchange', apply, { once: true });
+		addEventListener('pageshow', (event) => {
+			if (event.persisted) apply();
+		});
 		// Read storage at change time, so a click after load still wins.
 		query.addEventListener('change', apply);
 		addEventListener('storage', (event) => {

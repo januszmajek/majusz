@@ -552,10 +552,10 @@ Save-Data.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm test`
-- [x] 1.2 Build passes and emits `dist/about.html` and `dist/_headers`
-- [x] 1.3 `dist/` check passes: `npm run check:dist`
-- [x] 1.4 `dist/` check fails on a deliberate break (a link written as `/about/`), then passes again
+- [x] 1.1 Unit tests pass: `npm test` — c09b947
+- [x] 1.2 Build passes and emits `dist/about.html` and `dist/_headers` — c09b947
+- [x] 1.3 `dist/` check passes: `npm run check:dist` — c09b947
+- [x] 1.4 `dist/` check fails on a deliberate break (a link written as `/about/`), then passes again — c09b947
 
 #### Manual
 
@@ -567,9 +567,9 @@ Save-Data.
 
 #### Automated
 
-- [ ] 2.1 Unit tests pass: `npm test`
-- [ ] 2.2 Build passes: `npm run build`
-- [ ] 2.3 `dist/` check passes: `npm run check:dist`
+- [x] 2.1 Unit tests pass: `npm test`
+- [x] 2.2 Build passes: `npm run build`
+- [x] 2.3 `dist/` check passes: `npm run check:dist`
 
 #### Manual
 
