@@ -3,8 +3,8 @@ project: majusz
 version: 1
 status: draft
 created: 2026-10-18
-updated: 2026-11-23
-prd_version: 3
+updated: 2026-11-24
+prd_version: 4
 main_goal: quality
 top_blocker: time
 milestone_id: v1-public-blog
@@ -14,7 +14,7 @@ milestone_status: open
 
 # Roadmap: majusz
 
-> Derived from `context/foundation/prd.md` (v3) + auto-researched codebase baseline.
+> Derived from `context/foundation/prd.md` (v4) + auto-researched codebase baseline.
 > Edit-in-place; archive when superseded.
 > Slices below are listed in dependency order. The "At a glance" table is the index.
 
@@ -23,9 +23,9 @@ milestone_status: open
 **M-1: v1 public blog** — Status: open
 
 - **Intent:** majusz.com goes from placeholder to a working personal blog with a distinctive, consistent look: the author can publish an Obsidian note by adding a file, and a visitor from X or a job application lands on a home page with an introduction and the article list, plus About, socials and the repo, with articles rendered cleanly in their device theme.
-- **Source materials:** `context/foundation/prd.md` (v3)
+- **Source materials:** `context/foundation/prd.md` (v4)
 - **Done when:** every F-NN and S-NN below is `done`.
-- **Scope anchors:** FR-001 – FR-011 (FR-008 removed in PRD v3, merged into FR-002), US-01, US-02, plus the visual-design line in §Vision and §Success Criteria. The game (FR-012, US-03) is explicitly the next milestone per the PRD; search (FR-013) and newsletter (FR-014) are deferred.
+- **Scope anchors:** FR-001 – FR-011 (FR-008 removed in PRD v3, merged into FR-002), US-01, US-02, the phone-speed and instant-navigation NFRs, plus the visual-design line in §Vision and §Success Criteria. The game (FR-012, US-03) is explicitly the next milestone per the PRD; search (FR-013) and newsletter (FR-014) are deferred.
 
 ## Vision recap
 
@@ -49,6 +49,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | done |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | done |
 | S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | done |
+| S-08 | site-performance | visitor moves between the site's pages instantly and reads the first page on a phone in under 2 seconds | S-01–S-07 | US-01, NFR phone speed, NFR instant navigation | todo |
 
 ## Streams
 
@@ -184,6 +185,21 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **Risk:** F-01 defines both color schemes and already follows the device setting (inline head script, no storage); this slice adds the manual toggle and remembering the choice. Landing it right after F-01 means S-03–S-05 are checked against both themes from the start.
 - **Status:** done
 
+### S-08: Site performance
+
+- **Outcome:** visitor moves between the site's own pages (home, articles, About) instantly, with no visible loading, and a first visit on a phone with an average mobile connection shows readable content in under 2 seconds.
+- **Change ID:** site-performance
+- **PRD refs:** US-01, NFR "readable article content in under 2 seconds", NFR "moving between the site's own pages feels instant"
+- **Prerequisites:** S-01–S-07 (last in the milestone: it measures and tunes the finished pages)
+- **Parallel with:** —
+- **Blockers:** —
+- **Unknowns:**
+  - Which technique gives instant navigation (Astro prefetch, Speculation Rules prerender, ClientRouter / View Transitions) and what it costs the first visit and the no-JS rule. — Owner: author. Block: no (settled in research).
+  - How images stay fast without adding a publish step: build-time optimisation (formats, sizes, dimensions) vs a build-failing size guard. — Owner: author. Block: no (settled in research).
+  - Current baseline and budgets (page weight, JS, fonts, images) on a throttled phone profile. — Owner: author. Block: no (measured first).
+- **Risk:** the 2-second promise breaks exactly when a post goes viral on X; navigation tricks must not add weight to the first visit. A ClientRouter must re-apply the theme after each page swap. Publishing must stay "add a `.md` file and its images". The later two-language work will change routing, so budgets and checks set here should be reusable by it.
+- **Status:** todo
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID | Suggested issue title | Ready for `/10x-plan` | Notes |
@@ -196,6 +212,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 | S-05 | home-article-list | Home page with introduction, article list and empty state | no | Needs S-01, F-01 |
 | S-06 | about-socials-repo-links | About page, social links, repo link and README | no | Needs F-01 |
 | S-07 | theme-follows-device | Device dark/light theme with manual toggle | no | Needs F-01 |
+| S-08 | site-performance | Instant page-to-page navigation and sub-2-second first visit | yes | Run `/10x-new site-performance`, then `/10x-research` |
 
 ## Open Roadmap Questions
 
@@ -215,7 +232,6 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **RSS feed** — Why parked: PRD §Non-Goals; skipped entirely.
 - **Multiple languages, other authors** — Why parked: PRD §Non-Goals.
 - **Visitor statistics / analytics, cookie banner** — Why parked: PRD §Non-Goals (non-functional).
-- **Instant navigation (prefetch every linked page, maybe ClientRouter)** — Why parked: decided 2026-11-23 during S-07 planning, to plan as its own slice after S-06; a ClientRouter must re-apply the theme after each page swap.
 
 ## Milestone History
 

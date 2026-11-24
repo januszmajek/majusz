@@ -1,6 +1,6 @@
 ---
 project: "majusz"
-version: 3
+version: 4
 status: draft
 created: 2026-10-15
 context_type: greenfield
@@ -183,6 +183,7 @@ Scope decision: v1 = introduction, article list on the home page, article pages 
 ## Non-Functional Requirements
 
 - A visitor on a phone with an average mobile connection sees readable article content in under 2 seconds.
+- Moving between the site's own pages (home, articles, About) feels instant: the next page appears on click, with no visible loading. This must not slow down the first visit.
 - A published article is visible on majusz.com within 5 minutes of the author adding the file.
 - The site is usable on the latest two major versions of the mainstream browsers, on desktop and mobile, at both phone and desktop widths.
 - Text is readable with sufficient contrast in both dark and light themes, and every page can be used with a keyboard only.
