@@ -25,7 +25,7 @@ const path = (Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/').replac
 									<a
 										href={item.href}
 										aria-current={current === item.id ? (path === item.href ? 'page' : 'true') : undefined}
-										class:list={['press', current === item.id ? 'font-medium text-foreground' : 'quiet text-muted-foreground']}>
+										class:list={['press', current === item.id ? 'font-semibold text-foreground' : 'quiet text-muted-foreground']}>
 										{item.label}
 									</a>
 								</li>

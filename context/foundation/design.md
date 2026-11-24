@@ -19,11 +19,12 @@ nothing over ~150ms on the input path, `transform`/`opacity` animation only.
 | Long reading (article body, summaries, intro) | Iosevka Aile (quasi-proportional) | SIL OFL 1.1 |
 
 - Self-hosted through Astro's `fonts` config (local provider) from subset copies in
-  `src/assets/fonts/`, weights 400, 500, 600, 700, normal and italic, ~25 KB per face.
+  `src/assets/fonts/`, weights 400 and 600, normal and italic, ~25 KB per face.
   `scripts/subset-fonts.mjs` cuts the Fontsource files to Latin, Latin Extended-A
   (Polish), prose punctuation, a few arrows and math signs, box drawing and `✦`; rerun it
   when a new character range is needed. Code ligatures and stylistic alternates are not
-  kept. Iosevka 400 and Aile 400 are preloaded. No third-party font host at runtime.
+  kept. Iosevka 400, Iosevka 600 and Aile 400 are preloaded. No third-party font host at
+  runtime.
 - Fallbacks: `ui-monospace, monospace` for Iosevka; `ui-sans-serif, system-ui, sans-serif`
   for Aile. `font-optical-sizing: auto` on prose.
 
@@ -31,8 +32,8 @@ Scale (root 16px; sizes in `rem`, tracking by size, leading shrinks as size grow
 
 | Element | Size | Weight | Leading | Tracking | Family |
 | --- | --- | --- | --- | --- | --- |
-| Wordmark `Janusz Majek` | 1.25rem → 1.375rem from 40rem | 700 | 1 | -0.01em | Iosevka |
-| Nav items (`about`) | same as wordmark, lowercase | 500 current / 400 others | 1 | -0.01em | Iosevka |
+| Wordmark `Janusz Majek` | 1.25rem → 1.375rem from 40rem | 600 | 1 | -0.01em | Iosevka |
+| Nav items (`about`) | same as wordmark, lowercase | 600 current / 400 others | 1 | -0.01em | Iosevka |
 | Article title | clamp(1.75rem, 4.5vw, 2.25rem) | 600 | 1.12 | -0.02em | Iosevka |
 | About title (home's is screen-reader only) | clamp(1.5rem, 4vw, 1.875rem) | 600 | 1.15 | -0.015em | Iosevka |
 | Prose h2 / h3 | 1.375rem / 1.125rem | 600 | 1.2 | -0.01em | Iosevka |
@@ -130,7 +131,7 @@ article title and prose, and the `EOF` rule all share one left edge on every pag
 **Header (every page).** Wordmark `Janusz Majek` on the left, linking to `/`; `about` and the
 theme toggle on the right, space between. Hovering the wordmark turns it the accent, like a
 home list title. No border under it. The current page is marked by
-foreground color and medium weight only (no glyph). There is no `articles` item: home is the
+foreground color and semibold weight only (no glyph). There is no `articles` item: home is the
 article list, and the wordmark is the way back to it (decided 2026-11-23 in S-05).
 
 **Footer (every page).** A left-aligned `EOF ────` rule closes the main content, then
@@ -167,7 +168,7 @@ hidden from screen readers.
   dark `#d8a657`, `#7fb3e0`, `#c49be0`). Every token is at least 4.5:1 on `--card`, checked by
   `contrast.test.ts`. No copy button, language label or line numbers. Long lines scroll inside
   the block.
-- Tables: hairline rows in `--border`, a header row in Iosevka at medium weight over a stronger
+- Tables: hairline rows in `--border`, a header row in Iosevka at semibold weight over a stronger
   rule, cells in Aile, alignment as written. A wide table scrolls sideways inside its own
   focusable region; the page never does.
 - Math: MathML in Latin Modern Math, inline in the text flow. Display math is centred and

@@ -8,7 +8,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import subsetFont from 'subset-font';
 
 const FAMILIES = { iosevka: 'iosevka', 'iosevka-aile': 'iosevka-aile' };
-const WEIGHTS = [400, 500, 600, 700];
+const WEIGHTS = [400, 600];
 const STYLES = ['normal', 'italic'];
 const SOURCE = (id, weight, style) =>
 	`https://cdn.jsdelivr.net/fontsource/fonts/${id}@5.3.0/latin-${weight}-${style}.woff2`;

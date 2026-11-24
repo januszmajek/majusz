@@ -28,7 +28,7 @@ const iosevka = (/** @type {string} */ file, /** @type {string} */ name, /** @ty
   cssVariable,
   fallbacks,
   options: {
-    variants: /** @type {const} */ ([400, 500, 600, 700]).flatMap((weight) =>
+    variants: /** @type {const} */ ([400, 600]).flatMap((weight) =>
       /** @type {const} */ (['normal', 'italic']).map((style) => ({
         src: /** @type {[string]} */ ([`./src/assets/fonts/${file}-${weight}-${style}.woff2`]),
         weight,

@@ -150,7 +150,7 @@
   .prose .table-scroll:focus-visible { @apply outline-2 outline-offset-2 outline-ring; }
   .prose table { @apply min-w-full border-collapse text-[0.95em] leading-[1.5]; }
   .prose th {
-    @apply border-b border-foreground/30 px-3 py-2 text-left align-bottom font-mono text-sm font-medium whitespace-nowrap;
+    @apply border-b border-foreground/30 px-3 py-2 text-left align-bottom font-mono text-sm font-semibold whitespace-nowrap;
   }
   .prose td { @apply min-w-[8ch] border-b border-border px-3 py-2 align-top; }
   .prose :is(th, td):first-child { @apply pl-0; }
