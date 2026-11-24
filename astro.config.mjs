@@ -48,6 +48,12 @@ export default defineConfig({
   // instead of the article being silently hidden.
   prerenderConflictBehavior: 'error',
 
+  // `about.html`, not `about/index.html`: Workers serves `/about` straight from it, where the
+  // directory build made every internal link (written without a slash) answer `307 → /about/`.
+  // `trailingSlash: 'never'` keeps dev and the router on the same slash-less URLs.
+  build: { format: 'file' },
+  trailingSlash: 'never',
+
   // Markdown images get webp, a srcset, width/height and lazy loading.
   image: { layout: 'constrained', responsiveStyles: true },
 

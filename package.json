@@ -15,7 +15,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "astro build && wrangler deploy",
-    "test": "vitest run"
+    "test": "vitest run",
+    "check:dist": "vitest run --config vitest.dist.config.ts"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",

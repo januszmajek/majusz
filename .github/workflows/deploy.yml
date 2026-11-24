@@ -30,6 +30,9 @@ jobs:
 
       - run: npm run build
 
+      # Internal links and cache rules in the built site (tests/dist/).
+      - run: npm run check:dist
+
       # Cloudflare rejects any asset over 25 MiB and fails the whole deploy.
       - name: Check asset sizes
         run: |

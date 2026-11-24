@@ -49,7 +49,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | done |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | done |
 | S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | done |
-| S-08 | site-performance | visitor moves between the site's pages instantly and reads the first page on a phone in under 2 seconds | S-01–S-07 | US-01, NFR phone speed, NFR instant navigation | todo |
+| S-08 | site-performance | visitor moves between the site's pages instantly and reads the first page on a phone in under 2 seconds | S-01–S-07 | US-01, NFR phone speed, NFR instant navigation | in-progress |
 
 ## Streams
 
@@ -198,7 +198,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
   - How images stay fast without adding a publish step: build-time optimisation (formats, sizes, dimensions) vs a build-failing size guard. — Owner: author. Block: no (settled in research).
   - Current baseline and budgets (page weight, JS, fonts, images) on a throttled phone profile. — Owner: author. Block: no (measured first).
 - **Risk:** the 2-second promise breaks exactly when a post goes viral on X; navigation tricks must not add weight to the first visit. A ClientRouter must re-apply the theme after each page swap. Publishing must stay "add a `.md` file and its images". The later two-language work will change routing, so budgets and checks set here should be reusable by it.
-- **Status:** todo
+- **Status:** in-progress
 
 ## Backlog Handoff
 
