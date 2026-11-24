@@ -75,7 +75,8 @@ before changing the code or the doc.
   `src/assets/fonts/math/` is the vendored full Latin Modern Math (GUST license): never import it
   or put it in `public/`, so it never ships whole. `src/integrations/math-font.ts` serves it in
   dev and, after each build, writes `dist/fonts/` with a subset of the glyphs the pages' formulas
-  use.
+  use and versions its URL (`?v=`) in the built HTML. Its `@font-face` stays inline in
+  `Layout.astro`, never in CSS: `/_astro/*.css` is hashed before the rewrite and cached immutable.
 - `public/` is served as-is (favicons, `_headers`). `_headers` holds the cache rules: hashed
   `/_astro/*` and versioned `/fonts/*` immutable for a year, HTML 60 s; keep the
   `! Cache-Control` lines, or merged rules give hashed files both values.
@@ -95,7 +96,8 @@ before changing the code or the doc.
   order), scoped to `src/` by `vitest.config.ts`.
 - `npm run build` — static build to `dist/`.
 - `npm run check:dist` — Vitest over the built `dist/` (`tests/dist/`: links without redirects,
-  cache rules, no hydration, fonts, images, `<head>`/CSS/JS budgets), after `npm run build`.
+  cache rules, no hydration, fonts, the math font kept out of CSS, images, `<head>`/CSS/JS budgets),
+  after `npm run build`.
   CI runs `npm test`, the build, then `check:dist` on every push; run all three before
   committing.
 - `npx wrangler versions list` / `npx wrangler deployments list` — deploy history.

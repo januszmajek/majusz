@@ -1,7 +1,7 @@
 ---
 change_id: site-performance
 title: Instant page-to-page navigation and sub-2-second first visit
-status: implementing
+status: impl_reviewed
 created: 2026-11-24
 updated: 2026-11-24
 archived_at: null

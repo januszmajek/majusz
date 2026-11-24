@@ -1,12 +1,14 @@
 // Latin Modern Math for the MathML that src/lib/markdown/math.ts writes, cut at build time to the
-// glyphs the built pages use, so no publish step is added. prose.css declares the font at
-// `/fonts/latin-modern-math.woff2`, a path that isn't in public/:
+// glyphs the built pages use, so no publish step is added. Layout.astro declares the font in an
+// inline `<style>` at `/fonts/latin-modern-math.woff2`, a path that isn't in public/:
 // - in dev, a middleware serves the vendored full font there;
 // - after the build, the font is subset to the characters inside every `<math>` in dist/,
-//   written there, and the CSS URL gets a content-hash `?v=`. No `<math>` on any page: no font,
-//   and the URL is never fetched.
+//   written there, and the URL in every built page gets a content-hash `?v=`. No `<math>` on any
+//   page: no font, and the URL is never fetched.
+// Only HTML is rewritten, never /_astro/*.css: Vite has already hashed those names and they are
+// cached as immutable, so a changed URL inside one would never reach returning readers.
 // Fails the build if the subset lost its MATH table (stretchy brackets, big operators and
-// sub/superscript layout live there) or if no built CSS holds the font URL.
+// sub/superscript layout live there) or if no built page holds the font URL.
 import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -98,13 +100,13 @@ export const mathFont = (): AstroIntegration => ({
 
 			const versioned = `${URL_PATH}?v=${createHash('sha256').update(font).digest('hex').slice(0, 8)}`;
 			let rewritten = 0;
-			for (const css of await files(join(dist, '_astro'), '.css')) {
-				const text = await readFile(css, 'utf8');
+			for (const page of html) {
+				const text = await readFile(page, 'utf8');
 				if (!text.includes(URL_PATH)) continue;
-				await writeFile(css, text.replaceAll(URL_PATH, versioned));
+				await writeFile(page, text.replaceAll(URL_PATH, versioned));
 				rewritten++;
 			}
-			if (!rewritten) throw new Error(`No built CSS in dist/_astro/ references ${URL_PATH}, so the math font can't be versioned`);
+			if (!rewritten) throw new Error(`No built HTML in dist/ references ${URL_PATH}, so the math font can't be versioned`);
 			logger.info(`${URL_PATH}: ${[...glyphs].length} glyphs, ${(font.length / 1024).toFixed(1)} KB, ${versioned}`);
 		},
 	},

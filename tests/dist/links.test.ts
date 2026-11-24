@@ -33,7 +33,12 @@ const problem = (href: string, page: string): string | undefined => {
 	if (href.startsWith('#')) return undefined;
 	const url = new URL(href, pageUrl(page));
 	if (url.origin !== ORIGIN) return undefined; // external, mailto:, tel: …
-	const path = decodeURIComponent(url.pathname);
+	let path: string;
+	try {
+		path = decodeURIComponent(url.pathname);
+	} catch {
+		return 'malformed `%` escape in the path'; // URIError: a stray `%` the browser can't decode either
+	}
 	if (path === '/') return fileSet.has('index.html') ? undefined : 'no index.html';
 	if (path.endsWith('/')) return 'ends in `/` (Workers redirects it)';
 	if (path.endsWith('.html')) return 'ends in `.html` (Workers redirects it)';

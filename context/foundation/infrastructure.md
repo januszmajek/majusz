@@ -155,6 +155,7 @@ None of these failures are Cloudflare outages. They come from an outdated produc
   - Hashed `/_astro/*` and the `?v=`-versioned `/fonts/*` are `public, max-age=31536000, immutable`. Each of those rules starts with `! Cache-Control`, because rules matching the same path are merged and would otherwise also carry the HTML value.
   - HTML and favicons are `public, max-age=60`. A browser shows a new deploy on its next load at most 60 s after it last fetched the page, well inside the PRD's 5-minute publish window. Long enough for Astro's prefetch to serve a click from the HTTP cache. Never `no-store` (it disables the back/forward cache).
   - Pages build as flat `.html` files (`build.format: 'file'`), so `/about` is served without a redirect; `/about/` and `/about.html` redirect to it.
+  - Accepted risk: Chromium keeps prefetched pages for up to ~5 minutes. If a deploy changes the stylesheet hash in that window, a click can render a page whose old CSS file is gone, and it stays unstyled until a reload. This is rare on a single-author site with one shared stylesheet.
   - `npm run check:dist` fails CI if the rules drift.
 - **Logs:**
   - Build and deploy logs are in GitHub Actions; read them with `gh run list --workflow <deploy workflow>` and `gh run view <run-id> --log`.

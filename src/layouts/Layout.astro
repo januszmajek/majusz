@@ -33,6 +33,13 @@ const speculationRules = {
 		},
 	],
 };
+
+// Latin Modern Math for formulas. Not in public/: src/integrations/math-font.ts serves the full
+// font at this URL in dev and, after the build, writes a subset of the glyphs the pages use and
+// adds a content-hash `?v=` to the URL in every built page. Inline here, not in prose.css:
+// /_astro/*.css is hashed before that rewrite and cached immutable for a year, so a URL changed
+// inside it would keep returning readers on the old subset; HTML turns over within 60 s.
+const mathFontFace = '@font-face{font-family:"Latin Modern Math";src:url("/fonts/latin-modern-math.woff2") format("woff2");font-display:swap}';
 ---
 
 <!doctype html>
@@ -52,6 +59,7 @@ const speculationRules = {
 		     ~25 KB each. -->
 		<Font cssVariable="--font-iosevka" preload={[{ weight: '400', style: 'normal' }, { weight: '600', style: 'normal' }]} />
 		<Font cssVariable="--font-iosevka-aile" preload={[{ weight: '400', style: 'normal' }]} />
+		<style is:inline set:html={mathFontFace} />
 		<script type="speculationrules" is:inline set:html={JSON.stringify(speculationRules)} />
 	</head>
 	<body class="relative flex min-h-screen flex-col">

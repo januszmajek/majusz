@@ -20,6 +20,9 @@ const images = async (markdown: string): Promise<Record<string, unknown>[]> => {
 	);
 };
 
+/** The rendered HTML, for images Astro's image marker leaves as plain `<img>`. */
+const html = async (markdown: string): Promise<string> => (await processor.render(markdown)).code;
+
 describe('image priority', () => {
 	it('give the first image priority when it is in the first block', async () => {
 		const [first, second] = await images('![A](./a.png)\n\nText.\n\n![B](./b.png)');
@@ -59,5 +62,19 @@ describe('image priority', () => {
 		const [image] = await images('![A cat|300](./a.png)');
 		expect(image).toMatchObject({ alt: 'A cat', width: 300, priority: true });
 		expect(image.sizes).toBeUndefined();
+	});
+
+	it.each(['https://example.com/a.png', '//example.com/a.png', '/a.png'])(
+		'leave %s, which the image service never sees, without priority or sizes',
+		async (src) => {
+			const out = await html(`![A](${src})`);
+			expect(out).toContain(`<img src="${src}" alt="A">`);
+			expect(out).not.toMatch(/priority|sizes/);
+		},
+	);
+
+	it('keep the priority slot free after a remote image', async () => {
+		const [local] = await images('![R](https://example.com/a.png)\n\n![L](./b.png)');
+		expect(local).toMatchObject({ alt: 'L', priority: true, sizes: COLUMN_SIZES });
 	});
 });

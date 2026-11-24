@@ -610,10 +610,10 @@ Save-Data.
 
 #### Automated
 
-- [x] 5.1 Unit tests pass: `npm test`
-- [x] 5.2 Build passes: `npm run build`
-- [x] 5.3 `dist/` check passes, budgets included: `npm run check:dist`
-- [x] 5.4 A budget fails on a deliberate break (an extra preload), then passes again
+- [x] 5.1 Unit tests pass: `npm test` — 3058545
+- [x] 5.2 Build passes: `npm run build` — 3058545
+- [x] 5.3 `dist/` check passes, budgets included: `npm run check:dist` — 3058545
+- [x] 5.4 A budget fails on a deliberate break (an extra preload), then passes again — 3058545
 
 #### Manual
 

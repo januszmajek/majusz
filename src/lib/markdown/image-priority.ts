@@ -7,6 +7,10 @@
 // for its width. Runs after image-width and before Astro's image marker, which hands every
 // `<img>` property to the image service.
 //
+// Remote (`https:`), protocol-relative (`//`) and root-absolute (`/`) images never reach the image
+// service, so they ship as written: `priority` would be a stray attribute and `sizes` means
+// nothing without a srcset. They are skipped and don't use up the priority slot.
+//
 // A factory: Sätteri calls it once per document, so "one priority image" is counted per
 // article. A module-level flag would carry over from one file to the next.
 import type { SatteriProcessorOptions } from '@astrojs/markdown-satteri';
@@ -24,6 +28,9 @@ const LEADING_BLOCKS = 3;
 const isBlock = (node: HastNode) =>
 	!(node.type === 'comment' || (node.type === 'text' && node.value.trim() === ''));
 
+// A URL scheme, `//` or a leading `/`: an image Astro's image service does not process.
+const UNPROCESSED = /^(?:[a-z][a-z0-9+.-]*:|\/\/|\/)/i;
+
 export const imagePriority = (): HastPlugin => {
 	let done = false;
 	return {
@@ -31,6 +38,7 @@ export const imagePriority = (): HastPlugin => {
 		element: {
 			filter: ['img'],
 			visit(node, ctx) {
+				if (UNPROCESSED.test(String(node.properties?.src ?? ''))) return;
 				if (!('width' in (node.properties ?? {}))) ctx.setProperty(node, 'sizes', COLUMN_SIZES);
 				// Only the document's first image is a candidate.
 				if (done) return;

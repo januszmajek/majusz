@@ -7,9 +7,9 @@ import { DIST, distFiles } from './dist.ts';
 // after the site-performance change from the largest page of a build with the lab/ mock articles
 // (2026-11-24), plus ~15% headroom. The article body is not budgeted; it grows with the article.
 // Raise a budget only on purpose, with the new measured value in its comment.
-const HEAD_BYTES = 7_000; // measured 5,958 (raw <head>, longest article title and summary)
+const HEAD_BYTES = 7_000; // measured 6,103 (raw <head>, longest article title and summary, inline math @font-face)
 const CSS_BROTLI_BYTES = 11_000; // measured 9,285 (linked stylesheet + inline <style>, brotli)
-const JS_BROTLI_BYTES = 1_100; // measured 951 (Astro's prefetch module, the only external script)
+const JS_BROTLI_BYTES = 3_500; // measured 3,058 (prefetch module 951 + inline motif and toggle modules, brotli each)
 const PRELOADS = 3; // measured 3 (Iosevka 400 and 600, Aile 400); fonts.test.ts pins the 8 faces
 
 const pages = distFiles().filter((file) => file.endsWith('.html'));
@@ -31,7 +31,19 @@ const cssBrotli = (html: string) =>
 		...localSources(html, /<link\b[^>]*\brel\s*=\s*["']?stylesheet["']?[^>]*>/gi, 'href').map((path) => brotli(read(path))),
 	]);
 
-const jsBrotli = (html: string) => sum(localSources(html, /<script\b[^>]*>/gi, 'src').map((path) => brotli(read(path))));
+// External scripts plus the bodies of inline `<script type="module">` (the motif and the theme
+// toggle), so inlining a module can't hide it from the budget. Not counted: the speculation
+// rules (JSON, not code) and the classic theme script that sets `.dark` before first paint.
+const inlineModules = (html: string): string[] =>
+	[...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+		.filter((m) => /\btype\s*=\s*["']?module\b/i.test(m[1]) && !/\bsrc\s*=/i.test(m[1]))
+		.map((m) => m[2]);
+
+const jsBrotli = (html: string) =>
+	sum([
+		...localSources(html, /<script\b[^>]*>/gi, 'src').map((path) => brotli(read(path))),
+		...inlineModules(html).map((body) => brotli(body)),
+	]);
 
 const preloads = (html: string) => [...html.matchAll(/<link\b[^>]*>/gi)].filter((m) => /\brel\s*=\s*["']?preload\b/i.test(m[0])).length;
 
@@ -54,9 +66,9 @@ describe('page budgets in dist/', () => {
 			expect(bytes, `dist/${page}: CSS is ${bytes} bytes brotli, budget ${CSS_BROTLI_BYTES}`).toBeLessThanOrEqual(CSS_BROTLI_BYTES);
 		});
 
-		it(`keeps external JS within ${JS_BROTLI_BYTES} bytes brotli`, () => {
+		it(`keeps JS within ${JS_BROTLI_BYTES} bytes brotli`, () => {
 			const bytes = jsBrotli(html);
-			expect(bytes, `dist/${page}: external JS is ${bytes} bytes brotli, budget ${JS_BROTLI_BYTES}`).toBeLessThanOrEqual(JS_BROTLI_BYTES);
+			expect(bytes, `dist/${page}: JS is ${bytes} bytes brotli, budget ${JS_BROTLI_BYTES}`).toBeLessThanOrEqual(JS_BROTLI_BYTES);
 		});
 
 		it(`has at most ${PRELOADS} preloads`, () => {

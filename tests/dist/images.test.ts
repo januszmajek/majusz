@@ -26,6 +26,9 @@ describe.skipIf(images.length === 0)('article images', () => {
 		expect(BREAKPOINTS.size).toBeGreaterThan(0);
 	});
 
+	// Astro always adds the image's original width to the srcset, so a 4000 px photo still ships a
+	// 4000w variant; that is allowed here. The column `sizes` (image-priority) is what keeps the
+	// browser from choosing it.
 	it('offer only breakpoint widths or the image’s own width and its 2x', () => {
 		const stray = images.flatMap(({ file, tag }) => {
 			const width = Number(attribute(tag, 'width'));
