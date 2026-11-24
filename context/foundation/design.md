@@ -19,10 +19,12 @@ nothing over ~150ms on the input path, `transform`/`opacity` animation only.
 | Long reading (article body, summaries, intro) | Iosevka Aile (quasi-proportional) | SIL OFL 1.1 |
 
 - Self-hosted through Astro's `fonts` config (local provider) from subset copies in
-  `src/assets/fonts/`, weights 400 and 600, normal and italic, ~25 KB per face.
-  `scripts/subset-fonts.mjs` cuts the Fontsource files to Latin, Latin Extended-A
-  (Polish), prose punctuation, a few arrows and math signs, box drawing and `✦`; rerun it
-  when a new character range is needed. Code ligatures and stylistic alternates are not
+  `src/assets/fonts/`, weights 400 and 600, normal and italic, ~21 KB per face.
+  `scripts/subset-fonts.mjs` cuts the Fontsource files to Latin, Latin-1, the Polish
+  letters, prose punctuation, a few arrows and math signs, `─` and `✦`; rerun it when a
+  new character is needed. Any other character falls back to the system font for that
+  glyph. The set stays narrow because font bytes delay a phone's LCP (S-08); `check:dist`
+  caps each face at 24 KB. Code ligatures and stylistic alternates are not
   kept. Iosevka 400, Iosevka 600 and Aile 400 are preloaded. No third-party font host at
   runtime.
 - Fallbacks: `ui-monospace, monospace` for Iosevka; `ui-sans-serif, system-ui, sans-serif`

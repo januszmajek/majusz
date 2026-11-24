@@ -11,8 +11,13 @@ const HEAD_BYTES = 7_000; // measured 6,103 (raw <head>, longest article title a
 const CSS_BROTLI_BYTES = 11_000; // measured 9,285 (linked stylesheet + inline <style>, brotli)
 const JS_BROTLI_BYTES = 3_500; // measured 3,058 (prefetch module 951 + inline motif and toggle modules, brotli each)
 const PRELOADS = 3; // measured 3 (Iosevka 400 and 600, Aile 400); fonts.test.ts pins the 8 faces
+// Each served Iosevka face. Fonts are fetched at high priority beside the first image, so on a
+// slow phone their bytes push LCP (narrowing the glyph set took the heavy article from 2.1 to
+// 1.95 s): keep scripts/subset-fonts.mjs narrow rather than raising this.
+const FONT_FACE_BYTES = 24_000; // measured 22,740 (largest, Iosevka 400 italic; uprights ~20,800)
 
 const pages = distFiles().filter((file) => file.endsWith('.html'));
+const fontFiles = distFiles().filter((file) => file.startsWith('_astro/fonts/') && file.endsWith('.woff2'));
 const read = (path: string) => readFileSync(new URL(path, DIST));
 const brotli = (data: Buffer | string) => brotliCompressSync(data).length;
 const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);
@@ -75,5 +80,14 @@ describe('page budgets in dist/', () => {
 			const count = preloads(html);
 			expect(count, `dist/${page}: ${count} <link rel=preload>, budget ${PRELOADS}`).toBeLessThanOrEqual(PRELOADS);
 		});
+	});
+
+	it.each(fontFiles)(`keeps %s within ${FONT_FACE_BYTES} bytes`, (file) => {
+		const bytes = read(file).length;
+		expect(bytes, `dist/${file} is ${bytes} bytes, budget ${FONT_FACE_BYTES}`).toBeLessThanOrEqual(FONT_FACE_BYTES);
+	});
+
+	it('finds the served font files to check', () => {
+		expect(fontFiles.length).toBeGreaterThan(0);
 	});
 });

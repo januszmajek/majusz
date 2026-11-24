@@ -13,12 +13,15 @@ const STYLES = ['normal', 'italic'];
 const SOURCE = (id, weight, style) =>
 	`https://cdn.jsdelivr.net/fontsource/fonts/${id}@5.3.0/latin-${weight}-${style}.woff2`;
 
-// Latin, Latin-1, Latin Extended-A (Polish), the punctuation prose uses, € and
-// ™, a few arrows and math signs, box drawing (section rules) and the ✦ bullet.
+// Latin, Latin-1, the Polish letters, the punctuation prose uses, € and ™, a few
+// arrows and math signs, ─ (section rules) and the ✦ bullet. Every glyph here
+// is downloaded before a phone's first paint settles, so the set stays narrow:
+// the rest of Latin Extended-A and box drawing cost ~5 KB per face, and a
+// character outside the set falls back to the system font for that glyph only.
 const RANGES = [
 	[0x20, 0x7e],
 	[0xa0, 0xff],
-	[0x100, 0x17f],
+	...[...'ĄąĆćĘęŁłŃńŚśŹźŻż'].map((c) => [c.codePointAt(0), c.codePointAt(0)]),
 	[0x2010, 0x2027],
 	[0x2030, 0x203a],
 	[0x20ac, 0x20ac],
@@ -27,7 +30,7 @@ const RANGES = [
 	[0x2212, 0x2212],
 	[0x2248, 0x2248],
 	[0x2260, 0x2265],
-	[0x2500, 0x257f],
+	[0x2500, 0x2500],
 	[0x2726, 0x2726],
 ];
 const text = RANGES.flatMap(([from, to]) =>

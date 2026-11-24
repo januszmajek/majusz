@@ -71,7 +71,8 @@ before changing the code or the doc.
   other authors' text there, the repo is public. Variants link their stylesheet via `?url` and declare `@source`.
 - `src/assets/fonts/` holds subset Iosevka and Iosevka Aile woff2 files, 400 and 600 only (OFL,
   `LICENSE.md`); regenerate with `node scripts/subset-fonts.mjs`, never swap in full Fontsource
-  files (~1 MB per face).
+  files (~1 MB per face). The glyph set is narrow on purpose (Latin-1 plus Polish letters): font
+  bytes push a phone's LCP, and `check:dist` caps each face at 24 KB.
   `src/assets/fonts/math/` is the vendored full Latin Modern Math (GUST license): never import it
   or put it in `public/`, so it never ships whole. `src/integrations/math-font.ts` serves it in
   dev and, after each build, writes `dist/fonts/` with a subset of the glyphs the pages' formulas
@@ -96,7 +97,7 @@ before changing the code or the doc.
   order), scoped to `src/` by `vitest.config.ts`.
 - `npm run build` — static build to `dist/`.
 - `npm run check:dist` — Vitest over the built `dist/` (`tests/dist/`: links without redirects,
-  cache rules, no hydration, fonts, the math font kept out of CSS, images, `<head>`/CSS/JS budgets),
+  cache rules, no hydration, fonts, the math font kept out of CSS, images, `<head>`/CSS/JS/font budgets),
   after `npm run build`.
   CI runs `npm test`, the build, then `check:dist` on every push; run all three before
   committing.
