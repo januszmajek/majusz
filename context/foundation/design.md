@@ -128,6 +128,9 @@ rule.
 One column, max 48rem (`max-w-3xl`) with 1.25rem side padding. The wordmark, page content,
 article title and prose, and the `EOF` rule all share one left edge on every page and width.
 
+Moving between pages has no transition animation: the next page appears at once, already
+prerendered (Chromium) or prefetched (Safari, Firefox) (decided 2026-11-24 in S-08).
+
 **Header (every page).** Wordmark `Janusz Majek` on the left, linking to `/`; `about` and the
 theme toggle on the right, space between. Hovering the wordmark turns it the accent, like a
 home list title. No border under it. The current page is marked by

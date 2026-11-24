@@ -150,6 +150,12 @@ None of these failures are Cloudflare outages. They come from an outdated produc
   - A human merging to `master` is the production gate, and CI deploys the merge.
   - An agent may build locally and run `wrangler versions list`, `wrangler deployments list` and `wrangler whoami` unattended.
   - Running `wrangler deploy` or `wrangler rollback` against production, editing the custom domain, or creating, rotating or revoking API tokens needs explicit human approval.
+- **Cache headers** (added in S-08, `site-performance`):
+  - Set in `public/_headers`, which the build copies to `dist/_headers`; Workers static assets read it from there.
+  - Hashed `/_astro/*` and the `?v=`-versioned `/fonts/*` are `public, max-age=31536000, immutable`. Each of those rules starts with `! Cache-Control`, because rules matching the same path are merged and would otherwise also carry the HTML value.
+  - HTML and favicons are `public, max-age=60`. A browser shows a new deploy on its next load at most 60 s after it last fetched the page, well inside the PRD's 5-minute publish window. Long enough for Astro's prefetch to serve a click from the HTTP cache. Never `no-store` (it disables the back/forward cache).
+  - Pages build as flat `.html` files (`build.format: 'file'`), so `/about` is served without a redirect; `/about/` and `/about.html` redirect to it.
+  - `npm run check:dist` fails CI if the rules drift.
 - **Logs:**
   - Build and deploy logs are in GitHub Actions; read them with `gh run list --workflow <deploy workflow>` and `gh run view <run-id> --log`.
   - Deployment history comes from `npx wrangler deployments list`.

@@ -33,7 +33,8 @@ before changing the code or the doc.
 - `src/pages/` holds the home (`index.astro`: intro, then every article newest first, or the
   empty state), `about.astro` (About, on `PageLayout`), `404.astro` (served for missing URLs)
   and `[slug].astro`, one page per article from the `articles` collection
-  (`src/content.config.ts`).
+  (`src/content.config.ts`). Pages build as flat `.html` files (`build.format: 'file'`), so
+  internal links never end in `/`.
 - `content/` is the publish side of the Obsidian vault: `articles/` (flat, one `.md` per
   article, the only folder built), `attachments/` (images), `templates/` (article template)
   and `README.md` (the author's publish how-to). `src/lib/slug.ts` derives URLs from titles.
@@ -43,9 +44,10 @@ before changing the code or the doc.
   MathML via Temml, `math.ts`; callouts; `==highlights==`; wikilinks, `.md` links and image
   embeds resolved through an index of `content/articles/`; inline `#tag` spans; mermaid fences
   as inline SVG via Pele, `diagrams.ts`; reading time; raw-syntax guard, last; `|300` image
-  width and the table scroll wrapper as hast plugins) and `shiki/`, the Flight deck code themes
-  with a contrast test. They are wired in `astro.config.mjs` and imported by relative path, so
-  they and anything they import (`src/lib/slug.ts`) use no `@/` imports.
+  width, the first image's priority and column `sizes` (`image-priority.ts`) and the table
+  scroll wrapper as hast plugins) and `shiki/`, the Flight deck code themes with a contrast
+  test. They are wired in `astro.config.mjs` and imported by relative path, so they and
+  anything they import (`src/lib/slug.ts`) use no `@/` imports.
 - `src/styles/global.css` holds Tailwind, the shadcn theme tokens (`:root` / `.dark`) and the
   type scale as `text-<role>` tokens (`text-page-title`, `text-body`, …); use those, not raw
   sizes. `src/styles/prose.css` styles article and page bodies (`.prose`).
@@ -54,7 +56,9 @@ before changing the code or the doc.
   (socials and repo) in `src/config/links.ts`. `ThemeScript` sets `.dark` before first paint
   (stored `localStorage` `theme`, else the device); `ThemeToggle` is a shadcn button rendered
   statically. shadcn components rendered from `.astro` without `client:*` become plain HTML
-  and ship no JS; no page hydrates React.
+  and ship no JS; no page hydrates React. Layout also carries the inline Speculation Rules
+  (prerender, `moderate`); Astro prefetch (`viewport`, all links) is on in `astro.config.mjs`,
+  its module the only external script. Navigation has no transition animation.
 - `src/layouts/ArticleLayout.astro` (used by `[slug].astro`), `PageLayout.astro` (About) and
   `src/components/home/` (Intro, ArticleList, EmptyState, used by `index.astro`) are the page
   layouts. `src/lib/articles.ts` holds the home list order (date newest first, same day by
@@ -65,13 +69,16 @@ before changing the code or the doc.
   whole-site variants side by side; it is never built or deployed. `lab/variants/` is
   gitignored and local-only. `lab/content/` holds original mock articles; never put
   other authors' text there, the repo is public. Variants link their stylesheet via `?url` and declare `@source`.
-- `src/assets/fonts/` holds subset Iosevka woff2 files (OFL, `LICENSE.md`); regenerate with
-  `node scripts/subset-fonts.mjs`, never swap in full Fontsource files (~1 MB per face).
+- `src/assets/fonts/` holds subset Iosevka and Iosevka Aile woff2 files, 400 and 600 only (OFL,
+  `LICENSE.md`); regenerate with `node scripts/subset-fonts.mjs`, never swap in full Fontsource
+  files (~1 MB per face).
   `src/assets/fonts/math/` is the vendored full Latin Modern Math (GUST license): never import it
   or put it in `public/`, so it never ships whole. `src/integrations/math-font.ts` serves it in
   dev and, after each build, writes `dist/fonts/` with a subset of the glyphs the pages' formulas
   use.
-- `public/` is served as-is (favicons).
+- `public/` is served as-is (favicons, `_headers`). `_headers` holds the cache rules: hashed
+  `/_astro/*` and versioned `/fonts/*` immutable for a year, HTML 60 s; keep the
+  `! Cache-Control` lines, or merged rules give hashed files both values.
 - `context/` holds workflow docs: `foundation/` contracts, `changes/<change-id>/` plans.
   `changes/bootstrap-verification/` is the bootstrapper's run log and has no `change.md`
   by design; it is not a change, so leave it alone.
@@ -84,9 +91,13 @@ before changing the code or the doc.
 - `npm run lab` (`npm run labt` for the phone over Tailscale) — design lab at
   `localhost:4322`, beside the site's dev server. It is not tracked by `astro dev stop`;
   stop it with Ctrl+C, or run it as a background task and stop that.
-- `npm test` — Vitest over `src/**/*.test.ts` (the markdown plugins, slug rule and article order).
-- `npm run build` — static build to `dist/`. CI runs `npm test` then the build on every
-  push; run both before committing.
+- `npm test` — Vitest over `src/**/*.test.ts` (the markdown plugins, slug rule and article
+  order), scoped to `src/` by `vitest.config.ts`.
+- `npm run build` — static build to `dist/`.
+- `npm run check:dist` — Vitest over the built `dist/` (`tests/dist/`: links without redirects,
+  cache rules, no hydration, fonts, images, `<head>`/CSS/JS budgets), after `npm run build`.
+  CI runs `npm test`, the build, then `check:dist` on every push; run all three before
+  committing.
 - `npx wrangler versions list` / `npx wrangler deployments list` — deploy history.
 - `npx wrangler rollback <version-id> --message "<reason>"` — rollback (approval
   needed); also revert the bad commit, or the next push redeploys it.

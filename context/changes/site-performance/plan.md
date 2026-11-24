@@ -597,9 +597,9 @@ Save-Data.
 
 #### Automated
 
-- [x] 4.1 Unit tests pass: `npm test`
-- [x] 4.2 Build passes: `npm run build`
-- [x] 4.3 `dist/` check passes: `npm run check:dist`
+- [x] 4.1 Unit tests pass: `npm test` — ebe0b9d
+- [x] 4.2 Build passes: `npm run build` — ebe0b9d
+- [x] 4.3 `dist/` check passes: `npm run check:dist` — ebe0b9d
 
 #### Manual
 
@@ -610,12 +610,25 @@ Save-Data.
 
 #### Automated
 
-- [ ] 5.1 Unit tests pass: `npm test`
-- [ ] 5.2 Build passes: `npm run build`
-- [ ] 5.3 `dist/` check passes, budgets included: `npm run check:dist`
-- [ ] 5.4 A budget fails on a deliberate break (an extra preload), then passes again
+- [x] 5.1 Unit tests pass: `npm test`
+- [x] 5.2 Build passes: `npm run build`
+- [x] 5.3 `dist/` check passes, budgets included: `npm run check:dist`
+- [x] 5.4 A budget fails on a deliberate break (an extra preload), then passes again
 
 #### Manual
 
 - [ ] 5.5 Lighthouse mobile: heavy article FCP ≤ 1.8 s and LCP ≤ 2.0 s; home and About no worse than baseline
 - [ ] 5.6 Production: clicks between pages feel instant on Chrome Android and iPhone Safari
+
+Measurement (2026-11-24, Lighthouse 12 mobile, simulated throttling, median of 3, local `astro preview` of the scratch copy with mock articles and generated ~700 KB noise photos; first visit only):
+
+| Page | Before FCP / LCP / SI / weight | After FCP / LCP / SI / weight |
+|---|---|---|
+| home | 1.2 s / 1.5 s / 1.2 s / 119 KiB | 0.9 s / 1.5 s / 0.9 s / 127 KiB (incl. 32 KiB prefetched HTML) |
+| /about | 1.1 s / 1.4 s / 1.1 s / 147 KiB (prod) | 0.9 s / 1.5 s / 0.9 s / 101 KiB |
+| heavy article | 1.8 s / 2.2 s / 1.8 s / 242 KiB | 1.35 s / 2.1 s / 1.35 s / 203 KiB |
+| heavy article, `wrangler dev` with `_headers` | — | 1.37 s / 2.12 s / 1.37 s / 202 KiB |
+
+"LCP image was lazily loaded", "prioritize LCP image" and "avoid redirects" pass on every run. Heavy-article LCP misses the 2.0 s target by ~0.1 s with noise photos (much larger than real photos); readable text (FCP) is 1.35 s, inside the 2 s NFR. 5.5 stays for the author to judge with real photos.
+
+Budgets set in `tests/dist/budgets.test.ts` (largest page measured → budget): `<head>` 5,958 → 7,000 B raw; CSS 9,285 → 11,000 B brotli; external JS 951 → 1,100 B brotli; preloads 3 → ≤ 3.
