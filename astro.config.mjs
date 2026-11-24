@@ -15,6 +15,7 @@ import { inlineTags } from './src/lib/markdown/inline-tags.ts';
 import { readingTime } from './src/lib/markdown/reading-time.ts';
 import { obsidianGuard } from './src/lib/markdown/obsidian-guard.ts';
 import { imageWidth } from './src/lib/markdown/image-width.ts';
+import { imagePriority } from './src/lib/markdown/image-priority.ts';
 import { tableScroll } from './src/lib/markdown/table-scroll.ts';
 import { flightDeckDark, flightDeckLight } from './src/lib/markdown/shiki/flight-deck.ts';
 import { mathFont } from './src/integrations/math-font.ts';
@@ -58,8 +59,10 @@ export default defineConfig({
   // speculation rules) serve the click from the 60 s HTTP cache set in public/_headers.
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
 
-  // Markdown images get webp, a srcset, width/height and lazy loading.
-  image: { layout: 'constrained', responsiveStyles: true },
+  // Markdown images get webp, a srcset, width/height and lazy loading. The srcset widths stop at
+  // 1400: the prose column is ~664 px, so 2x desktop needs ~1328 and 3x phone ~1170; wider
+  // variants only cost build time and bytes nobody downloads.
+  image: { layout: 'constrained', responsiveStyles: true, breakpoints: [640, 750, 828, 1080, 1280, 1400] },
 
   // Sätteri, Astro's default processor, with the in-repo plugins: `%%comments%%` hidden (first,
   // so nothing inside one is resolved, rendered or counted), math as MathML under Obsidian's `$`
@@ -67,7 +70,8 @@ export default defineConfig({
   // `==highlights==`, wikilinks, image embeds and `.md` links (plain text when the note is
   // unpublished), inline `#tag` spans, mermaid fences as inline SVG (Pele, as in Obsidian; in
   // mdast, before Shiki sees the fence), reading time for the meta line, a guard that fails the
-  // build on raw Obsidian syntax left over, and Obsidian's `|300` image width; tables scroll
+  // build on raw Obsidian syntax left over, Obsidian's `|300` image width, then the leading image's
+  // priority and the column `sizes` (image-priority, after image-width reads `|300`); tables scroll
   // inside their own region on a phone. The guard runs last among the mdast plugins so it only
   // sees what the others didn't render. Sätteri's `features.wikilinks` stays off: its links
   // can't be told from ordinary ones, and it mangles embeds.
@@ -78,7 +82,7 @@ export default defineConfig({
     processor: satteri({
       features: { math: true },
       mdastPlugins: [comments, math, callouts, highlight, obsidianLinks, inlineTags, diagrams, readingTime, obsidianGuard],
-      hastPlugins: [imageWidth, tableScroll],
+      hastPlugins: [imageWidth, imagePriority, tableScroll],
     }),
   },
 

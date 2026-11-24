@@ -583,10 +583,10 @@ Save-Data.
 
 #### Automated
 
-- [x] 3.1 Unit tests pass: `npm test`
-- [x] 3.2 Build passes: `npm run build`
-- [x] 3.3 `dist/` check passes: `npm run check:dist`
-- [x] 3.4 `src/assets/fonts/` holds exactly 8 Iosevka woff2 files plus `math/` and `LICENSE.md`
+- [x] 3.1 Unit tests pass: `npm test` — 3b32e4a
+- [x] 3.2 Build passes: `npm run build` — 3b32e4a
+- [x] 3.3 `dist/` check passes: `npm run check:dist` — 3b32e4a
+- [x] 3.4 `src/assets/fonts/` holds exactly 8 Iosevka woff2 files plus `math/` and `LICENSE.md` — 3b32e4a
 
 #### Manual
 
@@ -597,9 +597,9 @@ Save-Data.
 
 #### Automated
 
-- [ ] 4.1 Unit tests pass: `npm test`
-- [ ] 4.2 Build passes: `npm run build`
-- [ ] 4.3 `dist/` check passes: `npm run check:dist`
+- [x] 4.1 Unit tests pass: `npm test`
+- [x] 4.2 Build passes: `npm run build`
+- [x] 4.3 `dist/` check passes: `npm run check:dist`
 
 #### Manual
 
