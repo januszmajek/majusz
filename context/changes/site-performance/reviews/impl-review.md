@@ -4,7 +4,7 @@
 - **Plan**: context/changes/site-performance/plan.md
 - **Scope**: All phases (1-5 of 5)
 - **Date**: 2026-11-24
-- **Verdict**: REJECTED (round 1) → see round 2 below
+- **Verdict**: REJECTED (round 1) → APPROVED (round 2, after fixes in b0b7563)
 - **Findings**: 1 critical, 4 warnings, 4 observations
 
 ## Verdicts
@@ -120,3 +120,14 @@ Automated: `npm test` 138 passed; `npm run build` ok; `npm run check:dist` 36 pa
 - **Detail**: `URIError` aborts the run instead of naming the link.
 - **Fix**: Catch it and report the href as a broken link.
 - **Decision**: FIXED: URIError reported as a broken link
+
+## Round 2 (2026-11-24, after b0b7563)
+
+- **Verdict**: APPROVED — no critical findings, no warnings.
+- **Checks**: `npm test` 142 passed; `npm run build` ok; `npm run check:dist` 41 passed, 3 skipped (images, no articles). Scratch copy with mock articles: math subset 36 glyphs, 14.5 KB, versioned only in HTML; budgets pass (head 6,103 / 7,000 B, CSS 9,325 / 11,000 B brotli).
+- **Round-1 decisions verified as applied**: F1, F2, F3, F5, F6, F7, F9 fixed; F4, F8 accepted.
+- **Observations (not worth fixing now)**:
+  - `math-font.ts` replaces the font path anywhere in a page, so an article quoting `/fonts/latin-modern-math.woff2` in code would show `?v=…`. Very unlikely.
+  - The link check fails a hand-written `/about/` or `https://majusz.com/about/` link in an article, though Workers would redirect it. That is the stated rule; resolved wikilinks and `.md` links never end in `/`.
+  - `dist/_astro/client.*.js` (React runtime, unreferenced) still ships in the deploy; pre-existing.
+  - A local lab variant that shows math without `Layout.astro` would lose Latin Modern Math (variants are gitignored; none exist here).
