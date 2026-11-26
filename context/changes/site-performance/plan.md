@@ -701,3 +701,12 @@ Budgets set in `tests/dist/budgets.test.ts` (largest page measured → budget): 
 - [ ] 6.6 Lighthouse mobile on the first real article with a photo: LCP ≤ 2.0 s
 
 Measurement (2026-11-24, same method as phase 5, median of 3): home 0.9 / 1.35 s, About 0.9 / 1.35 s, heavy article 1.35 / 1.95 s (FCP / LCP); weight 113 / 86 / 179 KiB.
+
+### Close-out (2026-11-26)
+
+The author accepted the slice as done with the manual rows above left unticked; 4.4, 4.5 and 6.6
+need the first real article with a photo. The brief jump when leaving a page in Chrome and Brave on
+iPhone is the browsers', not the site's: it shows on other sites and on a bare test page with no
+CSS or JS, never in Safari. Chrome for iOS resets the web view's toolbar inset during navigation
+(Chromium bug 530905535, `ios/web/web_state/ui/crw_web_view_content_view.mm`, still being fixed in
+November 2026); a page cannot prevent it. The zoom seen in Helium was its per-site zoom setting.
