@@ -3,7 +3,7 @@ project: majusz
 version: 1
 status: draft
 created: 2026-10-18
-updated: 2026-11-24
+updated: 2026-11-26
 prd_version: 4
 main_goal: quality
 top_blocker: time
@@ -49,7 +49,7 @@ The site exists to make the author start writing: a public place for articles be
 | S-05 | home-article-list | visitor lands on a home page with a short introduction and all articles newest first, or a teaser empty state | S-01, F-01 | US-01, FR-001, FR-002, FR-003 | done |
 | S-06 | about-socials-repo-links | visitor can open About, the author's active socials and the public GitHub repo from the navigation | F-01 | US-01, FR-004, FR-005, FR-006 | done |
 | S-07 | theme-follows-device | visitor sees the site in their device's dark/light theme and can switch it | F-01 | US-01, FR-007 | done |
-| S-08 | site-performance | visitor moves between the site's pages instantly and reads the first page on a phone in under 2 seconds | S-01–S-07 | US-01, NFR phone speed, NFR instant navigation | in-progress |
+| S-08 | site-performance | visitor moves between the site's pages instantly and reads the first page on a phone in under 2 seconds | S-01–S-07 | US-01, NFR phone speed, NFR instant navigation | done |
 
 ## Streams
 
@@ -198,7 +198,7 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
   - How images stay fast without adding a publish step: build-time optimisation (formats, sizes, dimensions) vs a build-failing size guard. — Owner: author. Block: no (settled in research).
   - Current baseline and budgets (page weight, JS, fonts, images) on a throttled phone profile. — Owner: author. Block: no (measured first).
 - **Risk:** the 2-second promise breaks exactly when a post goes viral on X; navigation tricks must not add weight to the first visit. A ClientRouter must re-apply the theme after each page swap. Publishing must stay "add a `.md` file and its images". The later two-language work will change routing, so budgets and checks set here should be reusable by it.
-- **Status:** in-progress
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -245,3 +245,4 @@ Deploy is already present. Article content handling and the "no raw Obsidian syn
 - **S-05: visitor lands on a home page with a short, catchy introduction and all articles listed newest first, or a teaser empty state when none exist. There is no separate Blog page.** — Archived 2026-11-23 → `context/archive/2026-11-01-home-article-list/`. Lesson: —.
 - **S-07: visitor sees the site in their device's dark or light theme by default and can switch it manually, with readable contrast and keyboard access in both.** — Archived 2026-11-23 → `context/archive/2026-11-23-theme-follows-device/`. Lesson: —.
 - **S-06: visitor can open the About page, the author's actively used social profiles and the site's public GitHub repo from the navigation; the repo has a presentable README.** — Archived 2026-11-23 → `context/archive/2026-11-23-about-socials-repo-links/`. Lesson: —.
+- **S-08: visitor moves between the site's own pages (home, articles, About) instantly, with no visible loading, and a first visit on a phone with an average mobile connection shows readable content in under 2 seconds.** — Archived 2026-11-26 → `context/archive/2026-11-24-site-performance/`. Lesson: —.
